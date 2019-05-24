@@ -12,10 +12,6 @@ public class LoginApplication extends Application{
 		stage.setTitle("Login");
 		InterfacciaLogin login = new InterfacciaLogin();
 		stage.setResizable(false);
-		stage.setWidth(Screen.getPrimary().getVisualBounds().getWidth()/3);
-		stage.setHeight(Screen.getPrimary().getVisualBounds().getHeight()/4);
-		stage.setX(Screen.getPrimary().getVisualBounds().getMaxX()/3);
-		stage.setY(Screen.getPrimary().getVisualBounds().getMaxY()/3);
 		stage.setScene(new Scene(login));
 		stage.show();
 	}
