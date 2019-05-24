@@ -3,7 +3,6 @@ package application;
 import java.io.*;
 import java.net.InetAddress;
 import java.rmi.RemoteException;
-import java.rmi.RMISecurityManager;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -23,11 +22,6 @@ public class HelloImpl extends UnicastRemoteObject implements Hello {
     }
 
     public static void main(String args[]) {
-
-        // Create and install a security manager
-        if (System.getSecurityManager() == null) {
-            System.setSecurityManager(new RMISecurityManager());
-        }
 
         try {
             // Create SSL-based registry
