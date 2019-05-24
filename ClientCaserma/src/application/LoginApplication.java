@@ -3,7 +3,6 @@ package application;
 import interfacciaLogin.InterfacciaLogin;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class LoginApplication extends Application{
