@@ -128,15 +128,5 @@ public class InterfacciaLogin extends BorderPane{
 		return null;
 	}
 	
-	private EventHandler<Event> textPwReturns(Event e){
-		password.setText("**********");
-		return null;
-	}
-	
-	private EventHandler<Event> textUsReturns(Event e){
-		username.setText("Inserisci username...");
-		return null;
-	}
-	
 	
 }
