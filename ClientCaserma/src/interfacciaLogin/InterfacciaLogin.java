@@ -26,20 +26,23 @@ public class InterfacciaLogin extends BorderPane{
 	public InterfacciaLogin() {
 		username = new TextField();
 		password = new PasswordField();
-		username.setOnMousePressed(this::textUsHandler);
-		password.setOnMousePressed(this::textPwHandler);
-		password.setText("**********");
-		username.setFont(new Font("System Italic",15));
-		username.setText("Inserisci username...");
 		loginButton = new Button("ENTRA");
 		initGUI();
 	}
 
 	private void initGUI() {
+		//Ascoltatori eventi sui campi di immissione username e password
+		username.setOnMousePressed(this::textUsHandler);
+		password.setOnMousePressed(this::textPwHandler);
+		password.setText("**********");
+		username.setFont(new Font("System Italic",15));
+		username.setText("Inserisci username...");
+		//Dimensioni BorderPane principale
 		setMargin(this,new Insets(0,0,40,0));
 		setPrefWidth(601);
 		setPrefHeight(330);
 		setPadding(PADDING);
+		//Inizializza le 5 parti del BorderPane con i componenti adatti
 		setCenter(setCenter());
 		setBottom(setBottom());
 		setRight(setRight());
