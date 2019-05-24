@@ -2,19 +2,25 @@ package interfacciaLogin;
 
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import model.RichiestaServizio;
 
 public class InterfacciaLogin extends BorderPane{
 	private TextField username;
@@ -27,16 +33,22 @@ public class InterfacciaLogin extends BorderPane{
 		username = new TextField();
 		password = new PasswordField();
 		loginButton = new Button("ENTRA");
+		initComponenti();
 		initGUI();
 	}
 
-	private void initGUI() {
+	private void initComponenti() {
 		//Ascoltatori eventi sui campi di immissione username e password
 		username.setOnMousePressed(this::textUsHandler);
 		password.setOnMousePressed(this::textPwHandler);
 		password.setText("**********");
 		username.setFont(new Font("System Italic",15));
 		username.setText("Inserisci username...");
+		//Ascoltatore evento sul bottone
+		loginButton.setOnMousePressed(this::buttonHandler);
+	}
+
+	private void initGUI() {
 		//Dimensioni BorderPane principale
 		setMargin(this,new Insets(0,0,40,0));
 		setPrefWidth(601);
@@ -121,6 +133,8 @@ public class InterfacciaLogin extends BorderPane{
 		return v;
 	}
 	
+	//Handler dei campi username e password e del bottone
+	
 	private EventHandler<Event> textUsHandler(Event e){
 		username.setText("");
 		return null;
@@ -128,6 +142,25 @@ public class InterfacciaLogin extends BorderPane{
 	
 	private EventHandler<Event> textPwHandler(Event e){
 		password.setText("");
+		return null;
+	}
+	
+	private EventHandler<Event> buttonHandler(Event e){
+		if(username.getText()==null || username.getText().isEmpty()) {
+			Alert a  = new Alert(AlertType.WARNING,"Inserire un username");
+			a.show();
+		}
+		else if(password.getText()==null || password.getText().isEmpty()) {
+			Alert a = new Alert(AlertType.WARNING,"Inserire password");
+			a.show();
+		}
+		else {
+			List<Object> parametri = new ArrayList<Object>();
+			parametri.add(username.getText());
+			parametri.add(password.getText());
+			RichiestaServizio r = new RichiestaServizio("sorgente","serverLogin","login",parametri);
+			username.setText(r.getDestinatario());
+		}
 		return null;
 	}
 	

@@ -14,5 +14,21 @@ public class RichiestaServizio {
 		this.servizio = servizio;
 		this.parametri = parametri;
 	}
+
+	public String getSorgente() {
+		return sorgente;
+	}
+
+	public String getDestinatario() {
+		return destinatario;
+	}
+
+	public String getServizio() {
+		return servizio;
+	}
+
+	public List<Object> getParametri() {
+		return parametri;
+	}
 	
 }
