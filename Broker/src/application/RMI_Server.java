@@ -37,6 +37,7 @@ public class RMI_Server extends UnicastRemoteObject implements
 				+ serviceName;
 		try{
 			RMI_interfaceFile serverRMI = new RMI_Server();
+			
 			Naming.rebind(completeName, serverRMI);
 			System.out.println("Server RMI: Servizio \"" + serviceName
 					+ "\" registrato");
