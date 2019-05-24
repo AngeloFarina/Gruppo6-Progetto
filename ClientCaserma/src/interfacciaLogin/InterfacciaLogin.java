@@ -20,6 +20,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import model.FiltroRichieste;
 import model.RichiestaServizio;
 
 public class InterfacciaLogin extends BorderPane{
@@ -159,7 +160,6 @@ public class InterfacciaLogin extends BorderPane{
 			parametri.add(username.getText());
 			parametri.add(password.getText());
 			RichiestaServizio r = new RichiestaServizio("sorgente","serverLogin","login",parametri);
-			username.setText(r.getDestinatario());
 		}
 		return null;
 	}
