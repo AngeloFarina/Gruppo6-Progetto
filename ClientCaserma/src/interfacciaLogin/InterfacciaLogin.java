@@ -2,9 +2,11 @@ package interfacciaLogin;
 
 
 
+import java.rmi.Naming;
 import java.util.ArrayList;
 import java.util.List;
 
+import application.RMI_interfaceFile;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -23,11 +25,16 @@ import javafx.scene.text.Font;
 import model.FiltroRichieste;
 import model.RichiestaServizio;
 
-public class InterfacciaLogin extends BorderPane{
+public final class InterfacciaLogin extends BorderPane{
 	private TextField username;
 	private PasswordField password;
 	private Button loginButton;
-	private static final Insets PADDING = new Insets(10);
+	private static Insets PADDING = new Insets(10);
+	private static boolean USEDITATO = false;
+	private static boolean PWEDITATO = false;
+	private static int REGISTRYPORT = 1099;
+	private static String registryHost = "localhost";
+	private static String serviceName = "Broker";
 	
 	
 	public InterfacciaLogin() {
@@ -63,6 +70,7 @@ public class InterfacciaLogin extends BorderPane{
 		setLeft(setLeft());
 	}
 
+	//Inizializzo un Vertical Box vuoto nella sezione sinistra del BorderPane, per ottimizzare la visione dei componenti
 	private Node setLeft() {
 		VBox vb = new VBox();
 		vb.setPrefWidth(100);
@@ -70,6 +78,7 @@ public class InterfacciaLogin extends BorderPane{
 		return vb;
 	}
 
+	//Creo un Horizontal Box che conterrà un'etichetta con scritto "LOGIN" e metto il colore di sfondo a grigio chiaro
 	private Node setTop() {
 		HBox hb = new HBox();
 		hb.setPrefWidth(hb.getMaxWidth());
@@ -85,6 +94,8 @@ public class InterfacciaLogin extends BorderPane{
 		return hb;
 	}
 
+	//Inizializzo un Vertical Box vuoto nella sezione destra del BorderPane, per ottimizzare la visione dei componenti
+	//Analogamente a setLeft()
 	private Node setRight() {
 		VBox vb = new VBox();
 		vb.setPrefWidth(100);
@@ -92,6 +103,7 @@ public class InterfacciaLogin extends BorderPane{
 		return vb;
 	}
 
+	//Gestisco il bottone per entrare nell'applicativo e lo posiziono al centro della sezione in basso del BorderPane
 	private Node setBottom() {
 		loginButton.setAlignment(Pos.CENTER);
 		loginButton.setPrefWidth(135);
@@ -101,6 +113,12 @@ public class InterfacciaLogin extends BorderPane{
 		return loginButton;
 	}
 
+	//Gestisco la parte centrale del BorderPane
+	//Il ragionamento è il seguente:
+	//Ho un Vertical Box principale a cui accorpo due Horizontal Box, uno sopra e uno sotto
+	//Ciascuno di questi due HBox contiene, rispettivamente, il campo di immissione dell'username
+	//e quello di immissione della password (Che sarà ovviamente un PasswordField)
+	//Entrambi i campi sono preceduti da un TextField che ne spiega la semantica (Username/Password)
 	private Node setCenter() {
 		VBox v = new VBox();
 		v.setPrefWidth(401);
@@ -135,33 +153,59 @@ public class InterfacciaLogin extends BorderPane{
 	}
 	
 	//Handler dei campi username e password e del bottone
-	
+	//Ho introdotto la variabile USEDITATO per gestire il testo prefissato nel campo di immissione di Username
+	//e per evitare che quel testo possa venire catturato dall'evento di click sul bottone
 	private EventHandler<Event> textUsHandler(Event e){
+		USEDITATO=true;
 		username.setText("");
 		return null;
 	}
 	
+	//Stesso concetto appena visto sopra, ma con la variabile PWEDITATO, che gestisce il campo di immissione della Password
 	private EventHandler<Event> textPwHandler(Event e){
+		PWEDITATO=true;
 		password.setText("");
 		return null;
 	}
 	
+	//Handler dell'evento di Click sul bottone
+	//Questo handler deve catturare il testo presente nei due campi Username/Password 
+	//Deve poi generare una richiestadi servizio login, spedendo come parametri Username e Password catturati.
+	//Al momento della ricezione della risposta, dovrà chiudersi se tutto sarà andato a buon fine e lasciare spazio ad un'altra Home
+	//Corrispondente all'utente che si è autenticato
 	private EventHandler<Event> buttonHandler(Event e){
-		if(username.getText()==null || username.getText().isEmpty()) {
+		if(username.getText()==null || username.getText().isEmpty() || USEDITATO==false) {
 			Alert a  = new Alert(AlertType.WARNING,"Inserire un username");
 			a.show();
 		}
-		else if(password.getText()==null || password.getText().isEmpty()) {
+		else if(password.getText()==null || password.getText().isEmpty() || PWEDITATO==false) {
 			Alert a = new Alert(AlertType.WARNING,"Inserire password");
 			a.show();
 		}
 		else {
-			List<Object> parametri = new ArrayList<Object>();
-			parametri.add(username.getText());
-			parametri.add(password.getText());
-			RichiestaServizio r = new RichiestaServizio("sorgente","serverLogin","login",parametri);
+			generaEInviaRichiesta();
 		}
 		return null;
+	}
+
+	private void generaEInviaRichiesta() {
+		List<Object> parametri = new ArrayList<Object>();
+		parametri.add(username.getText());
+		parametri.add(password.getText());
+		RichiestaServizio r = new RichiestaServizio("interfacciaLogin","serverLogin","login",parametri);
+		try{
+			String completeName = "//" + registryHost + ":" + REGISTRYPORT + "/"
+					+ serviceName;
+			RMI_interfaceFile broker = (RMI_interfaceFile) Naming.lookup(completeName);
+			r = broker.richiedi(r);
+			if(r!=null)
+				this.setVisible(false);
+		}
+		catch(Exception e){
+			System.err.println("ClientInterfacciaLogin: " + e.getMessage());
+			e.printStackTrace();
+			System.exit(1);
+		}
 	}
 	
 	

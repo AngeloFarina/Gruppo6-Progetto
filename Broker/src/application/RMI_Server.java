@@ -4,25 +4,25 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
+import model.*;
+
 public class RMI_Server extends UnicastRemoteObject implements
 		RMI_interfaceFile {
-
+	private static final long serialVersionUID = 1L;
+	private static FiltroRichieste f;
 
 	// Costruttore
 	public RMI_Server() throws RemoteException {
 		super();
+		f = new FiltroRichieste();
 	}
-
-	// 	Richiede una prenotazione
-	public int intero(int num) throws RemoteException {
-		return num;
+	
+	@Override
+	public RichiestaServizio richiedi(RichiestaServizio r) {
+		return r;
 	}
-
-	// Ritorno il campo
-	public String str(String stringa) throws RemoteException {
-		return stringa;
-	}
-
+	
+	
 	// Avvio del Server RMI
 	public static void main(String[] args) {
 
@@ -36,7 +36,7 @@ public class RMI_Server extends UnicastRemoteObject implements
 		try{
 			RMI_interfaceFile serverRMI = new RMI_Server();
 			Naming.rebind(completeName, serverRMI);
-			System.out.println("Server RMI: Servizio \"" + serviceName
+			System.out.println("Broker: Servizio \"" + serviceName
 					+ "\" registrato");
 		}
 		catch(Exception e){
@@ -46,4 +46,6 @@ public class RMI_Server extends UnicastRemoteObject implements
 			System.exit(1);
 		}
 	}
+
+	
 }

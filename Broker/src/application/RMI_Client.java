@@ -15,11 +15,7 @@ class RMI_Client {
 			String completeName = "//" + registryHost + ":" + REGISTRYPORT + "/"
 					+ serviceName;
 			RMI_interfaceFile serverRMI = (RMI_interfaceFile) Naming.lookup(completeName);
-  
-			/*ciclo accettazione richieste utente*/
-			while (true) {
-				
-			}
+			
 			
 		}
 		
