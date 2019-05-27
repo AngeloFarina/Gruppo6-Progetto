@@ -3,7 +3,7 @@ package controller;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Main {
+public class MainProvincia {
 	public static final int PORT = 1050;
 
 	public static void main(String[] args) {
