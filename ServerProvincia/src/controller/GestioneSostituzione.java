@@ -8,8 +8,7 @@ public class GestioneSostituzione implements IGestioneSostituzione {
 
 	@Override
 	public void effettuaSostituzione(Mezzo m, RichiestaSostituzione s) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 }
