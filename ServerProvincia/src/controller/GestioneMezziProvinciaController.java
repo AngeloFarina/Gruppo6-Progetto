@@ -4,9 +4,9 @@ import interfacce.IGestioneMezzi;
 import model.Caserma;
 import model.Mezzo;
 
-public class GestioneMezziCasermaController extends Controller implements IGestioneMezzi {
+public class GestioneMezziProvinciaController extends Controller implements IGestioneMezzi {
 
-	public GestioneMezziCasermaController(String connString, String pathFileOp, String pathFileMsg) {
+	public GestioneMezziProvinciaController(String connString, String pathFileOp, String pathFileMsg) {
 		super(connString, pathFileOp, pathFileMsg);
 		// TODO Auto-generated constructor stub
 	}

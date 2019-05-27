@@ -5,5 +5,5 @@ import model.RichiestaSostituzione;
 
 public interface IGestioneSostituzione {
 
-	public boolean effettuaSostituzione(Mezzo m, RichiestaSostituzione s);
+	public void effettuaSostituzione(Mezzo m, RichiestaSostituzione s);
 }
