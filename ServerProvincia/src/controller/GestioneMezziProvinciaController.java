@@ -8,10 +8,11 @@ public class GestioneMezziProvinciaController extends Controller implements IGes
 
 	public GestioneMezziProvinciaController(String connString, String pathFileOp, String pathFileMsg) {
 		super(connString, pathFileOp, pathFileMsg);
-		// TODO Auto-generated constructor stub
 	}
 	
 	public boolean richiesta(String tipoRichiesta, Mezzo m, Caserma c) {
-		return true;
+		while(true) {
+			
+		}
 	}
 }
