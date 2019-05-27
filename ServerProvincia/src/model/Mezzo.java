@@ -6,54 +6,63 @@ public class Mezzo {
 	private int anno;
 	private String marca;
 	private String modello;
+	private Stato stato;
 	
-	public Mezzo(String id, String tipo, int anno, String marca, String modello) {
+	
+	public Mezzo(String id, String tipo, int anno, String marca, String modello, Stato stato) {
 		this.id = id;
 		this.tipo = tipo;
 		this.anno = anno;
 		this.marca = marca;
 		this.modello = modello;
+		this.stato=stato;
 	}
-
-	public String getId() {
+	
+	public final String getId() {
 		return id;
 	}
-
-	public void setId(String id) {
+	public final void setId(String id) {
 		this.id = id;
 	}
-
-	public String getTipo() {
+	public final String getTipo() {
 		return tipo;
 	}
-
-	public void setTipo(String tipo) {
+	public final void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
-
-	public int getAnno() {
+	public final int getAnno() {
 		return anno;
 	}
-
-	public void setAnno(int anno) {
+	public final void setAnno(int anno) {
 		this.anno = anno;
 	}
-
-	public String getMarca() {
+	public final String getMarca() {
 		return marca;
 	}
-
-	public void setMarca(String marca) {
+	public final void setMarca(String marca) {
 		this.marca = marca;
 	}
-
-	public String getModello() {
+	public final String getModello() {
 		return modello;
 	}
-
-	public void setModello(String modello) {
+	public final void setModello(String modello) {
 		this.modello = modello;
 	}
+	
+	public final Stato getStato() {
+		return stato;
+	}
+
+	public final void setStato(Stato stato) {
+		this.stato = stato;
+	}
+	
+	@Override
+	public String toString() {
+		return "ID = " + id + " tipo = " + tipo + " anno = " + anno + " marca = " + marca +" modello = " + modello;
+	}
+
+	
 	
 	
 }
