@@ -13,9 +13,9 @@ public class CapoSquadraApplication extends Application {
 	public void start(Stage stage) {
 		stage.setTitle("Gestione Mezzi Vigili del Fuoco");
 		InterfacciaCapoSquadra root= new InterfacciaCapoSquadra();
-
-		Scene scene = new Scene(root, 1280,720);
+		Scene scene = new Scene(root, 1280,720,Color.WHITE);
 		stage.setScene(scene);
+		stage.setResizable(false);
 		stage.show();
 	}
 	
