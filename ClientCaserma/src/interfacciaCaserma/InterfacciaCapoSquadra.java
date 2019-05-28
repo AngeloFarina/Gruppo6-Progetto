@@ -47,7 +47,7 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		tickRossa = new ImageView(new Image("./icone/TickRossa.png"));
 		tickBlu = new ImageView(new Image("./icone/TickBlu.jpg"));
 		tickGialla = new ImageView(new Image("./icone/TickGialla.png"));
-		account = new ImageView(new Image("./icone/Utente.jpg"));
+		account = new ImageView(new Image("./icone/utente.png"));
 		posizione = new ImageView(new Image("./icone/Posizione.png"));
 		auto = new ImageView(new Image("./icone/Auto.png"));
 	}
@@ -84,8 +84,8 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		Label ruolo = new Label("Capo Squadra");
 		v.getChildren().addAll(nome,ruolo);
 		account.setSmooth(true);
-		account.setFitHeight(74);
-		account.setFitWidth(90);
+		account.setFitHeight(60);
+		account.setFitWidth(65);
 		main.getChildren().addAll(impostazioni,posizione,caserma,v,account);
 		return main;
 	}
