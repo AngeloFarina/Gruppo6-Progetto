@@ -260,10 +260,17 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		targa.setCellValueFactory(new PropertyValueFactory<Prova,String>("targa"));
 		tipologia.setCellValueFactory(new PropertyValueFactory<Prova,String>("tipo"));
 		stato.setCellValueFactory(new PropertyValueFactory<Prova,String>("stato"));
-		azioni.setCellValueFactory(new PropertyValueFactory<Prova,Button>("agg"));
-		azioni.setCellValueFactory(new PropertyValueFactory<Prova,Button>("sost"));
-		azioni.setCellValueFactory(new PropertyValueFactory<Prova,Button>("man"));
+		TableColumn agg = new TableColumn<>();
+		TableColumn sost = new TableColumn<>();
+		TableColumn man = new TableColumn<>();
+		agg.setPrefWidth(100);
+		sost.setPrefWidth(200);
+		man.setPrefWidth(200);
+		agg.setCellValueFactory(new PropertyValueFactory<Prova,Button>("agg"));
+		sost.setCellValueFactory(new PropertyValueFactory<Prova,Button>("sost"));
+		man.setCellValueFactory(new PropertyValueFactory<Prova,Button>("man"));
 		vuota.setCellValueFactory(new PropertyValueFactory<Prova,ImageView>("image"));
+		azioni.getColumns().addAll(agg,sost,man);
 		table.setItems(data);
 	}
 	
