@@ -1,18 +1,25 @@
 package interfacciaCaserma;
 
+import java.util.List;
+
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import model.Prova;
 
 public class InterfacciaCapoSquadra extends BorderPane{
 	private TableView table = null;
@@ -73,21 +80,23 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		posizione.setStyle("-fx-margin-left: 5; -fx-margin-bottom: 5; -fx-margin-left:10;");
 		Label caserma = new Label("CASERMA");
 		caserma.setStyle("-fx-font: Arial");
+		caserma.setFont(Font.font(22));
 		caserma.setStyle("-fx-margin-top: 20;");
-		caserma.setPrefWidth(946);
+		caserma.setPrefWidth(920);
 		caserma.setPrefHeight(45);
 		caserma.setAlignment(Pos.CENTER_LEFT);
 		caserma.setContentDisplay(ContentDisplay.LEFT);
 		caserma.setGraphicTextGap(4);
 		VBox v = new VBox();
 		v.setStyle("-fx-margin-top : 10");
-		v.setPrefWidth(100);
+		v.setPrefWidth(150);
 		v.setPrefHeight(200);
-		v.setSpacing(10);
+		v.setSpacing(7);
 		v.setAlignment(Pos.TOP_LEFT);
 		Label nome = new Label("MARIO ROSSI");
-		nome.setStyle("-fx-font-size: 16");
+		nome.setFont(Font.font(20));
 		Label ruolo = new Label("Capo Squadra");
+		ruolo.setAlignment(Pos.CENTER_RIGHT);
 		v.getChildren().addAll(nome,ruolo);
 		account.setSmooth(true);
 		account.setFitHeight(60);
@@ -169,6 +178,7 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		res.setPrefHeight(65);
 		res.setAlignment(Pos.CENTER);
 		Label l = new Label("LISTA MEZZI");
+		l.setFont(Font.font(20));
 		res.getChildren().add(l);
 		return res;
 	}
@@ -228,7 +238,9 @@ public class InterfacciaCapoSquadra extends BorderPane{
 	private void setTableView() {
 		table.setPrefWidth(915);
 		table.setPrefHeight(368);
-		table.setItems(FXCollections.observableArrayList());
+		ObservableList<Prova> data = FXCollections.observableArrayList(
+				new Prova("Autopompa","AA111AA","DISP")
+				);
 		TableColumn vuota = new TableColumn<>();
 		vuota.setMinWidth(10);
 		vuota.setPrefWidth(39);
@@ -245,6 +257,14 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		azioni.setPrefWidth(680);
 		azioni.setMinWidth(10);
 		table.getColumns().addAll(vuota,tipologia,targa,stato,azioni);
+		targa.setCellValueFactory(new PropertyValueFactory<Prova,String>("targa"));
+		tipologia.setCellValueFactory(new PropertyValueFactory<Prova,String>("tipo"));
+		stato.setCellValueFactory(new PropertyValueFactory<Prova,String>("stato"));
+		azioni.setCellValueFactory(new PropertyValueFactory<Prova,Button>("agg"));
+		azioni.setCellValueFactory(new PropertyValueFactory<Prova,Button>("sost"));
+		azioni.setCellValueFactory(new PropertyValueFactory<Prova,Button>("man"));
+		vuota.setCellValueFactory(new PropertyValueFactory<Prova,ImageView>("image"));
+		table.setItems(data);
 	}
 	
 }
