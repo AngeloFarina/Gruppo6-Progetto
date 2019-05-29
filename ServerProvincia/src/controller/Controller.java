@@ -12,9 +12,6 @@ public class Controller {
 	private Writer printerOperazioni;
 	private Writer printerMessaggi;
 	
-	// nome del database
-	private String dbName = "sit_stud";
-	
 	public Controller(String connString, String pathFileOp, String pathFileMsg) {
 		try {
 			dbConnection = openConnection(connString);
