@@ -45,10 +45,42 @@ public class VisualizzaMezziProvinciaController extends Controller implements IV
 		return result;
 	}
 	
+	public List<Mezzo> visualizzaMezzi() throws SQLException{
+		List<Mezzo> result = new ArrayList<Mezzo>();
+		
+		Connection db = getConnection();
+		Statement stmt  = db.createStatement();
+		String sql = "SELECT M.* " + 
+				"FROM Caserma C, Mezzo M " + 
+				"WHERE M.idCaserma=C.id and C.id='"+idProvincia+ 
+				"' group by M.id " + 
+				"order by C.luogo";
+		ResultSet rs = stmt.executeQuery(sql);
+		/*
+		 * creazione della lista dei mezzi
+		 */
+		while (rs.next()) {
+            	result.add(new Mezzo(rs.getString("id"), 
+            			rs.getString("tipo"),
+            			rs.getInt("anno"),
+            			rs.getString("marca"),
+            			rs.getString("modello"),
+            			Stato.valueOf(rs.getString("stato")),
+            			Assegnazione.valueOf(rs.getString("assegnazione")))); 
+        }
+		return result;
+	}
+	
 	public static void main(String args[]) throws SQLException {
 		VisualizzaMezziProvinciaController c = new VisualizzaMezziProvinciaController("","","","BO001");
+		System.out.println("*****************VISUALIZZA MEZZI PROVINCIA*****************");
 		List<Mezzo> temp = c.visualizzaMezziProvincia();
 		for (Mezzo mezzo : temp) {
+			System.out.println(mezzo.toString());
+		}
+		System.out.println("*****************VISUALIZZA MEZZI CASERMA*****************");
+		List<Mezzo> temp2 = c.visualizzaMezzi();
+		for (Mezzo mezzo : temp2) {
 			System.out.println(mezzo.toString());
 		}
 		
