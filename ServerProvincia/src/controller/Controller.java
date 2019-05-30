@@ -25,7 +25,7 @@ public class Controller {
 	private Connection openConnection(String connString) throws PersistenceException {
 		String dbUri;
 
-		dbUri = "jdbc:sqlite:/home/linx/git/Gruppo6-Progetto/ServerProvincia/src/controller/vigilidb";
+		dbUri = "jdbc:sqlite:C:\\Users\\Paolo\\git\\Gruppo6-Progetto\\ServerProvincia\\src\\controller\\vigilidb";
 		
 		try {
 		    dbConnection = DriverManager.getConnection(dbUri);
@@ -65,12 +65,8 @@ public class Controller {
 		String sql = "SELECT * FROM Mezzo";
 		ResultSet rs = stmt.executeQuery(sql);
 		while (rs.next()) {
-            System.out.println(rs.getString("id") +  "\t" + 
-                               rs.getString("tipo") + "\t" +
-                               rs.getInt("anno") + "\t" +
-                               rs.getString("marca") + "\t" +
-                               rs.getString("modello") +"\t" +
-                               rs.getString("idCaserma"));
+            String idCaserma = rs.stmt
         }
+		
 	}
 }
