@@ -20,12 +20,17 @@ public class Prova {
 	private Button man;
 	
 	public Prova( String tipo, String targa, String stato) {
-		image = setImage();
+		image = setImage(tipo);
 		this.tipo = new SimpleStringProperty(tipo);
 		this.targa =  new SimpleStringProperty(targa);
 		this.stato =  new SimpleStringProperty(stato);
-		agg = new Button("+");
-		agg.setStyle("-fx-background-color: darkgrey; -fx-text-fill: white;");
+		agg = new Button();
+		ImageView ag = new ImageView(new Image("./icone/Aggiungi.png"));
+		ag.setSmooth(true);
+		ag.setFitWidth(25);
+		ag.setFitHeight(25);
+		agg.setGraphic(ag);
+		agg.setStyle("-fx-background-color: white; -fx-text-fill: white;");
 		agg.setFont(Font.font(20));
 		sost = new Button("Richiedi Sost.");
 		man = new Button("Richiedi Man.");
@@ -33,7 +38,7 @@ public class Prova {
 	}
 
 
-	private ImageView setImage() {
+	private ImageView setImage(String tipo) {
 		ImageView res = new ImageView(new Image("./icone/Auto.png"));
 		res.setSmooth(true);
 		res.setFitWidth(25);
