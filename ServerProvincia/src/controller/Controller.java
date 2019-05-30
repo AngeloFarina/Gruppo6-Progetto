@@ -65,7 +65,12 @@ public class Controller {
 		String sql = "SELECT * FROM Mezzo";
 		ResultSet rs = stmt.executeQuery(sql);
 		while (rs.next()) {
-            String idCaserma = rs.stmt
+            System.out.println(rs.getString("id") +  "\t" + 
+                               rs.getString("tipo") + "\t" +
+                               rs.getInt("anno") + "\t" +
+                               rs.getString("marca") + "\t" +
+                               rs.getString("modello") +"\t" +
+                               rs.getString("idCaserma"));
         }
 		
 	}
