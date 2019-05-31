@@ -14,26 +14,40 @@ public class Prova {
 	private ImageView image;
 	private SimpleStringProperty tipo;
 	private SimpleStringProperty targa;
-	private SimpleStringProperty stato;
+	private ImageView stato;
+	private ImageView assegnazione;
 	private Button agg;
 	private Button sost;
 	private Button man;
 	
-	public Prova( String tipo, String targa, String stato) {
+	public Prova( String tipo, String targa, String stato, String assegnazione) {
 		image = setImage(tipo);
 		this.tipo = new SimpleStringProperty(tipo);
 		this.targa =  new SimpleStringProperty(targa);
-		this.stato =  new SimpleStringProperty(stato);
+		if(stato.contentEquals("DISPONIBILE"))
+			this.stato = new ImageView( new Image("icone/TickVerde.png"));
+		else
+			this.stato = new ImageView(new Image("icone/TickRossa.png"));
+		if(assegnazione.equals("MEZZO PROPRIO"))
+			this.assegnazione = new ImageView(new Image("icone/TickBlu.png"));
+		else
+			this.assegnazione=  new ImageView(new Image("icone/TickGialla.png"));
 		agg = new Button();
 		ImageView ag = new ImageView(new Image("./icone/Aggiungi.png"));
 		ag.setSmooth(true);
 		ag.setFitWidth(25);
 		ag.setFitHeight(25);
+		this.stato.setSmooth(true);
+		this.stato.setFitWidth(35);
+		this.stato.setFitHeight(30);
+		this.assegnazione.setSmooth(true);
+		this.assegnazione.setFitWidth(25);
+		this.assegnazione.setFitHeight(25);
 		agg.setGraphic(ag);
 		agg.setStyle("-fx-background-color: white; -fx-text-fill: white;");
 		agg.setFont(Font.font(20));
-		sost = new Button("Richiedi Sost.");
-		man = new Button("Richiedi Man.");
+		sost = new Button("Richiedi Sostituzione");
+		man = new Button("Richiedi Manutenzione");
 		man.setStyle("-fx-background-color: darkgrey; -fx-text-fill: white;");
 	}
 
@@ -84,12 +98,15 @@ public class Prova {
 		this.targa = new SimpleStringProperty(targa);
 	}
 
-	public String getStato() {
-		return stato.get();
+	public ImageView getStato() {
+		return this.stato;
 	}
 
 	public void setStato(String stato) {
-		this.stato = new SimpleStringProperty(stato);
+		if(stato.contentEquals("DISPONIBILE"))
+			this.stato = new ImageView( new Image("icone/TickVerde.png"));
+		else
+			this.stato = new ImageView(new Image("icone/TickRossa.png"));
 	}
 
 
@@ -121,7 +138,17 @@ public class Prova {
 	public void setMan(Button man) {
 		this.man = man;
 	}
+	
+	public ImageView getAssegnazione() {
+		return this.assegnazione;
+	}
 
+	public void setAssegnazione(String assegnazione) {
+		if(assegnazione.equals("MEZZO PROPRIO"))
+			this.assegnazione = new ImageView(new Image("icone/TickBlu.png"));
+		else
+			this.assegnazione=  new ImageView(new Image("icone/TickGialla.png"));
+	}
 	
 	
 }

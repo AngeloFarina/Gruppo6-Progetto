@@ -11,15 +11,23 @@ import javafx.collections.ObservableList;
 import model.Prova;
 
 public class ControllerClientCaserma {
-	private String idCaserma;
+	private ObservableList<Prova> mezzi = null;
+	private String idCaserma = null;
 	private String nomeCaserma = null;
 	private String luogoCaserma = null;
+	private String nome = null;
+	private int totMezzi=0;
+	private int man=0;
+	private int carburante=0;
 	
-	public ControllerClientCaserma(String idCaserma) {
+	public ControllerClientCaserma(String idCaserma,String nome) throws SQLException {
 		this.idCaserma=idCaserma;
+		this.nome=nome;
+		mezzi = FXCollections.observableArrayList();
+		init();
 	}
 	
-	public ObservableList<Prova> caricaMezziCaserma() throws SQLException {
+	private void init() throws SQLException {
 		ObservableList<Prova> result = FXCollections.observableArrayList();
 		String dbUri = "jdbc:sqlite:C:\\Users\\Paolo\\git\\Gruppo6-Progetto\\ClientCaserma\\vigilidb";
 		Connection db = null;
@@ -30,24 +38,52 @@ public class ControllerClientCaserma {
 				"WHERE M.idCaserma=C.id and C.id='"+idCaserma+ 
 				"' group by M.id ";
 		ResultSet rs = stmt.executeQuery(sql);
+		int totMezzi = 0,man=0;
 		while (rs.next()) {
+			totMezzi++;
         	result.addAll(new Prova(
         			rs.getString("tipo"),
         			rs.getString("id"),
-        			rs.getString("stato")));
-		}
-		rs = stmt.executeQuery("SELECT NOME,LUOGO FROM CASERMA WHERE ID='" + idCaserma +"'");
+        			rs.getString("stato"),
+        			rs.getString("assegnazione")));
+        	if(rs.getString("stato").contentEquals("IN MANUTENZIONE"))
+        		man++;
+        }
+		this.man=man;
+		this.totMezzi=totMezzi;
+		rs = stmt.executeQuery("SELECT * FROM CASERMA WHERE ID='" + idCaserma +"'");
 		if(rs.next()) {
-			nomeCaserma=rs.getString(1);
-			luogoCaserma = rs.getString(2);
+			nomeCaserma=rs.getString("nome");
+			luogoCaserma = rs.getString("luogo");
+			this.carburante= rs.getInt("cisterna");
 		}
-		return result;
+		this.mezzi.addAll(result);
+	}
+	
+	public ObservableList<Prova> caricaMezziCaserma() {
+		return FXCollections.observableArrayList(mezzi);
+	}
+	
+	public String getNome() {
+		return this.nome;
 	}
 	
 	public String getCaserma() {
 		if(nomeCaserma==null)
 			return "CASERMA";
 		return luogoCaserma + " " + nomeCaserma;
+	}
+	
+	public int getTotmMzzi() {
+		return totMezzi;
+	}
+	
+	public int getMan() {
+		return man;
+	}
+	
+	public int getLitri () {
+		return carburante;
 	}
 	
 }

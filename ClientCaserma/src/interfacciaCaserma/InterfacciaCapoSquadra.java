@@ -40,15 +40,21 @@ public class InterfacciaCapoSquadra extends BorderPane{
 	private ImageView report = null;
 	private ImageView impostazioni = null;
 	
-	private Label totMezzi = new Label("5");
-	private Label inManutenzione = new Label("1");
-	private Label livelloCarb = new Label("3000");
-	private Label caserma = new Label("CASERMA");
+	private Label totMezzi = null;
+	private Label inManutenzione = null;
+	private Label livelloCarb = null;
+	private Label caserma = null;
+	private Label nome = null;
 	
 	private ControllerClientCaserma controller = null;
 	
 	public InterfacciaCapoSquadra(ControllerClientCaserma controller) {
 		this.controller=controller;
+		nome = new Label(controller.getNome());
+		caserma = new Label(controller.getCaserma());
+		totMezzi = new Label("" + controller.getTotmMzzi());
+		livelloCarb = new Label("" + controller.getLitri());
+		inManutenzione = new Label("" + controller.getMan());
 		initGUI();
 	}
 
@@ -80,7 +86,7 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		HBox main = new HBox();
 		main.setAlignment(Pos.TOP_LEFT);
 		main.setStyle("-fx-border-color:lightgrey");
-		main.setPrefWidth(1080);
+		main.setPrefWidth(950);
 		main.setPrefHeight(68);
 		impostazioni.setSmooth(true);
 		impostazioni.setFitWidth(60);
@@ -99,11 +105,10 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		caserma.setGraphicTextGap(4);
 		VBox v = new VBox();
 		v.setStyle("-fx-margin-top : 10");
-		v.setPrefWidth(150);
+		v.setPrefWidth(200);
 		v.setPrefHeight(200);
 		v.setSpacing(7);
 		v.setAlignment(Pos.TOP_LEFT);
-		Label nome = new Label("MARIO ROSSI");
 		nome.setFont(Font.font(20));
 		Label ruolo = new Label("Capo Squadra");
 		ruolo.setAlignment(Pos.CENTER_RIGHT);
@@ -249,11 +254,7 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		table.setPrefWidth(915);
 		table.setPrefHeight(368);
 		ObservableList<Prova> data = null;
-		try {
-			data = controller.caricaMezziCaserma();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		data = controller.caricaMezziCaserma();
 		caserma.setText(controller.getCaserma());
 		TableColumn vuota = new TableColumn<>();
 		vuota.setMinWidth(10);
@@ -267,23 +268,29 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		targa.setPrefWidth(115);
 		targa.setMaxWidth(150);
 		TableColumn stato = new TableColumn<>("STATO");
-		stato.setPrefWidth(89);
+		stato.setPrefWidth(60);
 		stato.setMinWidth(10);
+		TableColumn assegnazione = new TableColumn<>("ASSEGNAZIONE");
+		assegnazione.setPrefWidth(100);
+		assegnazione.setMinWidth(10);
 		TableColumn azioni = new TableColumn<>("AZIONI");
-		azioni.setPrefWidth(680);
+		azioni.setPrefWidth(500);
 		azioni.setMinWidth(10);
 		targa.setCellValueFactory(new PropertyValueFactory<Prova,String>("targa"));
 		tipologia.setCellValueFactory(new PropertyValueFactory<Prova,String>("tipo"));
 		stato.setCellValueFactory(new PropertyValueFactory<Prova,String>("stato"));
+		assegnazione.setCellValueFactory(new PropertyValueFactory<Prova,String>("assegnazione"));
 		TableColumn agg = new TableColumn<>();
 		TableColumn man = new TableColumn<>();
-		table.getColumns().addAll(vuota,tipologia,targa,stato,agg,azioni,man);
+		table.getColumns().addAll(vuota,tipologia,targa,stato,assegnazione,agg,azioni,man);
 		vuota.setResizable(false);
 		vuota.setSortable(false);
 		tipologia.setSortable(false);
 		targa.setSortable(false);
 		stato.setResizable(false);
 		stato.setSortable(false);
+		assegnazione.setResizable(false);
+		assegnazione.setSortable(false);
 		azioni.setResizable(false);
 		azioni.setSortable(false);
 		man.setSortable(false);
@@ -292,7 +299,7 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		agg.setSortable(false);
 		agg.setPrefWidth(60);
 		azioni.setPrefWidth(120);
-		man.setPrefWidth(500);
+		man.setPrefWidth(300);
 		agg.setCellValueFactory(new PropertyValueFactory<Prova,Button>("agg"));
 		azioni.setCellValueFactory(new PropertyValueFactory<Prova,Button>("sost"));
 		man.setCellValueFactory(new PropertyValueFactory<Prova,Button>("man"));
