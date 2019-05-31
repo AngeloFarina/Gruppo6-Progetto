@@ -312,12 +312,17 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		//Spazio tra i tre principali vbox
 		res.setSpacing(280);
 		
+		//Creo i label
 		Label l1 = new Label("TOTALE MEZZI");
 		Label l2 = new Label("IN MANUTENZIONE");
 		Label l3 = new Label("LIVELLO CARBURANTE");
+		
+		//Creazione e dimensionamento Hbox in cui mettere il tot mezzi
 		HBox h1 = new HBox();
 		h1.getChildren().addAll(autoTot,totMezzi);
 		h1.setMargin(totMezzi,new Insets(10,0,0,10));
+		
+		//Creazione e dimensionamento hbox in cui mettere i mezzi in manutenzione
 		HBox h2 = new HBox();
 		h2.getChildren().addAll(autoMan,inManutenzione);
 		
