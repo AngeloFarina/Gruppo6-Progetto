@@ -28,8 +28,8 @@ public class Prova {
 			this.stato = new ImageView( new Image("icone/TickVerde.png"));
 		else
 			this.stato = new ImageView(new Image("icone/TickRossa.png"));
-		if(assegnazione.equals("MEZZO PROPRIO"))
-			this.assegnazione = new ImageView(new Image("icone/TickBlu.png"));
+		if(assegnazione.equals("PROPRIO"))
+			this.assegnazione = new ImageView(new Image("icone/TickBlu.jpg"));
 		else
 			this.assegnazione=  new ImageView(new Image("icone/TickGialla.png"));
 		agg = new Button();
@@ -144,8 +144,8 @@ public class Prova {
 	}
 
 	public void setAssegnazione(String assegnazione) {
-		if(assegnazione.equals("MEZZO PROPRIO"))
-			this.assegnazione = new ImageView(new Image("icone/TickBlu.png"));
+		if(assegnazione.equals("PROPRIO"))
+			this.assegnazione = new ImageView(new Image("icone/TickBlu.jpg"));
 		else
 			this.assegnazione=  new ImageView(new Image("icone/TickGialla.png"));
 	}
