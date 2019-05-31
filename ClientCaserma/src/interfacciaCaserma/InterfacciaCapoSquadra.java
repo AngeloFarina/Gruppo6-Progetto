@@ -244,38 +244,50 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		table.setPrefWidth(915);
 		table.setPrefHeight(368);
 		ObservableList<Prova> data = FXCollections.observableArrayList(
-				new Prova("Autopompa","AA111AA","DISP")
+				new Prova("AUTOPOMPA","AA111AA","DISP")
 				);
 		TableColumn vuota = new TableColumn<>();
 		vuota.setMinWidth(10);
 		vuota.setPrefWidth(39);
 		TableColumn tipologia = new TableColumn<>("TIPOLOGIA");
-		tipologia.setMinWidth(10);
+		tipologia.setMinWidth(100);
 		tipologia.setPrefWidth(148);
+		tipologia.setMaxWidth(200);
 		TableColumn targa = new TableColumn<>("TARGA");
-		targa.setMinWidth(10);
+		targa.setMinWidth(70);
 		targa.setPrefWidth(115);
+		targa.setMaxWidth(150);
 		TableColumn stato = new TableColumn<>("STATO");
 		stato.setPrefWidth(89);
 		stato.setMinWidth(10);
 		TableColumn azioni = new TableColumn<>("AZIONI");
 		azioni.setPrefWidth(680);
 		azioni.setMinWidth(10);
-		table.getColumns().addAll(vuota,tipologia,targa,stato,azioni);
 		targa.setCellValueFactory(new PropertyValueFactory<Prova,String>("targa"));
 		tipologia.setCellValueFactory(new PropertyValueFactory<Prova,String>("tipo"));
 		stato.setCellValueFactory(new PropertyValueFactory<Prova,String>("stato"));
 		TableColumn agg = new TableColumn<>();
-		TableColumn sost = new TableColumn<>();
 		TableColumn man = new TableColumn<>();
-		agg.setPrefWidth(100);
-		sost.setPrefWidth(200);
-		man.setPrefWidth(200);
+		table.getColumns().addAll(vuota,tipologia,targa,stato,agg,azioni,man);
+		vuota.setResizable(false);
+		vuota.setSortable(false);
+		tipologia.setSortable(false);
+		targa.setSortable(false);
+		stato.setResizable(false);
+		stato.setSortable(false);
+		azioni.setResizable(false);
+		azioni.setSortable(false);
+		man.setSortable(false);
+		man.setResizable(false);
+		agg.setResizable(false);
+		agg.setSortable(false);
+		agg.setPrefWidth(60);
+		azioni.setPrefWidth(120);
+		man.setPrefWidth(500);
 		agg.setCellValueFactory(new PropertyValueFactory<Prova,Button>("agg"));
-		sost.setCellValueFactory(new PropertyValueFactory<Prova,Button>("sost"));
+		azioni.setCellValueFactory(new PropertyValueFactory<Prova,Button>("sost"));
 		man.setCellValueFactory(new PropertyValueFactory<Prova,Button>("man"));
 		vuota.setCellValueFactory(new PropertyValueFactory<Prova,ImageView>("image"));
-		azioni.getColumns().addAll(agg,sost,man);
 		table.setItems(data);
 	}
 	
