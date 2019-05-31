@@ -1,6 +1,7 @@
 package application;
 
 
+import controller.ControllerClientCaserma;
 import interfacciaCaserma.InterfacciaCapoSquadra;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -12,7 +13,7 @@ public class CapoSquadraApplication extends Application {
 
 	public void start(Stage stage) {
 		stage.setTitle("Gestione Mezzi Vigili del Fuoco");
-		InterfacciaCapoSquadra root= new InterfacciaCapoSquadra();
+		InterfacciaCapoSquadra root= new InterfacciaCapoSquadra(new ControllerClientCaserma("BO002"));
 		root.setPrefSize(1280, 720);
 		Scene scene = new Scene(root, 1280,720,Color.WHITE);
 		stage.setScene(scene);

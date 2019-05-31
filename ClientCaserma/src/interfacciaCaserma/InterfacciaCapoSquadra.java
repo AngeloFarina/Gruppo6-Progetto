@@ -1,7 +1,9 @@
 package interfacciaCaserma;
 
+import java.sql.SQLException;
 import java.util.List;
 
+import controller.ControllerClientCaserma;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -41,8 +43,12 @@ public class InterfacciaCapoSquadra extends BorderPane{
 	private Label totMezzi = new Label("5");
 	private Label inManutenzione = new Label("1");
 	private Label livelloCarb = new Label("3000");
+	private Label caserma = new Label("CASERMA");
 	
-	public InterfacciaCapoSquadra() {
+	private ControllerClientCaserma controller = null;
+	
+	public InterfacciaCapoSquadra(ControllerClientCaserma controller) {
+		this.controller=controller;
 		initGUI();
 	}
 
@@ -83,7 +89,6 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		posizione.setFitWidth(67);
 		posizione.setFitHeight(64);
 		posizione.setStyle("-fx-margin-left: 5; -fx-margin-bottom: 5; -fx-margin-left:10;");
-		Label caserma = new Label("CASERMA");
 		caserma.setStyle("-fx-font: Arial");
 		caserma.setFont(Font.font(22));
 		caserma.setStyle("-fx-margin-top: 20;");
@@ -243,9 +248,13 @@ public class InterfacciaCapoSquadra extends BorderPane{
 	private void setTableView() {
 		table.setPrefWidth(915);
 		table.setPrefHeight(368);
-		ObservableList<Prova> data = FXCollections.observableArrayList(
-				new Prova("AUTOPOMPA","AA111AA","DISP")
-				);
+		ObservableList<Prova> data = null;
+		try {
+			data = controller.caricaMezziCaserma();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		caserma.setText(controller.getCaserma());
 		TableColumn vuota = new TableColumn<>();
 		vuota.setMinWidth(10);
 		vuota.setPrefWidth(39);
