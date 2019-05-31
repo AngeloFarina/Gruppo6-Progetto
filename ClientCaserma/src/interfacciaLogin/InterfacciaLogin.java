@@ -22,7 +22,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import model.FiltroRichieste;
 import model.RichiestaServizio;
 
 public final class InterfacciaLogin extends BorderPane{
@@ -30,8 +29,6 @@ public final class InterfacciaLogin extends BorderPane{
 	private PasswordField password;
 	private Button loginButton;
 	private static Insets PADDING = new Insets(10);
-	private static boolean USEDITATO = false;
-	private static boolean PWEDITATO = false;
 	private static int REGISTRYPORT = 1099;
 	private static String registryHost = "localhost";
 	private static String serviceName = "Broker";
@@ -46,12 +43,10 @@ public final class InterfacciaLogin extends BorderPane{
 	}
 
 	private void initComponenti() {
-		//Ascoltatori eventi sui campi di immissione username e password
-		username.setOnMousePressed(this::textUsHandler);
-		password.setOnMousePressed(this::textPwHandler);
-		password.setText("**********");
+		password.setFont(new Font("System Italic",15));
+		password.setPromptText("**********");
 		username.setFont(new Font("System Italic",15));
-		username.setText("Inserisci username...");
+		username.setPromptText("Inserisci username...");
 		//Ascoltatore evento sul bottone
 		loginButton.setOnMousePressed(this::buttonHandler);
 	}
@@ -152,21 +147,6 @@ public final class InterfacciaLogin extends BorderPane{
 		return v;
 	}
 	
-	//Handler dei campi username e password e del bottone
-	//Ho introdotto la variabile USEDITATO per gestire il testo prefissato nel campo di immissione di Username
-	//e per evitare che quel testo possa venire catturato dall'evento di click sul bottone
-	private EventHandler<Event> textUsHandler(Event e){
-		USEDITATO=true;
-		username.setText("");
-		return null;
-	}
-	
-	//Stesso concetto appena visto sopra, ma con la variabile PWEDITATO, che gestisce il campo di immissione della Password
-	private EventHandler<Event> textPwHandler(Event e){
-		PWEDITATO=true;
-		password.setText("");
-		return null;
-	}
 	
 	//Handler dell'evento di Click sul bottone
 	//Questo handler deve catturare il testo presente nei due campi Username/Password 
@@ -174,11 +154,11 @@ public final class InterfacciaLogin extends BorderPane{
 	//Al momento della ricezione della risposta, dovrà chiudersi se tutto sarà andato a buon fine e lasciare spazio ad un'altra Home
 	//Corrispondente all'utente che si è autenticato
 	private EventHandler<Event> buttonHandler(Event e){
-		if(username.getText()==null || username.getText().isEmpty() || USEDITATO==false) {
+		if(username.getText()==null || username.getText().isEmpty()) {
 			Alert a  = new Alert(AlertType.WARNING,"Inserire un username");
 			a.show();
 		}
-		else if(password.getText()==null || password.getText().isEmpty() || PWEDITATO==false) {
+		else if(password.getText()==null || password.getText().isEmpty()) {
 			Alert a = new Alert(AlertType.WARNING,"Inserire password");
 			a.show();
 		}
