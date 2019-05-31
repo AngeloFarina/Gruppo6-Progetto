@@ -27,7 +27,7 @@ public class InterfacciaCapoSquadra extends BorderPane{
 	private ImageView auto = null;
 	private ImageView posizione = null;
 	private ImageView account = null;
-	//private ImageView rifornimento = null;
+	private ImageView rifornimento = null;
 	private ImageView tickVerde = null;
 	private ImageView tickRossa = null;
 	private ImageView tickBlu = null;
@@ -77,7 +77,7 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		report = new ImageView(new Image("./icone/Documenti.png"));
 		rifornimento = new ImageView(new Image("./icone/Rifornimento.png"));
 		tickVerde = new ImageView(new Image("./icone/TickVerde.png"));
-		tickGrigia = new ImageView(new Image("./icone/TickGrigia.png"));
+		//tickGrigia = new ImageView(new Image("./icone/TickGrigia.png"));
 		tickRossa = new ImageView(new Image("./icone/TickRossa.png"));
 		tickBlu = new ImageView(new Image("./icone/TickBlu.jpg"));
 		tickGialla = new ImageView(new Image("./icone/TickGialla.png"));
@@ -286,8 +286,7 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		v2.setPadding(new Insets(10,0,0,10));
 		v3.setPadding(new Insets(10,0,0,10));
 		
-		//Creo le tre icone da mettere nelle sezioni principali
-		ImageView rifornimento = new ImageView(new Image("./icone/Rifornimento.png"));
+		//Creo le icone da mettere nelle sezioni principali
 		ImageView autoTot = new ImageView(new Image("./icone/Auto.png"));
 		ImageView autoMan = new ImageView(new Image("./icone/Auto.png"));
 		
