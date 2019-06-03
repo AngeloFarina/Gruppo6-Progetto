@@ -28,8 +28,8 @@ public class VisualizzaMezziProvinciaController extends Controller implements IV
 		Connection db = getConnection();
 		Statement stmt  = db.createStatement();
 		String sql = "SELECT * " + 
-				"FROM Caserma C," + 
-				"WHERE C.idProvincia='"+idProvincia;
+				"FROM Caserma C " + 
+				"WHERE C.idProvincia='"+idProvincia+"'";
 		ResultSet rs = stmt.executeQuery(sql);
 		while (rs.next()) {
             	result.add(new Caserma(rs.getString("id"), 

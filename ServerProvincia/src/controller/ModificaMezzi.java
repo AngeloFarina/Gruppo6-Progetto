@@ -37,23 +37,28 @@ public class ModificaMezzi implements IModificaMezzi {
 		Statement stmt;
 		try {
 			stmt = db.createStatement();
-			String sql = "DELETE FROM Mezzo WHERE id='"+m.getId()+"'";
+			String sql = "INSERT INTO Mezzo (id,tipo,anno,marca,modello,idCaserma,stato,assegnazione) "+
+						"VALUES ('"+m.getId()+"',"+"'"+m.getTipo()+"',"+"'"+m.getAnno()+"',"+"'"+m.getMarca()+"','"+ m.getModello()+"',"+
+						"'"+c.getId()+"','"+m.getStato()+"','"+m.getAssegnazione()+"')";
 			int result = stmt.executeUpdate(sql);
-			System.out.println("deleting mezzo...\nResult: "+result);
+			System.out.println("updating mezzo...\nResult: "+result);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		//"INSERT INTO Mezzo (id,tipo,anno,marca,modello,idCaserma,stato,assegnazione) VALUES ('"+m.getId()+"' ,"+"'"+m.getTipo()+"' ,"+"'"+m.getAnno()+"',"+"'"+m.getMarca()+"',"+ 'modello',
-        //        'idCaserma',
-        //        'stato',
-        //        'assegnazione'
-        //    );""
 	}
 
 	@Override
 	public void modificaMezzo(Mezzo m) {
-		// TODO Auto-generated method stub
-
+		Statement stmt;
+		try {
+			stmt = db.createStatement();
+			String sql = "UPDATE MEZZO SET id='"+m.getId()+"',tipo='"+m.getTipo()+"',anno="+m.getAnno()+",marca='"+m.getMarca()+
+					"',modello='"+m.getModello()+"',stato='"+m.getStato()+"',assegnazione='"+m.getAssegnazione()+"' "+
+					"WHERE id='"+m.getId()+"'";
+			int result = stmt.executeUpdate(sql);
+			System.out.println("updating mezzo...\nResult: "+result);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
-
 }

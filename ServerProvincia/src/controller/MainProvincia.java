@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import model.Caserma;
+import model.Manutenzione;
 import model.Mezzo;
 
 public class MainProvincia {
@@ -16,6 +17,7 @@ public class MainProvincia {
 	public static void main(String[] args) throws SQLException {
 		GestioneMezziProvinciaController gestore = new GestioneMezziProvinciaController("bho", "bhobhobhbo", "bhobhobho");
 		VisualizzaMezziProvinciaController visualizza = new VisualizzaMezziProvinciaController("","","");
+		StoricoManutenzioniController storico = new StoricoManutenzioniController("", "", "");
 		ServerSocket serverSocket = null;
 	    Socket clientSocket = null;
 	    String nomeServzio="";
@@ -65,6 +67,10 @@ public class MainProvincia {
 					}
 					else if (nomeServzio.equals("visualizzaMezziProvincia")) {
 						List<Caserma> result = visualizza.visualizzaMezziProvincia(idProvincia);
+						outSock.writeObject(result);
+					}
+					else if(nomeServzio.equals("listaManutezioni")) {
+						List<Manutenzione> result = storico.listaManutenzioni();
 						outSock.writeObject(result);
 					}
 					else
