@@ -23,6 +23,7 @@ import javafx.scene.text.TextAlignment;
 import model.TabellaCapoSquadra;
 
 public class InterfacciaCapoSquadra extends BorderPane{
+	@SuppressWarnings("rawtypes")
 	private TableView table = null;
 	private ImageView auto = null;
 	private ImageView posizione = null;
@@ -69,6 +70,7 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		setTop(top());
 	}
 
+	@SuppressWarnings("rawtypes")
 	private void initComponents() {
 		table = new TableView();
 		
@@ -86,6 +88,7 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		auto = new ImageView(new Image("./icone/Auto.png"));
 	}
 
+	@SuppressWarnings("static-access")
 	private Node top() {
 		//Hbox principale
 		HBox main = new HBox();
@@ -149,6 +152,7 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		return main;
 	}
 
+	@SuppressWarnings("static-access")
 	private Node left() {
 		//Creo il vbox principale
 		VBox root = new VBox();
@@ -176,6 +180,7 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		return root;
 	}
 
+	@SuppressWarnings("static-access")
 	private Node center() {
 		//Creo il vbox principale
 		VBox root = new VBox();
@@ -213,6 +218,7 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		return root;
 	}
 
+	@SuppressWarnings("static-access")
 	private HBox setBottom() {
 		//Creo hox principale per la legenda
 		HBox res = new HBox();
@@ -274,6 +280,7 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		return res;
 	}
 
+	@SuppressWarnings("static-access")
 	private HBox setTopCenter() {
 		//HBox principale
 		HBox res = new HBox();
@@ -359,13 +366,14 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		return res;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void setTableView() {
 		//Dimensioni tabella
 		table.setPrefWidth(915);
 		table.setPrefHeight(368);
 		
 		//Creazione lista osservabile associata ai mezzi della caserma in cui mi sono autenticato
-		ObservableList<TabellaCapoSquadra> data = controller.caricaMezziCaserma();
+		ObservableList<TabellaCapoSquadra> data = controller.caricaMezziCapo();
 		
 		//Metto il nome giusto nel Label della caserma
 		caserma.setText(controller.getCaserma());
@@ -390,8 +398,8 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		assegnazione.setMinWidth(10);
 		TableColumn azioni = new TableColumn<>("AZIONI");
 		azioni.setPrefWidth(200);
-		TableColumn agg = new TableColumn<>();
-		agg.setPrefWidth(60);
+		TableColumn anno = new TableColumn<>("ANNO");
+		anno.setPrefWidth(60);
 		TableColumn man = new TableColumn<>();
 		man.setPrefWidth(200);
 		
@@ -400,13 +408,13 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		tipologia.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,String>("tipo"));
 		stato.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,String>("stato"));
 		assegnazione.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,String>("assegnazione"));
-		agg.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,Button>("agg"));
+		anno.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,String>("anno"));
 		azioni.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,Button>("sost"));
 		man.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,Button>("man"));
 		icona.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,ImageView>("image"));
 		
 		//Aggiunta colonne alla tabella
-		table.getColumns().addAll(icona,tipologia,targa,stato,assegnazione,agg,azioni,man);
+		table.getColumns().addAll(icona,tipologia,targa,stato,assegnazione,anno,azioni,man);
 		
 		//Sortable e resizable delle colonne
 		icona.setResizable(false);
@@ -421,8 +429,8 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		azioni.setSortable(false);
 		man.setSortable(false);
 		man.setResizable(false);
-		agg.setResizable(false);
-		agg.setSortable(false);
+		anno.setResizable(false);
+		anno.setSortable(false);
 		
 		//Inserisco i dati alla tabella (riempie tutte le celle automaticamente
 		//grazie al factory precedentemente associato

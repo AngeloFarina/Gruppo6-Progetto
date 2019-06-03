@@ -1,24 +1,21 @@
 package model;
 
-
 import javafx.beans.property.SimpleStringProperty;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class TabellaCapoSquadra {
+public class TabellaVigile {
 
 	private ImageView image;
 	private SimpleStringProperty tipo;
 	private SimpleStringProperty targa;
+	private SimpleStringProperty anno;
 	private ImageView stato;
 	private ImageView assegnazione;
-	private SimpleStringProperty anno;
-	private Button sost;
-	private Button man;
 	
-	public TabellaCapoSquadra( String tipo, String targa, String stato, String assegnazione, String anno) {
+	public TabellaVigile(String tipo, String targa, String stato, String assegnazione,String anno) {
 		this.image = setImage(tipo);
+		this.anno= new SimpleStringProperty(anno);
 		this.tipo = new SimpleStringProperty(tipo);
 		this.targa =  new SimpleStringProperty(targa);
 		if(stato.contentEquals("DISPONIBILE"))
@@ -29,16 +26,12 @@ public class TabellaCapoSquadra {
 			this.assegnazione = new ImageView(new Image("icone/TickBlu.jpg"));
 		else
 			this.assegnazione=  new ImageView(new Image("icone/TickGialla.png"));
-		this.anno = new SimpleStringProperty(anno);
 		this.stato.setSmooth(true);
 		this.stato.setFitWidth(35);
 		this.stato.setFitHeight(30);
 		this.assegnazione.setSmooth(true);
 		this.assegnazione.setFitWidth(25);
 		this.assegnazione.setFitHeight(25);
-		sost = new Button("Richiedi Sostituzione");
-		man = new Button("Richiedi Manutenzione");
-		man.setStyle("-fx-background-color: darkgrey; -fx-text-fill: white;");
 	}
 
 
@@ -57,6 +50,7 @@ public class TabellaCapoSquadra {
 	}
 
 
+
 	public ImageView getImage() {
 		return this.image;
 	}
@@ -67,6 +61,14 @@ public class TabellaCapoSquadra {
 
 	public String getTipo() {
 		return tipo.get();
+	}
+	
+	public String getAnno() {
+		return this.anno.get();
+	}
+	
+	public void setAnno(String anno) {
+		this.anno=new SimpleStringProperty(anno);
 	}
 
 	public void setTipo(String tipo) {
@@ -92,35 +94,6 @@ public class TabellaCapoSquadra {
 			this.stato = new ImageView(new Image("icone/TickRossa.png"));
 	}
 
-
-	public String getAnno() {
-		return anno.get();
-	}
-
-
-	public void setAnno(String anno) {
-		this.anno = new SimpleStringProperty(anno);
-	}
-
-
-	public Button getSost() {
-		return sost;
-	}
-
-
-	public void setSost(Button sost) {
-		this.sost = sost;
-	}
-
-
-	public Button getMan() {
-		return man;
-	}
-
-
-	public void setMan(Button man) {
-		this.man = man;
-	}
 	
 	public ImageView getAssegnazione() {
 		return this.assegnazione;
