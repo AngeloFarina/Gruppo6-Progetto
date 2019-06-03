@@ -20,7 +20,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
-import model.Prova;
+import model.TabellaCapoSquadra;
 
 public class InterfacciaCapoSquadra extends BorderPane{
 	private TableView table = null;
@@ -48,7 +48,7 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		this.controller=controller;
 		nome = new Label(controller.getNome());
 		caserma = new Label(controller.getCaserma());
-		totMezzi = new Label("" + controller.getTotmMzzi());
+		totMezzi = new Label("" + controller.getTotMezzi());
 		livelloCarb = new Label("" + controller.getLitri());
 		inManutenzione = new Label("" + controller.getMan());
 		initGUI();
@@ -365,7 +365,7 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		table.setPrefHeight(368);
 		
 		//Creazione lista osservabile associata ai mezzi della caserma in cui mi sono autenticato
-		ObservableList<Prova> data = controller.caricaMezziCaserma();
+		ObservableList<TabellaCapoSquadra> data = controller.caricaMezziCaserma();
 		
 		//Metto il nome giusto nel Label della caserma
 		caserma.setText(controller.getCaserma());
@@ -396,14 +396,14 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		man.setPrefWidth(200);
 		
 		//Assegnazione del factory per il valore delle celle di ogni riga
-		targa.setCellValueFactory(new PropertyValueFactory<Prova,String>("targa"));
-		tipologia.setCellValueFactory(new PropertyValueFactory<Prova,String>("tipo"));
-		stato.setCellValueFactory(new PropertyValueFactory<Prova,String>("stato"));
-		assegnazione.setCellValueFactory(new PropertyValueFactory<Prova,String>("assegnazione"));
-		agg.setCellValueFactory(new PropertyValueFactory<Prova,Button>("agg"));
-		azioni.setCellValueFactory(new PropertyValueFactory<Prova,Button>("sost"));
-		man.setCellValueFactory(new PropertyValueFactory<Prova,Button>("man"));
-		icona.setCellValueFactory(new PropertyValueFactory<Prova,ImageView>("image"));
+		targa.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,String>("targa"));
+		tipologia.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,String>("tipo"));
+		stato.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,String>("stato"));
+		assegnazione.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,String>("assegnazione"));
+		agg.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,Button>("agg"));
+		azioni.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,Button>("sost"));
+		man.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,Button>("man"));
+		icona.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,ImageView>("image"));
 		
 		//Aggiunta colonne alla tabella
 		table.getColumns().addAll(icona,tipologia,targa,stato,assegnazione,agg,azioni,man);

@@ -9,10 +9,10 @@ import java.sql.Statement;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import model.Prova;
+import model.TabellaCapoSquadra;
 
 public class ControllerClientCaserma {
-	private ObservableList<Prova> mezzi = null;
+	private ObservableList<TabellaCapoSquadra> mezzi = null;
 	private String idCaserma = null;
 	private String nomeCaserma = null;
 	private String luogoCaserma = null;
@@ -29,7 +29,7 @@ public class ControllerClientCaserma {
 	}
 	
 	private void init() throws SQLException {
-		ObservableList<Prova> result = FXCollections.observableArrayList();
+		ObservableList<TabellaCapoSquadra> result = FXCollections.observableArrayList();
 		File f = new File("vigilidb");
 		String dbUri = "jdbc:sqlite:"+f.getAbsolutePath();
 		Connection db = null;
@@ -43,7 +43,7 @@ public class ControllerClientCaserma {
 		int totMezzi = 0,man=0;
 		while (rs.next()) {
 			totMezzi++;
-        	result.addAll(new Prova(
+        	result.addAll(new TabellaCapoSquadra(
         			rs.getString("tipo"),
         			rs.getString("id"),
         			rs.getString("stato"),
@@ -62,7 +62,7 @@ public class ControllerClientCaserma {
 		this.mezzi.addAll(result);
 	}
 	
-	public ObservableList<Prova> caricaMezziCaserma() {
+	public ObservableList<TabellaCapoSquadra> caricaMezziCaserma() {
 		return FXCollections.observableArrayList(mezzi);
 	}
 	
@@ -76,7 +76,7 @@ public class ControllerClientCaserma {
 		return luogoCaserma + " " + nomeCaserma;
 	}
 	
-	public int getTotmMzzi() {
+	public int getTotMezzi() {
 		return totMezzi;
 	}
 	

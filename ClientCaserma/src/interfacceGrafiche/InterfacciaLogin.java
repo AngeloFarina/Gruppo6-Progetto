@@ -174,10 +174,30 @@ public final class InterfacciaLogin extends BorderPane{
 		List<Object> parametri = new ArrayList<Object>();
 		parametri.add(username.getText());
 		parametri.add(password.getText());
-		setNewStage();
+		if(username.getText().equals("ciao"))
+			setNewStageCapoSquadra();
+		else if(username.getText().equals("corradi"))
+			setNewStageVigile();
 	}
 
-	private void setNewStage() {
+	private void setNewStageVigile() {
+		Stage s = (Stage) loginButton.getScene().getWindow();
+		s.close();
+		s.setTitle("Gestione Mezzi Vigili del Fuoco");
+		InterfacciaVigile root = null;
+		try {
+			root = new InterfacciaVigile(new ControllerClientCaserma("MO002","Gianni Morandi"));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		root.setPrefSize(1280, 720);
+		Scene scene = new Scene(root, 1280,720,Color.WHITE);
+		s.setScene(scene);
+		s.setResizable(false);
+		s.show();
+	}
+
+	private void setNewStageCapoSquadra() {
 		Stage s = (Stage) loginButton.getScene().getWindow();
 		s.close();
 		s.setTitle("Gestione Mezzi Vigili del Fuoco");

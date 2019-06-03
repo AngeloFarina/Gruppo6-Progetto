@@ -9,7 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Font;
 
-public class Prova {
+public class TabellaCapoSquadra {
 
 	private ImageView image;
 	private SimpleStringProperty tipo;
@@ -20,7 +20,7 @@ public class Prova {
 	private Button sost;
 	private Button man;
 	
-	public Prova( String tipo, String targa, String stato, String assegnazione) {
+	public TabellaCapoSquadra( String tipo, String targa, String stato, String assegnazione) {
 		image = setImage(tipo);
 		this.tipo = new SimpleStringProperty(tipo);
 		this.targa =  new SimpleStringProperty(targa);
