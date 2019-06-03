@@ -1,5 +1,7 @@
 package controller;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -10,6 +12,8 @@ public class MainLogin {
 		LoginController gestore = new LoginController("bho", "bhobhobhbo", "bhobhobho");
 		ServerSocket serverSocket = null;
 	    Socket clientSocket = null;
+	    DataOutputStream outSock;
+	    DataInputStream inSock;
 	    try {
 	    	serverSocket = new ServerSocket(PORT);
 	    	serverSocket.setReuseAddress(true);
@@ -39,7 +43,11 @@ public class MainLogin {
 	    		}
 	    		
 	    		try {
-	    			
+	    			inSock = new DataInputStream(clientSocket.getInputStream());
+	    			outSock = new DataOutputStream(clientSocket.getOutputStream());
+	    			String credenziali = inSock.readUTF();
+	    			outSock.writeUTF(gestore.verificaCredenziali(credenziali.split(";")[0],credenziali.split(";")[1]));
+	    			System.out.println("BANANE A VOLONTA'");
 	    		}
 	    		catch (Exception e) {
 	    			System.err.println("Server: problemi nel server thread: " + e.getMessage());

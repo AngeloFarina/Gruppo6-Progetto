@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.IOException;
 import java.io.Writer;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -19,7 +20,7 @@ public class Controller {
 			printerOperazioni = openLogOperation(pathFileOp);
 			printerMessaggi = openLogMessaggi(pathFileMsg);
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 		}
 	}
 	
@@ -58,11 +59,21 @@ public class Controller {
 	}
 	
 	protected void printMessaggio(String m) {
-		
+		try {
+			this.printerMessaggi.write(m);
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
 	}
 	
 	protected void printOperazione(String m) {
-		
+		try {
+			this.printerOperazioni.write(m);
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
 	}
 	
 	protected Connection getConnection() {

@@ -15,5 +15,20 @@ public class Sessione {
 		this.ipClient = ipClient;
 	}
 	
-	
+	public String getRuolo() {
+		return ruolo;
+	}
+
+	public LocalDate getDataCreazione() {
+		return dataCreazione;
+	}
+
+	public LocalDate getDataScadenza() {
+		return dataScadenza;
+	}
+
+	public String getIpClient() {
+		return ipClient;
+	}
+
 }

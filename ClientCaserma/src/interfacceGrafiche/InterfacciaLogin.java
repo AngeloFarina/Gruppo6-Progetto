@@ -1,6 +1,13 @@
 package interfacceGrafiche;
 
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.rmi.Naming;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -165,18 +172,29 @@ public final class InterfacciaLogin extends BorderPane{
 			a.show();
 		}
 		else {
-			generaEInviaRichiesta();
+			try {
+				generaEInviaRichiesta();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		}
 		return null;
 	}
 
-	private void generaEInviaRichiesta() {
+	private void generaEInviaRichiesta() throws UnknownHostException, IOException {
 		List<Object> parametri = new ArrayList<Object>();
 		parametri.add(username.getText());
 		parametri.add(password.getText());
-		if(username.getText().equals("ciao"))
+		//Da togliere da qui
+		Socket clientSocket = new Socket("localhost",1051);
+		DataOutputStream outSock = new DataOutputStream(clientSocket.getOutputStream());
+		DataInputStream inSock = new DataInputStream(clientSocket.getInputStream());
+		outSock.writeUTF("login");
+		outSock.writeUTF(username.getText()+";"+password.getText());
+		String ruolo = inSock.readUTF().split(";")[0];
+		if(ruolo.equals("caposquadra"))
 			setNewStageCapoSquadra();
-		else if(username.getText().equals("corradi"))
+		else if(ruolo.equals("vigile"))
 			setNewStageVigile();
 	}
 
