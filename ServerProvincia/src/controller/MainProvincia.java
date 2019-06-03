@@ -73,6 +73,11 @@ public class MainProvincia {
 						List<Manutenzione> result = storico.listaManutenzioni();
 						outSock.writeObject(result);
 					}
+					else if(nomeServzio.equals("modificaMezzi")) {
+						// LEGGERE TIPO RICHIESTA UN MEZZO E UNA CASERMA (SERVE SOLO ID)
+						//gestore.modificaMezzo("tipoRichiesta", "m", "c");
+						//outSock.writeObject(result);
+					}
 					else
 						outSock.writeObject(null);
 		        }
