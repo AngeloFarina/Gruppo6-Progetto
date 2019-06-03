@@ -10,7 +10,7 @@ import java.util.List;
 import model.Mezzo;
 
 public class MainCaserma {
-	public static final int PORT = 1050;
+	public static final int PORT = 1053;
 
 	public static void main(String[] args) throws SQLException {
 		GestioneMezziCasermaController gestore = new GestioneMezziCasermaController("bho", "bhobhobhbo", "bhobhobho");

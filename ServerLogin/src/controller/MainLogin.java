@@ -4,7 +4,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class MainLogin {
-	public static final int PORT = 1050;
+	public static final int PORT = 1052;
 
 	public static void main(String[] args) {
 		LoginController gestore = new LoginController("bho", "bhobhobhbo", "bhobhobho");
