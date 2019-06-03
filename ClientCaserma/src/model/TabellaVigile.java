@@ -23,12 +23,12 @@ public class TabellaVigile {
 		else
 			this.stato = new ImageView(new Image("icone/TickRossa.png"));
 		if(assegnazione.equals("PROPRIO"))
-			this.assegnazione = new ImageView(new Image("icone/TickBlu.jpg"));
+			this.assegnazione = new ImageView(new Image("icone/TickBlu.png"));
 		else
 			this.assegnazione=  new ImageView(new Image("icone/TickGialla.png"));
 		this.stato.setSmooth(true);
-		this.stato.setFitWidth(35);
-		this.stato.setFitHeight(30);
+		this.stato.setFitWidth(27);
+		this.stato.setFitHeight(25);
 		this.assegnazione.setSmooth(true);
 		this.assegnazione.setFitWidth(25);
 		this.assegnazione.setFitHeight(25);
@@ -41,7 +41,11 @@ public class TabellaVigile {
 			res = new ImageView(new Image("./icone/Camion.png"));
 		else if(tipo.equalsIgnoreCase("AUTOPOMPA"))
 			res = new ImageView(new Image("./icone/Autopompa.png"));
-		else 
+		else if (tipo.equals("JEEP"))
+			res = new ImageView(new Image("./icone/Jeep.png"));
+		else if (tipo.contentEquals("UTILITARIA"))
+			res = new ImageView(new Image("./icone/Utilitaria.png"));
+		else
 			res = new ImageView(new Image("./icone/Auto.png"));
 		res.setSmooth(true);
 		res.setFitWidth(25);
@@ -101,7 +105,7 @@ public class TabellaVigile {
 
 	public void setAssegnazione(String assegnazione) {
 		if(assegnazione.equals("PROPRIO"))
-			this.assegnazione = new ImageView(new Image("icone/TickBlu.jpg"));
+			this.assegnazione = new ImageView(new Image("icone/TickBlu.png"));
 		else
 			this.assegnazione=  new ImageView(new Image("icone/TickGialla.png"));
 	}

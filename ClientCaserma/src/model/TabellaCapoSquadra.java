@@ -16,6 +16,7 @@ public class TabellaCapoSquadra {
 	private SimpleStringProperty anno;
 	private Button sost;
 	private Button man;
+	private Button rest;
 	
 	public TabellaCapoSquadra( String tipo, String targa, String stato, String assegnazione, String anno) {
 		this.image = setImage(tipo);
@@ -26,19 +27,32 @@ public class TabellaCapoSquadra {
 		else
 			this.stato = new ImageView(new Image("icone/TickRossa.png"));
 		if(assegnazione.equals("PROPRIO"))
-			this.assegnazione = new ImageView(new Image("icone/TickBlu.jpg"));
+			this.assegnazione = new ImageView(new Image("icone/TickBlu.png"));
 		else
 			this.assegnazione=  new ImageView(new Image("icone/TickGialla.png"));
 		this.anno = new SimpleStringProperty(anno);
 		this.stato.setSmooth(true);
-		this.stato.setFitWidth(35);
-		this.stato.setFitHeight(30);
+		this.stato.setFitWidth(27);
+		this.stato.setFitHeight(25);
 		this.assegnazione.setSmooth(true);
 		this.assegnazione.setFitWidth(25);
 		this.assegnazione.setFitHeight(25);
 		sost = new Button("Richiedi Sostituzione");
 		man = new Button("Richiedi Manutenzione");
+		if(assegnazione.equals("IN SOSTITUZIONE"))
+			rest = new Button("Restituisci");
+		else
+			rest = null;
 		man.setStyle("-fx-background-color: darkgrey; -fx-text-fill: white;");
+	}
+
+
+	public void setRest(Button rest) {
+		this.rest = rest;
+	}
+
+	public Button getRest() {
+		return rest;
 	}
 
 
@@ -48,7 +62,11 @@ public class TabellaCapoSquadra {
 			res = new ImageView(new Image("./icone/Camion.png"));
 		else if(tipo.equalsIgnoreCase("AUTOPOMPA"))
 			res = new ImageView(new Image("./icone/Autopompa.png"));
-		else 
+		else if (tipo.equals("JEEP"))
+			res = new ImageView(new Image("./icone/Jeep.png"));
+		else if (tipo.contentEquals("UTILITARIA"))
+			res = new ImageView(new Image("./icone/Utilitaria.png"));
+		else
 			res = new ImageView(new Image("./icone/Auto.png"));
 		res.setSmooth(true);
 		res.setFitWidth(25);
@@ -128,7 +146,7 @@ public class TabellaCapoSquadra {
 
 	public void setAssegnazione(String assegnazione) {
 		if(assegnazione.equals("PROPRIO"))
-			this.assegnazione = new ImageView(new Image("icone/TickBlu.jpg"));
+			this.assegnazione = new ImageView(new Image("icone/TickBlu.png"));
 		else
 			this.assegnazione=  new ImageView(new Image("icone/TickGialla.png"));
 	}

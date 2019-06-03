@@ -17,6 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import model.TabellaCapoSquadra;
@@ -41,6 +42,7 @@ public class InterfacciaVigile extends BorderPane{
 	private Label livelloCarb = null;
 	private Label caserma = null;
 	private Label nome = null;
+	private int litri;
 	
 	private ControllerClientCaserma controller = null;
 	
@@ -49,7 +51,9 @@ public class InterfacciaVigile extends BorderPane{
 		nome = new Label(controller.getNome());
 		caserma = new Label(controller.getCaserma());
 		totMezzi = new Label("" + controller.getTotMezzi());
-		livelloCarb = new Label("" + controller.getLitri());
+		//litri = controller.getLitri();
+		litri = 100;
+		livelloCarb = new Label("" + litri);
 		inManutenzione = new Label("" + controller.getMan());
 		initGUI();
 	}
@@ -79,7 +83,7 @@ public class InterfacciaVigile extends BorderPane{
 		tickVerde = new ImageView(new Image("./icone/TickVerde.png"));
 		//tickGrigia = new ImageView(new Image("./icone/TickGrigia.png"));
 		tickRossa = new ImageView(new Image("./icone/TickRossa.png"));
-		tickBlu = new ImageView(new Image("./icone/TickBlu.jpg"));
+		tickBlu = new ImageView(new Image("./icone/TickBlu.png"));
 		tickGialla = new ImageView(new Image("./icone/TickGialla.png"));
 		account = new ImageView(new Image("./icone/utente.png"));
 		posizione = new ImageView(new Image("./icone/Posizione.png"));
@@ -225,17 +229,17 @@ public class InterfacciaVigile extends BorderPane{
 		
 		//Dimensiono le icone dei tick
 		tickVerde.setSmooth(true);
-		tickVerde.setFitWidth(46);
-		tickVerde.setFitHeight(38);
+		tickVerde.setFitWidth(27);
+		tickVerde.setFitHeight(25);
 		tickRossa.setSmooth(true);
-		tickRossa.setFitWidth(50);
-		tickRossa.setFitHeight(36);
+		tickRossa.setFitWidth(27);
+		tickRossa.setFitHeight(25);
 		tickBlu.setSmooth(true);
-		tickBlu.setFitWidth(34);
-		tickBlu.setFitHeight(28);
+		tickBlu.setFitWidth(27);
+		tickBlu.setFitHeight(25);
 		tickGialla.setSmooth(true);
-		tickGialla.setFitWidth(34);
-		tickGialla.setFitHeight(32);
+		tickGialla.setFitWidth(27);
+		tickGialla.setFitHeight(25);
 		
 		//Imposto il padding equivalente a paddingTop=10 e paddingLeft=5
 		disp.setPadding(new Insets(10,0,0,0));
@@ -245,9 +249,10 @@ public class InterfacciaVigile extends BorderPane{
 		res.setMargin(man, new Insets(10,0,0,0));
 		res.setMargin(proprio, new Insets(10,0,0,0));
 		res.setMargin(sost, new Insets(10,0,0,5));
-		res.setMargin(tickRossa, new Insets(3,0,0,0));
+		res.setMargin(tickRossa, new Insets(5,0,0,0));
+		res.setMargin(tickVerde, new Insets(5,0,0,0));
 		res.setMargin(tickBlu, new Insets(5,0,0,0));
-		res.setMargin(tickGialla, new Insets(4,0,0,5));
+		res.setMargin(tickGialla, new Insets(5,0,0,5));
 		
 		//Aggiungo gli elementi della legenda all'hbox principale
 		res.getChildren().addAll(tickVerde,disp,tickRossa,man,tickBlu,proprio,tickGialla,sost);
@@ -306,7 +311,7 @@ public class InterfacciaVigile extends BorderPane{
 		v2.setPrefWidth(170);
 		v2.setPrefHeight(92);
 		v2.setStyle("-fx-border-color: lightgrey");
-		v3.setPrefWidth(170);
+		v3.setPrefWidth(180);
 		v3.setPrefHeight(92);
 		v3.setStyle("-fx-border-color: lightgrey");
 		
@@ -334,6 +339,14 @@ public class InterfacciaVigile extends BorderPane{
 		rifornimento.setSmooth(true);
 		rifornimento.setFitWidth(35);
 		rifornimento.setFitHeight(31);
+		if(this.litri<=300) {
+			livelloCarb.setTextFill(Color.DARKRED);
+			ImageView attenzione = new ImageView(new Image("./icone/RifornimentoScarso.png"));
+			attenzione.setSmooth(true);
+			attenzione.setFitWidth(35);
+			attenzione.setFitHeight(31);
+			h3.getChildren().add(attenzione);
+		}
 		
 		//Aggiungo all'hbox della sezione del rifornimento l'immagine
 		//della pompa del carburante e il livello attuale
@@ -344,6 +357,11 @@ public class InterfacciaVigile extends BorderPane{
 		v1.getChildren().addAll(l1,h1);
 		v2.getChildren().addAll(l2,h2);
 		v3.getChildren().addAll(l3,h3);
+		Label alert = new Label("RICHIESTA DI RIFORNIMENTO\nAUTOMATICA EFFETTUATA");
+		alert.setTextFill(Color.DARKRED);
+		v3.getChildren().add(alert);
+		v3.setStyle("-fx-border-color: red");
+		
 		
 		//Imposto i margini dei label come marginTop=10 e marginLeft=10
 		h2.setMargin(inManutenzione, new Insets(10,0,0,10));
