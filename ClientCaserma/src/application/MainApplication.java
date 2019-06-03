@@ -5,7 +5,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class LoginApplication extends Application{
+public class MainApplication extends Application{
 
 	public void start(Stage stage) throws Exception {
 		stage.setTitle("Login");
