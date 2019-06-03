@@ -14,7 +14,7 @@ public class LoginController extends Controller implements ILogin{
 	private static final String PASSWORD2="elezioni2019";
 	*/
 	//Mock
-	private static final String utenti = "mario;sole;caposquadra;Mario;Rossi;BO002\ndario;mosca;vigile;Dario;Mosca;MO001";
+	private static final String utenti = "mario;sole;caposquadra;Mario;Rossi;BO002\ndario;mosca;vigile;Dario;Mosca;MO001\ngianni;volpe;amministratore;Gianni;Volpi;BO001";
 	
 	public LoginController(String connString, String pathFileOp, String pathFileMsg) {
 		super(connString,pathFileOp,pathFileMsg);

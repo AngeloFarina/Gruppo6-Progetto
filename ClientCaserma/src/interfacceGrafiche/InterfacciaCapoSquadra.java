@@ -365,7 +365,7 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		table.setPrefHeight(368);
 		
 		//Creazione lista osservabile associata ai mezzi della caserma in cui mi sono autenticato
-		ObservableList<TabellaCapoSquadra> data = controller.caricaMezziCaserma();
+		ObservableList<TabellaCapoSquadra> data = controller.caricaMezziCapo();
 		
 		//Metto il nome giusto nel Label della caserma
 		caserma.setText(controller.getCaserma());

@@ -21,6 +21,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import model.TabellaCapoSquadra;
+import model.TabellaVigile;
 
 public class InterfacciaVigile extends BorderPane{
 	private TableView table = null;
@@ -33,7 +34,6 @@ public class InterfacciaVigile extends BorderPane{
 	private ImageView tickBlu = null;
 	//private ImageView tickGrigia = null;
 	private ImageView tickGialla = null;
-	private ImageView report = null;
 	private ImageView impostazioni = null;
 	
 	private Label totMezzi = null;
@@ -74,7 +74,6 @@ public class InterfacciaVigile extends BorderPane{
 		
 		//Inizializzazione di tutte le icone/immagini
 		impostazioni = new ImageView(new Image("./icone/Impostazioni.png"));
-		report = new ImageView(new Image("./icone/Documenti.png"));
 		rifornimento = new ImageView(new Image("./icone/Rifornimento.png"));
 		tickVerde = new ImageView(new Image("./icone/TickVerde.png"));
 		//tickGrigia = new ImageView(new Image("./icone/TickGrigia.png"));
@@ -128,7 +127,7 @@ public class InterfacciaVigile extends BorderPane{
 		nome.setTextAlignment(TextAlignment.RIGHT);
 		
 		//Creo e imposto il label del ruolo
-		Label ruolo = new Label("Capo Squadra");
+		Label ruolo = new Label("Vigile");
 		ruolo.setAlignment(Pos.CENTER_RIGHT);
 		
 		//Aggiungo nome e ruolo al vbox
@@ -158,21 +157,17 @@ public class InterfacciaVigile extends BorderPane{
 		root.setPrefHeight(642);
 		root.setPrefWidth(61);
 		
-		//Imposto il margine/spazio per le immagini di auto e report
+		//Imposto il margine/spazio per l'immagine auto
 		root.setMargin(auto, new Insets(30,0,0,10));
-		root.setMargin(report, new Insets(30,0,0,10));
 		root.setSpacing(30);
 		
-		//Dimensiono le icone auto e report
+		//Dimensiono le icona auto
 		auto.setSmooth(true);
 		auto.setFitHeight(40);
 		auto.setFitWidth(40);
-		report.setSmooth(true);
-		report.setFitWidth(45);
-		report.setFitHeight(40);
 		
-		//Aggiungo al vbox principale le due icone
-		root.getChildren().addAll(auto,report);
+		//Aggiungo al vbox principale l'icona
+		root.getChildren().addAll(auto);
 		return root;
 	}
 
@@ -365,7 +360,7 @@ public class InterfacciaVigile extends BorderPane{
 		table.setPrefHeight(368);
 		
 		//Creazione lista osservabile associata ai mezzi della caserma in cui mi sono autenticato
-		ObservableList<TabellaCapoSquadra> data = controller.caricaMezziCaserma();
+		ObservableList<TabellaVigile> data = controller.caricaMezziVigile();
 		
 		//Metto il nome giusto nel Label della caserma
 		caserma.setText(controller.getCaserma());
@@ -376,11 +371,11 @@ public class InterfacciaVigile extends BorderPane{
 		icona.setPrefWidth(39);
 		TableColumn tipologia = new TableColumn<>("TIPOLOGIA");
 		tipologia.setMinWidth(100);
-		tipologia.setPrefWidth(148);
+		tipologia.setPrefWidth(200);
 		tipologia.setMaxWidth(200);
 		TableColumn targa = new TableColumn<>("TARGA");
 		targa.setMinWidth(70);
-		targa.setPrefWidth(115);
+		targa.setPrefWidth(200);
 		targa.setMaxWidth(150);
 		TableColumn stato = new TableColumn<>("STATO");
 		stato.setPrefWidth(60);
@@ -388,25 +383,19 @@ public class InterfacciaVigile extends BorderPane{
 		TableColumn assegnazione = new TableColumn<>("ASSEGNAZIONE");
 		assegnazione.setPrefWidth(100);
 		assegnazione.setMinWidth(10);
-		TableColumn azioni = new TableColumn<>("AZIONI");
-		azioni.setPrefWidth(200);
-		TableColumn agg = new TableColumn<>();
-		agg.setPrefWidth(60);
-		TableColumn man = new TableColumn<>();
-		man.setPrefWidth(200);
+		TableColumn anno = new TableColumn<>("ANNO");
+		anno.setPrefWidth(100);
 		
 		//Assegnazione del factory per il valore delle celle di ogni riga
 		targa.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,String>("targa"));
 		tipologia.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,String>("tipo"));
 		stato.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,String>("stato"));
 		assegnazione.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,String>("assegnazione"));
-		agg.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,Button>("agg"));
-		azioni.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,Button>("sost"));
-		man.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,Button>("man"));
+		anno.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,Button>("anno"));
 		icona.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,ImageView>("image"));
 		
 		//Aggiunta colonne alla tabella
-		table.getColumns().addAll(icona,tipologia,targa,stato,assegnazione,agg,azioni,man);
+		table.getColumns().addAll(icona,tipologia,targa,stato,assegnazione,anno);
 		
 		//Sortable e resizable delle colonne
 		icona.setResizable(false);
@@ -417,12 +406,8 @@ public class InterfacciaVigile extends BorderPane{
 		stato.setSortable(false);
 		assegnazione.setResizable(false);
 		assegnazione.setSortable(false);
-		azioni.setResizable(false);
-		azioni.setSortable(false);
-		man.setSortable(false);
-		man.setResizable(false);
-		agg.setResizable(false);
-		agg.setSortable(false);
+		anno.setResizable(false);
+		anno.setSortable(false);
 		
 		//Inserisco i dati alla tabella (riempie tutte le celle automaticamente
 		//grazie al factory precedentemente associato
