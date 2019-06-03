@@ -7,7 +7,7 @@ public class Caserma {
 	private String id;
 	private String citta;
 	private int cisterna;
-	private DistaccamentoProvinciale provincia;
+	private DistaccamentoProvinciale provincia = null;
 	private List<Mezzo> mezzi;
 	
 	public Caserma(String id,String citta, int cisterna, List<Mezzo> mezzi) {
