@@ -5,6 +5,6 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/home/linx/git/Gruppo6-Progetto/sqlite-jdbc-3.27.2.1.jar"/>
+	<classpathentry kind="lib" path="sqlite-jdbc-3.27.2.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
