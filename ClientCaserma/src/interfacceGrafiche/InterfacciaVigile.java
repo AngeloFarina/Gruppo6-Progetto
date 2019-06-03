@@ -7,7 +7,6 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -24,6 +23,7 @@ import model.TabellaCapoSquadra;
 import model.TabellaVigile;
 
 public class InterfacciaVigile extends BorderPane{
+	@SuppressWarnings("rawtypes")
 	private TableView table = null;
 	private ImageView auto = null;
 	private ImageView posizione = null;
@@ -69,6 +69,7 @@ public class InterfacciaVigile extends BorderPane{
 		setTop(top());
 	}
 
+	@SuppressWarnings("rawtypes")
 	private void initComponents() {
 		table = new TableView();
 		
@@ -85,6 +86,7 @@ public class InterfacciaVigile extends BorderPane{
 		auto = new ImageView(new Image("./icone/Auto.png"));
 	}
 
+	@SuppressWarnings("static-access")
 	private Node top() {
 		//Hbox principale
 		HBox main = new HBox();
@@ -148,6 +150,7 @@ public class InterfacciaVigile extends BorderPane{
 		return main;
 	}
 
+	@SuppressWarnings("static-access")
 	private Node left() {
 		//Creo il vbox principale
 		VBox root = new VBox();
@@ -171,6 +174,7 @@ public class InterfacciaVigile extends BorderPane{
 		return root;
 	}
 
+	@SuppressWarnings("static-access")
 	private Node center() {
 		//Creo il vbox principale
 		VBox root = new VBox();
@@ -208,6 +212,7 @@ public class InterfacciaVigile extends BorderPane{
 		return root;
 	}
 
+	@SuppressWarnings("static-access")
 	private HBox setBottom() {
 		//Creo hox principale per la legenda
 		HBox res = new HBox();
@@ -269,6 +274,7 @@ public class InterfacciaVigile extends BorderPane{
 		return res;
 	}
 
+	@SuppressWarnings("static-access")
 	private HBox setTopCenter() {
 		//HBox principale
 		HBox res = new HBox();
@@ -354,6 +360,7 @@ public class InterfacciaVigile extends BorderPane{
 		return res;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void setTableView() {
 		//Dimensioni tabella
 		table.setPrefWidth(915);
@@ -391,7 +398,7 @@ public class InterfacciaVigile extends BorderPane{
 		tipologia.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,String>("tipo"));
 		stato.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,String>("stato"));
 		assegnazione.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,String>("assegnazione"));
-		anno.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,Button>("anno"));
+		anno.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,String>("anno"));
 		icona.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,ImageView>("image"));
 		
 		//Aggiunta colonne alla tabella

@@ -51,7 +51,8 @@ public class ControllerClientCaserma {
         			rs.getString("tipo"),
         			rs.getString("id"),
         			rs.getString("stato"),
-        			rs.getString("assegnazione")));
+        			rs.getString("assegnazione"),
+        			rs.getInt("anno")+""));
         	mezziVigile.addAll(new TabellaVigile(rs.getString("tipo"),
         			rs.getString("id"),
         			rs.getString("stato"),

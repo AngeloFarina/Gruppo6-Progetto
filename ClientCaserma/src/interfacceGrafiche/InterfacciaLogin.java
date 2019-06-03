@@ -4,11 +4,8 @@ package interfacceGrafiche;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.rmi.Naming;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,9 +35,6 @@ public final class InterfacciaLogin extends BorderPane{
 	private PasswordField password;
 	private Button loginButton;
 	private static Insets PADDING = new Insets(10);
-	private static int REGISTRYPORT = 1099;
-	private static String registryHost = "localhost";
-	private static String serviceName = "Broker";
 	
 	
 	public InterfacciaLogin() {
@@ -192,6 +186,7 @@ public final class InterfacciaLogin extends BorderPane{
 		outSock.writeUTF("login");
 		outSock.writeUTF(username.getText()+";"+password.getText());
 		String ruolo = inSock.readUTF().split(";")[0];
+		clientSocket.close();
 		if(ruolo.equals("caposquadra"))
 			setNewStageCapoSquadra();
 		else if(ruolo.equals("vigile"))
