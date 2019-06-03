@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -29,7 +30,8 @@ public class ControllerClientCaserma {
 	
 	private void init() throws SQLException {
 		ObservableList<Prova> result = FXCollections.observableArrayList();
-		String dbUri = "jdbc:sqlite:C:\\Users\\Paolo\\git\\Gruppo6-Progetto\\ClientCaserma\\vigilidb";
+		File f = new File("vigilidb");
+		String dbUri = "jdbc:sqlite:"+f.getAbsolutePath();
 		Connection db = null;
 		db = DriverManager.getConnection(dbUri);
 		Statement stmt  = db.createStatement();

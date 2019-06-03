@@ -30,6 +30,7 @@ public class CapoSquadraApplication extends Application {
 	
 	public static void main(String args[]) {
 		launch(args);
+		System.out.println("bella ragazzi");
 	}
 	
 }
