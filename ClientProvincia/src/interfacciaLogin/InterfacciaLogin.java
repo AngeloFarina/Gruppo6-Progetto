@@ -15,6 +15,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
 public class InterfacciaLogin extends BorderPane{
 	private TextField username;
@@ -26,12 +27,13 @@ public class InterfacciaLogin extends BorderPane{
 	public InterfacciaLogin() {
 		username = new TextField();
 		password = new PasswordField();
-		username.setOnMousePressed(this::textUsHandler);
-		password.setOnMousePressed(this::textPwHandler);
-		password.setText("**********");
+		//username.setOnMousePressed(this::textUsHandler);
+		//password.setOnMousePressed(this::textPwHandler);
+		password.setPromptText("**********");
 		username.setFont(new Font("System Italic",15));
-		username.setText("Inserisci username...");
+		username.setPromptText("Inserisci username...");
 		loginButton = new Button("ENTRA");
+		loginButton.setOnAction(this::buttonHandler);
 		initGUI();
 	}
 
@@ -125,6 +127,12 @@ public class InterfacciaLogin extends BorderPane{
 	
 	private EventHandler<Event> textPwHandler(Event e){
 		password.setText("");
+		return null;
+	}
+	
+	private EventHandler<Event> buttonHandler(Event e){
+		Stage s = (Stage)loginButton.getScene().getWindow();
+		s.close();
 		return null;
 	}
 	
