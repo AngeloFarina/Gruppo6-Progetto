@@ -1,8 +1,9 @@
 package interfacce;
 
-import model.Mezzo;
-import model.RichiestaSostituzione;
+import java.util.List;
+
+import model.Manutenzione;
 
 public interface IStoricoManutenzioni {
-	public void effettuaSostizione(Mezzo m, RichiestaSostituzione r);
+	public List<Manutenzione> listaManutenzioni();
 }

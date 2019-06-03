@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.File;
 import java.io.Writer;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -25,7 +26,9 @@ public class Controller {
 	private Connection openConnection(String connString) throws PersistenceException {
 		String dbUri;
 
-		dbUri = "jdbc:sqlite:C:\\Users\\Paolo\\git\\Gruppo6-Progetto\\ServerProvincia\\src\\controller\\vigilidb";
+		File f = new File("src/controller/vigilidb");
+		System.out.println("Absolute path: "+f.getAbsolutePath());
+		dbUri = "jdbc:sqlite:"+f.getAbsolutePath();
 		
 		try {
 		    dbConnection = DriverManager.getConnection(dbUri);
