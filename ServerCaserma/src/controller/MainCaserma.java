@@ -1,15 +1,23 @@
 package controller;
 
+import java.io.DataInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.SQLException;
+import java.util.List;
+
+import model.Mezzo;
 
 public class MainCaserma {
 	public static final int PORT = 1050;
 
-	public static void main(String[] args) {
-		GestioneMezziCasermaController gestoreMezzi = new GestioneMezziCasermaController("bho", "bhobhobhbo", "bhobhobho");
+	public static void main(String[] args) throws SQLException {
+		GestioneMezziCasermaController gestore = new GestioneMezziCasermaController("bho", "bhobhobhbo", "bhobhobho");
+		VisualizzaMezziCasermaController visualizza = new VisualizzaMezziCasermaController("","","");
 		ServerSocket serverSocket = null;
 	    Socket clientSocket = null;
+		String idProvincia="";
 	    try {
 	    	serverSocket = new ServerSocket(PORT);
 	    	serverSocket.setReuseAddress(true);
@@ -25,24 +33,35 @@ public class MainCaserma {
 
 	    	while (true) {
 	    		System.out.println("Server: in attesa di richieste...\n");
-
+	    		DataInputStream inSock = null;
+				ObjectOutputStream outSock = null;
 	    		try {
 	    			// bloccante fino ad una pervenuta connessione
 	    			clientSocket = serverSocket.accept();
 	    			clientSocket.setSoTimeout(30000);
 	    			System.out.println("Server: connessione accettata: " + clientSocket);
+
 	    		}
 	    		catch (Exception e) {
 	    			System.err.println("Server: problemi nella accettazione della connessione: "+ e.getMessage());
 	    			e.printStackTrace();
 	    			continue;
 	    		}
-	    		
-	    		try {
-	    			
-	    		}
+	    		//FUNZIONAMENTO DEL PROGRAMMA
+				try {
+					inSock = new DataInputStream(clientSocket.getInputStream());
+					outSock = new ObjectOutputStream(clientSocket.getOutputStream());
+					idProvincia = inSock.readUTF();
+					
+					if(idProvincia == null)
+						outSock.writeObject(null);
+				
+					List<Mezzo> result = visualizza.visualizzaMezzi(idProvincia);
+					outSock.writeObject(result);
+		        }
 	    		catch (Exception e) {
-	    			System.err.println("Server: problemi nel server thread: " + e.getMessage());
+	    			System.err.println("Server: problemi nel server thread: "
+	    					+ e.getMessage());
 	    			e.printStackTrace();
 	    			continue;
 	    		}
