@@ -1,18 +1,23 @@
 package controller;
 
-import java.io.File;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import model.Mezzo;
 import model.TabellaCapoSquadra;
 import model.TabellaVigile;
 
 public class ControllerClientCaserma {
+	private static final int BROKERPORT = 1051;
 	private ObservableList<TabellaCapoSquadra> mezziCapo = null;
 	private ObservableList<TabellaVigile> mezziVigile = null;
 	private String idCaserma = null;
@@ -28,49 +33,40 @@ public class ControllerClientCaserma {
 		this.nome=nome;
 		mezziCapo = FXCollections.observableArrayList();
 		mezziVigile = FXCollections.observableArrayList();
-		init();
+		try {
+			init();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
-	private void init() throws SQLException {
+	private void init() throws UnknownHostException, IOException, ClassNotFoundException {
 		ObservableList<TabellaCapoSquadra> mezziCapo = FXCollections.observableArrayList();
 		ObservableList<TabellaVigile> mezziVigile = FXCollections.observableArrayList();
-		File f = new File("vigilidb");
-		String dbUri = "jdbc:sqlite:"+f.getAbsolutePath();
-		Connection db = null;
-		db = DriverManager.getConnection(dbUri);
-		Statement stmt  = db.createStatement();
-		String sql = "SELECT M.* " + 
-				"FROM Caserma C, Mezzo M " + 
-				"WHERE M.idCaserma=C.id and C.id='"+idCaserma+ 
-				"' group by M.id ";
-		ResultSet rs = stmt.executeQuery(sql);
-		int totMezzi = 0,man=0;
-		while (rs.next()) {
-			totMezzi++;
-        	mezziCapo.addAll(new TabellaCapoSquadra(
-        			rs.getString("tipo"),
-        			rs.getString("id"),
-        			rs.getString("stato"),
-        			rs.getString("assegnazione"),
-        			rs.getInt("anno")+""));
-        	mezziVigile.addAll(new TabellaVigile(rs.getString("tipo"),
-        			rs.getString("id"),
-        			rs.getString("stato"),
-        			rs.getString("assegnazione"),
-        			rs.getInt("anno")+""));
-        	if(rs.getString("stato").contentEquals("IN MANUTENZIONE"))
-        		man++;
-        }
-		this.man=man;
-		this.totMezzi=totMezzi;
-		rs = stmt.executeQuery("SELECT * FROM CASERMA WHERE ID='" + idCaserma +"'");
-		if(rs.next()) {
-			this.nomeCaserma=rs.getString("nome");
-			this.luogoCaserma = rs.getString("luogo");
-			this.carburante= rs.getInt("cisterna");
+		Socket clientSocket = new Socket("localhost",BROKERPORT);
+		System.out.println("ClientLogin: creata Socket: " +clientSocket.getLocalSocketAddress());
+		DataOutputStream outSock = new DataOutputStream(clientSocket.getOutputStream());
+		ObjectOutputStream outObj = new ObjectOutputStream(clientSocket.getOutputStream());
+		ObjectInputStream inObj = new ObjectInputStream(clientSocket.getInputStream());
+		outSock.writeUTF("localhost");
+		outSock.writeUTF("localhost");
+		outSock.writeUTF("mezziCasermaCaserma");
+		List<String> param = new ArrayList<String>();
+		param.add(idCaserma);
+		outObj.writeObject(param);
+		System.out.println("Sto per ricevere i parametri");
+		List<Mezzo> mezzi = new ArrayList<Mezzo>((List<Mezzo>)inObj.readObject());
+		for(Mezzo m : mezzi) {
+			mezziCapo.add(new TabellaCapoSquadra(m.getTipo(), m.getId(), m.getStato(), m.getAssegnazione(), m.getAnno() +""));
+			mezziVigile.add(new TabellaVigile(m.getTipo(),m.getId(),m.getStato(),m.getAssegnazione(),m.getAnno()+""));
 		}
-		this.mezziCapo.addAll(mezziCapo);
-		this.mezziVigile.addAll(mezziVigile);
 	}
 	
 	public ObservableList<TabellaCapoSquadra> caricaMezziCapo() {

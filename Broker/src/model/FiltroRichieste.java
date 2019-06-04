@@ -55,7 +55,7 @@ public class FiltroRichieste {
 				//String c = inSock.readUTF();
 				//System.out.println("Letti a b c");
 				ObjectInputStream inObj = new ObjectInputStream(clientSocket.getInputStream());
-				List<String> d = (List<String>)inObj.readObject();
+				List<Object> d = (List<Object>)inObj.readObject();
 				System.out.println("Letti parametri");
 				ric = new RichiestaServizio("localhost","localhost","clientLogin",d);
 				//clientSocket.shutdownInput();

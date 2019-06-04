@@ -46,7 +46,7 @@ class Server_Thread extends Thread {
 			try {
 				//Pattern di invio: ipSorgente, ipDestinarario, servizio, List<Object> parametri
 				String ipSorg,ipDest,servizio;
-				List<String> params = null;
+				List<Object> params = null;
 				System.out.println("Inizio ad eseguire");
 				ipSorg = inSock.readUTF();
 				System.out.println("Ho letto ipSorgente" + ipSorg);
@@ -67,7 +67,7 @@ class Server_Thread extends Thread {
 				ipDest = inSock.readUTF();
 				System.out.println("Letto ipDest " + ipDest);
 				servizio = inSock.readUTF();
-				params = new ArrayList<String>((List<String>)inObj.readObject());
+				params = new ArrayList<Object>((List<Object>)inObj.readObject());
 				richiesta = new RichiestaServizio(ipSorg,ipDest,servizio,params);
 				richiesta = filtroRichieste.gestisci(richiesta);
 				if(richiesta==null) {

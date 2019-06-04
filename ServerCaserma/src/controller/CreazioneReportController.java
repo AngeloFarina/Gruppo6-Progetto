@@ -19,7 +19,7 @@ public class CreazioneReportController extends Controller implements ICreazioneR
 	public void creaReport(Report r) {
 		Statement stmt;
 		try {
-			Connection db =getConnection();
+			Connection db = getConnection();
 			stmt = db.createStatement();
 			String sql = "INSERT INTO report (id,kmEffettuati,carburanteConsumato,descrizione,tipologiaUscita,dataOra) "+
 						"VALUES ('"+r.getId()+"',"+"'"+r.getKmEffettuati()+"',"+"'"+r.getCarburanteConsumato()+"',"+"'"+r.getDescrizione()+"','"+ r.getTipologiaUscita()+"',"+

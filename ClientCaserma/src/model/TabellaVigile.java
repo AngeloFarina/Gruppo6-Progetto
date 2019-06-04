@@ -13,16 +13,16 @@ public class TabellaVigile {
 	private ImageView stato;
 	private ImageView assegnazione;
 	
-	public TabellaVigile(String tipo, String targa, String stato, String assegnazione,String anno) {
+	public TabellaVigile(String tipo, String targa, Stato stato, Assegnazione assegnazione,String anno) {
 		this.image = setImage(tipo);
 		this.anno= new SimpleStringProperty(anno);
 		this.tipo = new SimpleStringProperty(tipo);
 		this.targa =  new SimpleStringProperty(targa);
-		if(stato.contentEquals("DISPONIBILE"))
+		if(stato.equals(Stato.DISPONIBILE))
 			this.stato = new ImageView( new Image("icone/TickVerde.png"));
 		else
 			this.stato = new ImageView(new Image("icone/TickRossa.png"));
-		if(assegnazione.equals("PROPRIO"))
+		if(assegnazione.equals(Assegnazione.PROPRIO))
 			this.assegnazione = new ImageView(new Image("icone/TickBlu.png"));
 		else
 			this.assegnazione=  new ImageView(new Image("icone/TickGialla.png"));
@@ -92,7 +92,7 @@ public class TabellaVigile {
 	}
 
 	public void setStato(String stato) {
-		if(stato.contentEquals("DISPONIBILE"))
+		if(stato.equals("DISPONIBILE"))
 			this.stato = new ImageView( new Image("icone/TickVerde.png"));
 		else
 			this.stato = new ImageView(new Image("icone/TickRossa.png"));

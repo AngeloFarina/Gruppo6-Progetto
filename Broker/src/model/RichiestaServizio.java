@@ -6,9 +6,9 @@ public class RichiestaServizio {
 	private String sorgente;
 	private String destinatario;
 	private String servizio;
-	private List<String> parametri;
+	private List<Object> parametri;
 	
-	public RichiestaServizio(String sorgente, String destinatario, String servizio, List<String> parametri) {
+	public RichiestaServizio(String sorgente, String destinatario, String servizio, List<Object> parametri) {
 		this.sorgente = sorgente;
 		this.destinatario = destinatario;
 		this.servizio = servizio;
@@ -27,7 +27,7 @@ public class RichiestaServizio {
 		return servizio;
 	}
 
-	public List<String> getParametri() {
+	public List<Object> getParametri() {
 		return parametri;
 	}
 	

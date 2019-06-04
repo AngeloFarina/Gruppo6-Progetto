@@ -1,6 +1,8 @@
 package controller;
 
+import java.io.File;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -20,7 +22,6 @@ public class VisualizzaMezziCasermaController extends Controller implements IVis
 	@Override
 	public List<Mezzo> visualizzaMezzi(String idCaserma) throws SQLException{
 		List<Mezzo> result = new ArrayList<Mezzo>();
-		
 		Connection db = getConnection();
 		Statement stmt  = db.createStatement();
 		String sql = "SELECT M.* " + 
