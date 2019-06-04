@@ -6,13 +6,12 @@ import model.Manutenzione;
 import model.Mezzo;
 
 public class GestioneMezziCasermaController extends Controller implements IGestioneMezzi{
-<<<<<<< HEAD
+
 	private RichiestaSostituzione richiestaSostituzione = new RichiestaSostituzione();
-=======
+
 
 	private RichiestaManutenzioneController manutenzione;
 	private RichiestaSostituzioneController sostituzione;
->>>>>>> branch 'master' of https://github.com/AngeloFarina/Gruppo6-Progetto.git
 	
 	public GestioneMezziCasermaController(String connString, String pathFileOp, String pathFileMsg) {
 		super(connString, pathFileOp, pathFileMsg);
