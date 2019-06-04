@@ -1,14 +1,14 @@
 package model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Sessione {
 	private String ruolo;
-	private LocalDate dataCreazione;
-	private LocalDate dataScadenza;
+	private LocalDateTime dataCreazione;
+	private LocalDateTime dataScadenza;
 	private String ipClient;
 	
-	public Sessione(String ruolo, LocalDate dataCreazione, LocalDate dataScadenza, String ipClient) {
+	public Sessione(String ruolo, LocalDateTime dataCreazione, LocalDateTime dataScadenza, String ipClient) {
 		this.ruolo = ruolo;
 		this.dataCreazione = dataCreazione;
 		this.dataScadenza = dataScadenza;
@@ -19,11 +19,11 @@ public class Sessione {
 		return ruolo;
 	}
 
-	public LocalDate getDataCreazione() {
+	public LocalDateTime getDataCreazione() {
 		return dataCreazione;
 	}
 
-	public LocalDate getDataScadenza() {
+	public LocalDateTime getDataScadenza() {
 		return dataScadenza;
 	}
 

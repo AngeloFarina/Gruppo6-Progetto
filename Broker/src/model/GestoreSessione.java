@@ -2,7 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+//import java.util.Random;
 
 public class GestoreSessione {
 	//Pattern Singleton
@@ -19,12 +19,12 @@ public class GestoreSessione {
 	}
 	
 	public String creaSessione(Sessione s) {
-		SessioniAttive sa = new SessioniAttive(generaChiave(),s);
+		SessioniAttive sa = new SessioniAttive(s.getIpClient(),s);
 		this.sessioniAttive.add(sa);
-		return sa.getChiave();
+		return s.getIpClient();
 	}
 	
-	private String generaChiave() {
+	/*private String generaChiave() {
 		Random rand = new Random();
 		StringBuffer tempStr = new StringBuffer();
 		tempStr.append("");
@@ -41,7 +41,7 @@ public class GestoreSessione {
 				return generaChiave();
 		}
 		return tempStr.toString();
-	}
+	}*/
 
 	public Sessione verificaSessione(String s) {
 		for(SessioniAttive sa : sessioniAttive) {

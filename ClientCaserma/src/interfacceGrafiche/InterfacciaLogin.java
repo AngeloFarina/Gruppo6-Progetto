@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import controller.ControllerClientCaserma;
+import controller.ControllerLoginCaserma;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -35,12 +36,13 @@ public final class InterfacciaLogin extends BorderPane{
 	private PasswordField password;
 	private Button loginButton;
 	private static Insets PADDING = new Insets(10);
-	
+	private ControllerLoginCaserma controllerLoginCaserma;
 	
 	public InterfacciaLogin() {
 		username = new TextField();
 		password = new PasswordField();
 		loginButton = new Button("ENTRA");
+		controllerLoginCaserma = new ControllerLoginCaserma();
 		initComponenti();
 		initGUI();
 	}
@@ -166,67 +168,18 @@ public final class InterfacciaLogin extends BorderPane{
 			a.show();
 		}
 		else {
-			try {
-				generaEInviaRichiesta();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+			generaEInviaRichiesta();
 		}
 		return null;
 	}
 
-	private void generaEInviaRichiesta() throws UnknownHostException, IOException {
-		List<Object> parametri = new ArrayList<Object>();
-		parametri.add(username.getText());
-		parametri.add(password.getText());
-		//Da togliere da qui
-		Socket clientSocket = new Socket("localhost",1051);
-		DataOutputStream outSock = new DataOutputStream(clientSocket.getOutputStream());
-		DataInputStream inSock = new DataInputStream(clientSocket.getInputStream());
-		outSock.writeUTF("login");
-		outSock.writeUTF(username.getText()+";"+password.getText());
-		String ruolo = inSock.readUTF().split(";")[0];
-		clientSocket.close();
-		if(ruolo.equals("caposquadra"))
-			setNewStageCapoSquadra();
-		else if(ruolo.equals("vigile"))
-			setNewStageVigile();
+	private void generaEInviaRichiesta() {
+		try {
+			controllerLoginCaserma.richiestaLogin(username.getText(), password.getText(),this.getScene().getWindow());
+		}  catch (Exception e) {
+			Alert a  = new Alert(AlertType.WARNING,"Errore login");
+		}
 	}
 
-	private void setNewStageVigile() {
-		Stage s = (Stage) loginButton.getScene().getWindow();
-		s.close();
-		s.setTitle("Gestione Mezzi Vigili del Fuoco");
-		InterfacciaVigile root = null;
-		try {
-			root = new InterfacciaVigile(new ControllerClientCaserma("MO002","Gianni Morandi"));
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		root.setPrefSize(1280, 720);
-		Scene scene = new Scene(root, 1280,720,Color.WHITE);
-		s.setScene(scene);
-		s.setResizable(false);
-		s.show();
-	}
-
-	private void setNewStageCapoSquadra() {
-		Stage s = (Stage) loginButton.getScene().getWindow();
-		s.close();
-		s.setTitle("Gestione Mezzi Vigili del Fuoco");
-		InterfacciaCapoSquadra root = null;
-		try {
-			root = new InterfacciaCapoSquadra(new ControllerClientCaserma("BO001","Mario Rossi"));
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		root.setPrefSize(1280, 720);
-		Scene scene = new Scene(root, 1280,720,Color.WHITE);
-		s.setScene(scene);
-		s.setResizable(false);
-		s.show();
-	}
-	
 	
 }
