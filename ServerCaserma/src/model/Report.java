@@ -9,14 +9,22 @@ public class Report {
 	private String descrizione;
 	private String tipologiaUscita;
 	private Date dataOra;
+	private String idCaserma;
 	public Report(String id, int kmEffettuati, int carburanteConsumato, String descrizione, String tipologiaUscita,
-			Date dataOra) {
+			Date dataOra, String idCaserma) {
 		this.id = id;
 		this.kmEffettuati = kmEffettuati;
 		this.carburanteConsumato = carburanteConsumato;
 		this.descrizione = descrizione;
 		this.tipologiaUscita = tipologiaUscita;
 		this.dataOra = dataOra;
+		this.idCaserma=idCaserma;
+	}
+	public String getIdCaserma() {
+		return idCaserma;
+	}
+	public void setIdCaserma(String idCaserma) {
+		this.idCaserma = idCaserma;
 	}
 	public String getId() {
 		return id;
@@ -58,7 +66,7 @@ public class Report {
 	public String toString() {
 		return "Report [id=" + id + ", kmEffettuati=" + kmEffettuati + ", carburanteConsumato=" + carburanteConsumato
 				+ ", descrizione=" + descrizione + ", tipologiaUscita=" + tipologiaUscita + ", dataOra=" + dataOra
-				+ "]";
+				+ ", idCaserma=" + idCaserma + "]";
 	}
 	
 	
