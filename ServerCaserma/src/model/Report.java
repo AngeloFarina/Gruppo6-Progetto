@@ -1,6 +1,6 @@
 package model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Report {
 	private String id;
@@ -8,10 +8,10 @@ public class Report {
 	private int carburanteConsumato;
 	private String descrizione;
 	private Tipo tipo;
-	private Date dataOra;
+	private LocalDate dataOra;
 	private String idCaserma;
 	public Report(String id, int kmEffettuati, int carburanteConsumato, String descrizione, Tipo tipo,
-			Date dataOra, String idCaserma) {
+			LocalDate dataOra, String idCaserma) {
 		this.id = id;
 		this.kmEffettuati = kmEffettuati;
 		this.carburanteConsumato = carburanteConsumato;
@@ -56,10 +56,10 @@ public class Report {
 	public void setTipo(Tipo tipo) {
 		this.tipo = tipo;
 	}
-	public Date getDataOra() {
+	public LocalDate getDataOra() {
 		return dataOra;
 	}
-	public void setDataOra(Date dataOra) {
+	public void setDataOra(LocalDate dataOra) {
 		this.dataOra = dataOra;
 	}
 	@Override
