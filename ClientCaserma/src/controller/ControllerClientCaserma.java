@@ -52,7 +52,7 @@ public class ControllerClientCaserma {
 		ObservableList<TabellaCapoSquadra> mezziCapo = FXCollections.observableArrayList();
 		ObservableList<TabellaVigile> mezziVigile = FXCollections.observableArrayList();
 		Socket clientSocket = new Socket("localhost",BROKERPORT);
-		System.out.println("ClientLogin: creata Socket: " +clientSocket.getLocalSocketAddress());
+		System.out.println("ClientCaserma: creata Socket: " +clientSocket.getLocalSocketAddress());
 		DataOutputStream outSock = new DataOutputStream(clientSocket.getOutputStream());
 		ObjectOutputStream outObj = new ObjectOutputStream(clientSocket.getOutputStream());
 		ObjectInputStream inObj = new ObjectInputStream(clientSocket.getInputStream());
@@ -62,12 +62,12 @@ public class ControllerClientCaserma {
 		List<String> param = new ArrayList<String>();
 		param.add(idCaserma);
 		outObj.writeObject(param);
-		System.out.println("Sto per ricevere i parametri");
 		List<Object> dati = new ArrayList<Object>((List<Object>)inObj.readObject());
 		clientSocket.close();
 		List<Mezzo> mezzi = new ArrayList<Mezzo>((List<Mezzo>)dati.get(0));
 		List<String> infoCaserma = new ArrayList<String>((List<String>)dati.get(1));
 		System.out.println("Ricevuti i mezzi: " + mezzi);
+		System.out.println("Ricevute info: " + infoCaserma);
 		for(Mezzo m : mezzi) {
 			totMezzi++;
 			if(m.getStato().equals(Stato.NONDISPONIBILE))

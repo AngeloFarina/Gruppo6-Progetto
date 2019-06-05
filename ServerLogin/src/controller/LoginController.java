@@ -48,7 +48,6 @@ public class LoginController extends Controller implements ILogin{
 			sb.append("</utente>");
 			return sb.toString();
 		}*/
-		System.out.println("CIAOIOASIDOLAISDKSUJ\n");
 		StringTokenizer st = new StringTokenizer(utenti,"\n");
 		while(st.hasMoreTokens()) {
 			StringTokenizer temp = new StringTokenizer(st.nextToken(),";");
@@ -65,3 +64,4 @@ public class LoginController extends Controller implements ILogin{
 		return result;
 	}
 }
+	

@@ -15,6 +15,7 @@ import java.util.List;
 
 import interfacceGrafiche.InterfacciaCapoSquadra;
 import interfacceGrafiche.InterfacciaVigile;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -42,7 +43,6 @@ public class ControllerLoginCaserma {
 		param.add(password);
 		outObj.writeObject(param);
 		String ruolo,nome,id;
-		System.out.println("Sto per ricevere i parametri");
 		param = new ArrayList<String>((List<String>)inObj.readObject());
 		ruolo = param.get(2);
 		nome = param.get(3);
@@ -86,6 +86,10 @@ public class ControllerLoginCaserma {
 		Scene scene = new Scene(root, 1280,720,Color.WHITE);
 		s.setScene(scene);
 		s.setResizable(false);
+		s.setOnCloseRequest((e) -> {
+			Platform.exit();
+			System.exit(0);
+		});
 		s.show();
 	}
 	
