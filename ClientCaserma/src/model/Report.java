@@ -7,16 +7,16 @@ public class Report {
 	private int kmEffettuati;
 	private int carburanteConsumato;
 	private String descrizione;
-	private String tipologiaUscita;
+	private Tipo tipo;
 	private Date dataOra;
 	private String idCaserma;
-	public Report(String id, int kmEffettuati, int carburanteConsumato, String descrizione, String tipologiaUscita,
+	public Report(String id, int kmEffettuati, int carburanteConsumato, String descrizione, Tipo tipo,
 			Date dataOra, String idCaserma) {
 		this.id = id;
 		this.kmEffettuati = kmEffettuati;
 		this.carburanteConsumato = carburanteConsumato;
 		this.descrizione = descrizione;
-		this.tipologiaUscita = tipologiaUscita;
+		this.tipo = tipo;
 		this.dataOra = dataOra;
 		this.idCaserma=idCaserma;
 	}
@@ -50,11 +50,11 @@ public class Report {
 	public void setDescrizione(String descrizione) {
 		this.descrizione = descrizione;
 	}
-	public String getTipologiaUscita() {
-		return tipologiaUscita;
+	public Tipo getTipo() {
+		return tipo;
 	}
-	public void setTipologiaUscita(String tipologiaUscita) {
-		this.tipologiaUscita = tipologiaUscita;
+	public void setTipo(Tipo tipo) {
+		this.tipo = tipo;
 	}
 	public Date getDataOra() {
 		return dataOra;
