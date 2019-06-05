@@ -2,8 +2,11 @@ package interfacceGrafiche;
 
 
 
+import java.sql.SQLException;
+
 import controller.ControllerClientCaserma;
 import controller.ControllerReport;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.geometry.Insets;
@@ -42,6 +45,9 @@ public class InterfacciaCapoSquadra extends BorderPane{
 	private ImageView report = null;
 	private ImageView impostazioni = null;
 	
+	private VBox v3 = null;
+	private HBox h3 = null;
+	
 	private Label totMezzi = null;
 	private Label inManutenzione = null;
 	private Label livelloCarb = null;
@@ -53,16 +59,39 @@ public class InterfacciaCapoSquadra extends BorderPane{
 	
 	public InterfacciaCapoSquadra(ControllerClientCaserma controller) {
 		this.controller=controller;
+		refresh();
+		initGUI();
+	}
+
+	@SuppressWarnings("unchecked")
+	private void refresh() {
+		  new Thread(() -> {
+		    while(true) {
+		       try {
+		          Thread.sleep(10000); // Wait for 10 secs before updating items
+		       } catch (InterruptedException e) {
+		          e.printStackTrace();
+		       }
+		       Platform.runLater(() -> {
+		    	   try {
+				    	controller = new ControllerClientCaserma(controller.getIdCaserma(),controller.getNome());
+						initGUI();
+		    	   } catch (SQLException e) {
+		    		   	e.printStackTrace();
+		    	   }});// Update on JavaFX Application Thread
+		    	}
+		  	}).start();
+	}
+	
+	
+
+	private void initGUI() {
 		nome = new Label(controller.getNome());
 		caserma = new Label(controller.getCaserma());
 		totMezzi = new Label("" + controller.getTotMezzi());
 		litri = Integer.parseInt(controller.getLitri());
 		livelloCarb = new Label("" + litri);
 		inManutenzione = new Label("" + controller.getMan());
-		initGUI();
-	}
-
-	private void initGUI() {
 		
 		//Imposto le dimensioni del pane
 		this.setWidth(1280);
@@ -116,7 +145,6 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		posizione.setFitWidth(67);
 		posizione.setFitHeight(64);
 		posizione.setStyle("-fx-margin-left: 5; -fx-margin-bottom: 5; -fx-margin-left:10;");
-		caserma.setStyle("-fx-font: Arial");
 		caserma.setFont(Font.font(22));
 		caserma.setStyle("-fx-margin-top: 20;");
 		caserma.setPrefWidth(920);
@@ -297,7 +325,7 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		//Creo le tre vbox principali dentro all'hbox principale
 		VBox v1 = new VBox();
 		VBox v2 = new VBox();
-		VBox v3 = new VBox();
+		v3 = new VBox();
 		//Creo un padding equivalente a paddingTop=10, paddingLeft=10
 		v1.setPadding(new Insets(10,0,0,10));
 		v2.setPadding(new Insets(10,0,0,10));
@@ -344,7 +372,7 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		h2.getChildren().addAll(autoMan,inManutenzione);
 		
 		//Creo l'hbox della sezione livello di carburante
-		HBox h3 = new HBox();
+		h3 = new HBox();
 		
 		//Imposto le dimensioni dell'immagine della pompa del carburante
 		rifornimento.setSmooth(true);
@@ -464,6 +492,7 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		table.setItems(data);
 	}
 	
+	
 	//Report handler
 	public void reportHandler(Event e) {
 		InterfacciaReport report = new InterfacciaReport(new ControllerReport(controller.getIdCaserma()));
@@ -473,5 +502,5 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		stage.setResizable(false);
 		stage.showAndWait();
 	}
-	
+
 }
