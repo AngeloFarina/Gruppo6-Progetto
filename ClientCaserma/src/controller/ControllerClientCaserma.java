@@ -13,6 +13,7 @@ import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Mezzo;
+import model.Stato;
 import model.TabellaCapoSquadra;
 import model.TabellaVigile;
 
@@ -26,7 +27,7 @@ public class ControllerClientCaserma {
 	private String nome = null;
 	private int totMezzi=0;
 	private int man=0;
-	private int carburante=0;
+	private String carburante="0";
 	
 	public ControllerClientCaserma(String idCaserma,String nome) throws SQLException {
 		this.idCaserma=idCaserma;
@@ -62,14 +63,23 @@ public class ControllerClientCaserma {
 		param.add(idCaserma);
 		outObj.writeObject(param);
 		System.out.println("Sto per ricevere i parametri");
-		List<Mezzo> mezzi = new ArrayList<Mezzo>((List<Mezzo>)inObj.readObject());
+		List<Object> dati = new ArrayList<Object>((List<Object>)inObj.readObject());
+		clientSocket.close();
+		List<Mezzo> mezzi = new ArrayList<Mezzo>((List<Mezzo>)dati.get(0));
+		List<String> infoCaserma = new ArrayList<String>((List<String>)dati.get(1));
 		System.out.println("Ricevuti i mezzi: " + mezzi);
 		for(Mezzo m : mezzi) {
+			totMezzi++;
+			if(m.getStato().equals(Stato.NONDISPONIBILE))
+				man++;
 			mezziCapo.add(new TabellaCapoSquadra(m.getTipo(), m.getId(), m.getStato(), m.getAssegnazione(), m.getAnno() +""));
 			mezziVigile.add(new TabellaVigile(m.getTipo(),m.getId(),m.getStato(),m.getAssegnazione(),m.getAnno()+""));
 		}
 		this.mezziCapo.addAll(mezziCapo);
 		this.mezziVigile.addAll(mezziVigile);
+		nomeCaserma = infoCaserma.get(0);
+		luogoCaserma = infoCaserma.get(1);
+		carburante = infoCaserma.get(2);
 	}
 	
 	
@@ -99,7 +109,7 @@ public class ControllerClientCaserma {
 		return man;
 	}
 	
-	public int getLitri () {
+	public String getLitri () {
 		return carburante;
 	}
 	

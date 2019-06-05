@@ -4,6 +4,7 @@ package interfacceGrafiche;
 
 import controller.ControllerClientCaserma;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -52,7 +53,7 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		nome = new Label(controller.getNome());
 		caserma = new Label(controller.getCaserma());
 		totMezzi = new Label("" + controller.getTotMezzi());
-		litri = controller.getLitri();
+		litri = Integer.parseInt(controller.getLitri());
 		livelloCarb = new Label("" + litri);
 		inManutenzione = new Label("" + controller.getMan());
 		initGUI();
@@ -80,6 +81,7 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		//Inizializzazione di tutte le icone/immagini
 		impostazioni = new ImageView(new Image("./icone/Impostazioni.png"));
 		report = new ImageView(new Image("./icone/Documenti.png"));
+		report.setOnMouseClicked(this::reportHandler);
 		rifornimento = new ImageView(new Image("./icone/Rifornimento.png"));
 		tickVerde = new ImageView(new Image("./icone/TickVerde.png"));
 		//tickGrigia = new ImageView(new Image("./icone/TickGrigia.png"));
@@ -344,8 +346,14 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		rifornimento.setSmooth(true);
 		rifornimento.setFitWidth(35);
 		rifornimento.setFitHeight(31);
-		if(this.litri<=300)
+		if(this.litri<=300) {
 			livelloCarb.setTextFill(Color.DARKRED);
+			ImageView attenzione = new ImageView(new Image("./icone/RifornimentoScarso.png"));
+			attenzione.setSmooth(true);
+			attenzione.setFitWidth(35);
+			attenzione.setFitHeight(31);
+			h3.getChildren().add(attenzione);
+		}
 
 		//Aggiungo all'hbox della sezione del rifornimento l'immagine
 		//della pompa del carburante e il livello attuale
@@ -357,11 +365,10 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		v2.getChildren().addAll(l2,h2);
 		v3.getChildren().addAll(l3,h3);
 		if(this.litri<=300) {
-			ImageView attenzione = new ImageView(new Image("./icone/RifornimentoScarso.png"));
-			attenzione.setSmooth(true);
-			attenzione.setFitWidth(35);
-			attenzione.setFitHeight(31);
-			v3.getChildren().add(attenzione);
+			Label alert = new Label("RICHIESTA RIFORNIMENTO\nAUTOMATICA EFFETTUATA");
+			alert.setTextFill(Color.DARKRED);
+			v3.getChildren().add(alert);
+			v3.setStyle("-fx-border-color: red");
 		}
 		
 		//Imposto i margini dei label come marginTop=10 e marginLeft=10
@@ -451,6 +458,12 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		//Inserisco i dati alla tabella (riempie tutte le celle automaticamente
 		//grazie al factory precedentemente associato
 		table.setItems(data);
+	}
+	
+	//Report handler
+	public void reportHandler(Event e) {
+		VBox reportDialog = new VBox();
+		
 	}
 	
 }

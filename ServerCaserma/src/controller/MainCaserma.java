@@ -7,7 +7,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import model.Mezzo;
 
@@ -19,7 +21,6 @@ public class MainCaserma {
 		VisualizzaMezziCasermaController visualizza = new VisualizzaMezziCasermaController("","","");
 		ServerSocket serverSocket = null;
 	    Socket clientSocket = null;
-		String idProvincia="";
 	    try {
 	    	serverSocket = new ServerSocket(PORT);
 	    	serverSocket.setReuseAddress(true);
@@ -60,15 +61,19 @@ public class MainCaserma {
 					List<String> param = (List<String>)inObj.readObject();
 					String idCaserma = param.get(0);
 					System.out.println("Guardo che richiesta di servizio ho: " + servizio);
+					List<Object> dati = null;
 					if(servizio.equals("mezziCasermaCaserma")) {
 						System.out.println("Eseguo visualizzaMezziCaserma");
-						outSock.writeObject(visualizza.visualizzaMezzi(idCaserma));
+						dati = new ArrayList<Object>();
+						dati.add(visualizza.visualizzaMezzi(idCaserma));
+						dati.add(getInformazioniCaserma(idCaserma));
+						outSock.writeObject(dati);
 					}
 					else if(servizio.equals("richiestaSost"))
 						outSock.writeObject(new ArrayList<Object>());
 					else if(servizio.equals("report"))
 						outSock.writeObject("litri cisterna");
-					System.out.println("Mandati i mezzi");
+					System.out.println("Mandate le informazioni: " + dati);
 		        }
 	    		catch (Exception e) {
 	    			System.err.println("ServerCaserma: problemi nel server thread: "
@@ -87,6 +92,11 @@ public class MainCaserma {
 	    	System.out.println("ServerCaserma: termino...");
 	    	System.exit(2);
 	    }
+	}
+
+	private static List<String> getInformazioniCaserma(String idCaserma) {
+		InformazioniCasermaController info = new InformazioniCasermaController("","","");
+		return info.getInformazioniCaserma(idCaserma);
 	}
 
 }

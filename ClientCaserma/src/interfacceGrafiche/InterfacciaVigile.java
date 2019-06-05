@@ -51,8 +51,7 @@ public class InterfacciaVigile extends BorderPane{
 		nome = new Label(controller.getNome());
 		caserma = new Label(controller.getCaserma());
 		totMezzi = new Label("" + controller.getTotMezzi());
-		//litri = controller.getLitri();
-		litri = 100;
+		litri = Integer.parseInt(controller.getLitri());
 		livelloCarb = new Label("" + litri);
 		inManutenzione = new Label("" + controller.getMan());
 		initGUI();
@@ -357,11 +356,12 @@ public class InterfacciaVigile extends BorderPane{
 		v1.getChildren().addAll(l1,h1);
 		v2.getChildren().addAll(l2,h2);
 		v3.getChildren().addAll(l3,h3);
-		Label alert = new Label("RICHIESTA DI RIFORNIMENTO\nAUTOMATICA EFFETTUATA");
-		alert.setTextFill(Color.DARKRED);
-		v3.getChildren().add(alert);
-		v3.setStyle("-fx-border-color: red");
-		
+		if(this.litri<=300) {
+			Label alert = new Label("RICHIESTA RIFORNIMENTO\nAUTOMATICA EFFETTUATA");
+			alert.setTextFill(Color.DARKRED);
+			v3.getChildren().add(alert);
+			v3.setStyle("-fx-border-color: red");
+		}
 		
 		//Imposto i margini dei label come marginTop=10 e marginLeft=10
 		h2.setMargin(inManutenzione, new Insets(10,0,0,10));
