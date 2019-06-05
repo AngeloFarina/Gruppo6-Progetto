@@ -113,4 +113,8 @@ public class ControllerClientCaserma {
 		return carburante;
 	}
 	
+	public String getIdCaserma() {
+		return this.idCaserma;
+	}
+	
 }
