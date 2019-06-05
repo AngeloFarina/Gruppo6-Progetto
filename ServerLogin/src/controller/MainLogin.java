@@ -49,13 +49,11 @@ public class MainLogin {
 	    		}
 	    		
 	    		try {
+	    			System.out.println("Inizio a verificare le credenziali");
 	    			outObj = new ObjectOutputStream(clientSocket.getOutputStream());
 	    			outSock = new DataOutputStream(clientSocket.getOutputStream());
 	    			inSock = new DataInputStream(clientSocket.getInputStream());
-	    			System.out.println("Mi aspetto di leggere dal FiltroRichiesta [IP="+clientSocket.getRemoteSocketAddress()+",PORT="+clientSocket.getLocalPort());
-	    			System.out.println("Leggo il servizio " +System.currentTimeMillis());
 	    			String servizio = inSock.readUTF();
-	    			System.out.println("Leggo i parametri " +System.currentTimeMillis());
 	    			inObj = new ObjectInputStream(inSock);
 	    			List<String> param = (List<String>) inObj.readObject();
 	    			//clientSocket.shutdownInput();
@@ -63,7 +61,6 @@ public class MainLogin {
 	    			//outSock.writeUTF("localhost");
 	    			//outSock.writeUTF("clientLogin");
 	    			//outSock.flush();
-	    			System.out.println("Aggiungo parametri " + gestore.verificaCredenziali(param.get(0),param.get(1)).split(";"));
 	    			param.add(gestore.verificaCredenziali(param.get(0),param.get(1)).split(";")[0]);
 	    			param.add(gestore.verificaCredenziali(param.get(0),param.get(1)).split(";")[1]);
 	    			param.add(gestore.verificaCredenziali(param.get(0),param.get(1)).split(";")[2]);

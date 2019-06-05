@@ -42,9 +42,8 @@ class Server_Thread extends Thread {
 				//Pattern di invio: ipSorgente, ipDestinarario, servizio, List<Object> parametri
 				String ipSorg,ipDest,servizio;
 				List<Object> params = null;
-				System.out.println("Inizio ad eseguire");
+				System.out.println("Inizio a processare la richiesta");
 				ipSorg = inSock.readUTF();
-				System.out.println("Ho letto ipSorgente" + ipSorg);
 					/*if (stringa.equals("login")) {
 						String credenziali = inSock.readUTF();
 						System.out.println("Ho letto credenziali " + credenziali);
@@ -60,7 +59,6 @@ class Server_Thread extends Thread {
 						System.out.println("FINITO " + utente);
 					}*/
 				ipDest = inSock.readUTF();
-				System.out.println("Letto ipDest " + ipDest);
 				servizio = inSock.readUTF();
 				params = new ArrayList<Object>((List<Object>)inObj.readObject());
 				richiesta = new RichiestaServizio(ipSorg,ipDest,servizio,params);
@@ -70,7 +68,6 @@ class Server_Thread extends Thread {
 					clientSocket.close();
 					System.exit(1);
 				}
-				System.out.println("Letti parametri: " + richiesta.getParametri());
 				outObject.writeObject(richiesta.getParametri());
 				outObject.flush();
 			} catch (EOFException eof) {

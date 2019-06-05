@@ -38,25 +38,20 @@ public class FiltroRichieste {
 			int port;
 			if( (port=getPort(r.getServizio()))>0) {
 				clientSocket = new Socket("localhost",port);
-				System.out.println("Informazioni socket local: " + clientSocket.getLocalSocketAddress()+ " remote: " + clientSocket.getRemoteSocketAddress());
 				DataOutputStream outSock = new DataOutputStream(clientSocket.getOutputStream());
-				System.out.println("Creati stream Broker filtro");
 				outSock.writeUTF(r.getServizio());
 				ObjectOutputStream outObj = new ObjectOutputStream(outSock);
 				outObj.writeObject(r.getParametri());
 				outSock.flush();
 				outObj.flush();
 				//clientSocket.shutdownOutput();
-				System.out.println("Fatto writeObject parametri " + System.currentTimeMillis());
 				//DataInputStream inSock = new DataInputStream(clientSocket.getInputStream());				
-				System.out.println("Creati in Socket");
 				//String a = inSock.readUTF();
 				//String b = inSock.readUTF();
 				//String c = inSock.readUTF();
 				//System.out.println("Letti a b c");
 				ObjectInputStream inObj = new ObjectInputStream(clientSocket.getInputStream());
 				List<Object> d = (List<Object>)inObj.readObject();
-				System.out.println("Letti parametri");
 				ric = new RichiestaServizio("localhost","localhost","clientLogin",d);
 				//clientSocket.shutdownInput();
 			}
