@@ -63,10 +63,13 @@ public class ControllerClientCaserma {
 		outObj.writeObject(param);
 		System.out.println("Sto per ricevere i parametri");
 		List<Mezzo> mezzi = new ArrayList<Mezzo>((List<Mezzo>)inObj.readObject());
+		System.out.println("Ricevuti i mezzi: " + mezzi);
 		for(Mezzo m : mezzi) {
 			mezziCapo.add(new TabellaCapoSquadra(m.getTipo(), m.getId(), m.getStato(), m.getAssegnazione(), m.getAnno() +""));
 			mezziVigile.add(new TabellaVigile(m.getTipo(),m.getId(),m.getStato(),m.getAssegnazione(),m.getAnno()+""));
 		}
+		this.mezziCapo.addAll(mezziCapo);
+		this.mezziVigile.addAll(mezziVigile);
 	}
 	
 	

@@ -1,6 +1,10 @@
 package model;
 
-public class Mezzo {
+import java.io.Serializable;
+
+public class Mezzo implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
 	private String id;
 	private String tipo;
 	private int anno;

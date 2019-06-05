@@ -1,5 +1,7 @@
 package model;
 
-public enum Assegnazione {
+import java.io.Serializable;
+
+public enum Assegnazione implements Serializable{
 	PROPRIO,SOSTITUTIVO;
 }

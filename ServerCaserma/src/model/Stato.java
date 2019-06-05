@@ -1,5 +1,7 @@
 package model;
 
-public enum Stato {
+import java.io.Serializable;
+
+public enum Stato implements Serializable {
 	DISPONIBILE,NONDISPONIBILE;
 }

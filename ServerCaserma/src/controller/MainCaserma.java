@@ -59,12 +59,16 @@ public class MainCaserma {
 					inObj = new ObjectInputStream(clientSocket.getInputStream());
 					List<String> param = (List<String>)inObj.readObject();
 					String idCaserma = param.get(0);
-					if(servizio.equals("mezziCasermaCaserma"))
+					System.out.println("Guardo che richiesta di servizio ho: " + servizio);
+					if(servizio.equals("mezziCasermaCaserma")) {
+						System.out.println("Eseguo visualizzaMezziCaserma");
 						outSock.writeObject(visualizza.visualizzaMezzi(idCaserma));
+					}
 					else if(servizio.equals("richiestaSost"))
 						outSock.writeObject(new ArrayList<Object>());
 					else if(servizio.equals("report"))
 						outSock.writeObject("litri cisterna");
+					System.out.println("Mandati i mezzi");
 		        }
 	    		catch (Exception e) {
 	    			System.err.println("ServerCaserma: problemi nel server thread: "
