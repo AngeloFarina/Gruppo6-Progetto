@@ -65,7 +65,7 @@ public class Report {
 	@Override
 	public String toString() {
 		return "Report [id=" + id + ", kmEffettuati=" + kmEffettuati + ", carburanteConsumato=" + carburanteConsumato
-				+ ", descrizione=" + descrizione + ", tipologiaUscita=" + tipologiaUscita + ", dataOra=" + dataOra
+				+ ", descrizione=" + descrizione + ", tipo=" + tipo.toString() + ", dataOra=" + dataOra.toString()
 				+ ", idCaserma=" + idCaserma + "]";
 	}
 	
