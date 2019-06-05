@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class Report {
 	private String id;
@@ -10,8 +11,9 @@ public class Report {
 	private Tipo tipo;
 	private LocalDateTime dataOra;
 	private String idCaserma;
+	private List<Mezzo> listaMezzi;
 	public Report(String id, int kmEffettuati, int carburanteConsumato, String descrizione, Tipo tipo,
-			LocalDateTime dataOra, String idCaserma) {
+			LocalDateTime dataOra, String idCaserma, List<Mezzo> listaMezzi) {
 		this.id = id;
 		this.kmEffettuati = kmEffettuati;
 		this.carburanteConsumato = carburanteConsumato;
@@ -19,6 +21,11 @@ public class Report {
 		this.tipo = tipo;
 		this.dataOra = dataOra;
 		this.idCaserma=idCaserma;
+		this.listaMezzi = listaMezzi;
+	}
+	
+	public List<Mezzo> getListaMezzi() {
+		return listaMezzi;
 	}
 	public String getIdCaserma() {
 		return idCaserma;
@@ -66,7 +73,7 @@ public class Report {
 	public String toString() {
 		return "Report [id=" + id + ", kmEffettuati=" + kmEffettuati + ", carburanteConsumato=" + carburanteConsumato
 				+ ", descrizione=" + descrizione + ", tipo=" + tipo.toString() + ", dataOra=" + dataOra.toString()
-				+ ", idCaserma=" + idCaserma + "]";
+				+ ", idCaserma=" + idCaserma + ", listaMezzi=" + listaMezzi + "]";
 	}
 	
 }
