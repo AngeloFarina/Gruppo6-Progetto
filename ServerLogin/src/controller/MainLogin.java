@@ -6,12 +6,12 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainLogin {
 	public static final int PORT = 1052;
 
+	@SuppressWarnings({ "unchecked", "unused" })
 	public static void main(String[] args) {
 		LoginController gestore = new LoginController("bho", "bhobhobhbo", "bhobhobho");
 		ServerSocket serverSocket = null;
