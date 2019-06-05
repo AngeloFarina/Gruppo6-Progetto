@@ -74,7 +74,9 @@ public class MainCaserma {
 						outSock.writeObject(new ArrayList<Object>());
 					else if(servizio.equals("report")) {
 						report.creaReport((Report)param.get(0));
-						outSock.writeObject("ok");
+						param = new ArrayList<Object>();
+						param.add(new String("ok"));
+						outSock.writeObject(param);
 					}
 					System.out.println("Mandate le informazioni");
 		        }

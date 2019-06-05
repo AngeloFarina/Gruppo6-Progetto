@@ -2,7 +2,10 @@ package interfacceGrafiche;
 
 
 
+import java.sql.SQLException;
+
 import controller.ControllerClientCaserma;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -48,16 +51,37 @@ public class InterfacciaVigile extends BorderPane{
 	
 	public InterfacciaVigile(ControllerClientCaserma controller) {
 		this.controller=controller;
+		refresh();
+		initGUI();
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void refresh() {
+		  new Thread(() -> {
+		    while(true) {
+		       try {
+		          Thread.sleep(5000); // Wait for 10 secs before updating items
+		       } catch (InterruptedException e) {
+		          e.printStackTrace();
+		       }
+		       Platform.runLater(() -> {
+		    	   try {
+				    	controller = new ControllerClientCaserma(controller.getIdCaserma(),controller.getNome());
+						initGUI();
+		    	   } catch (SQLException e) {
+		    		   	e.printStackTrace();
+		    	   }});// Update on JavaFX Application Thread
+		    	}
+		  	}).start();
+	}
+
+	private void initGUI() {
 		nome = new Label(controller.getNome());
 		caserma = new Label(controller.getCaserma());
 		totMezzi = new Label("" + controller.getTotMezzi());
 		litri = Integer.parseInt(controller.getLitri());
 		livelloCarb = new Label("" + litri);
 		inManutenzione = new Label("" + controller.getMan());
-		initGUI();
-	}
-
-	private void initGUI() {
 		
 		//Imposto le dimensioni del pane
 		this.setWidth(1280);

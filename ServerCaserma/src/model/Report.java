@@ -5,17 +5,18 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class Report implements Serializable{
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 13L;
 	
 	private int kmEffettuati;
 	private int carburanteConsumato;
 	private String descrizione;
 	private Tipo tipo;
-	private LocalDateTime dataOra;
+	private String dataOra;
 	private String idCaserma;
 	private List<Mezzo> listaMezzi;
+	
 	public Report(int kmEffettuati, int carburanteConsumato, String descrizione, Tipo tipo,
-			LocalDateTime dataOra, String idCaserma, List<Mezzo> listaMezzi) {
+			String dataOra, String idCaserma, List<Mezzo> listaMezzi) {
 		this.kmEffettuati = kmEffettuati;
 		this.carburanteConsumato = carburanteConsumato;
 		this.descrizione = descrizione;
@@ -58,10 +59,10 @@ public class Report implements Serializable{
 	public void setTipo(Tipo tipo) {
 		this.tipo = tipo;
 	}
-	public LocalDateTime getDataOra() {
+	public String getDataOra() {
 		return dataOra;
 	}
-	public void setDataOra(LocalDateTime dataOra) {
+	public void setDataOra(String dataOra) {
 		this.dataOra = dataOra;
 	}
 	@Override

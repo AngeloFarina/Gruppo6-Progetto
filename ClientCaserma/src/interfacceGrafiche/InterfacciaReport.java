@@ -27,6 +27,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import model.Mezzo;
 import model.Report;
 import model.Tipo;
@@ -184,11 +185,11 @@ public class InterfacciaReport extends VBox {
 				LocalDateTime dataOra = LocalDateTime.of(data.getValue(),LocalTime.parse(ora.getText(),DateTimeFormatter.ISO_LOCAL_TIME));
 				int litri = Integer.parseInt(this.litri.getText());
 				int km = Integer.parseInt(this.km.getText());
-				List<Mezzo> mezzi = this.mezzi.getSelectionModel().getSelectedItems();
+				List<Mezzo> mezzi = new ArrayList<Mezzo>(this.mezzi.getSelectionModel().getSelectedItems());
 				String desc = this.desc.getText();
 				Tipo tipo = Tipo.valueOf(this.tipo.getText());
 				try {
-					Report r = new Report(km,litri,desc,tipo,dataOra,"",mezzi);
+					Report r = new Report(km,litri,desc,tipo,dataOra.format(DateTimeFormatter.ofPattern("dd/mm/yyyy HH:mm")),"",mezzi);
 					System.out.println("Report che mando in creazione al server: " + r);
 					controllerReport.creaReport(r);
 				} catch (ClassNotFoundException | IOException | InterruptedException e1) {
@@ -203,6 +204,8 @@ public class InterfacciaReport extends VBox {
 			e3.printStackTrace();
 			alert("Parametri errati");
 		}
+		Stage s = (Stage)this.getScene().getWindow();
+		s.close();
 	}
 
 	private void alert(String p) {
