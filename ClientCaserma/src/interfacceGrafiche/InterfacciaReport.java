@@ -1,29 +1,55 @@
 package interfacceGrafiche;
 
+import java.io.IOException;
+import java.net.UnknownHostException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.ArrayList;
+import java.util.List;
 
 import controller.ControllerReport;
+import javafx.collections.FXCollections;
+import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import model.Mezzo;
+import model.Report;
+import model.Tipo;
 
 public class InterfacciaReport extends VBox {
 	
 	private ControllerReport controllerReport = null;
 	private Button salva = null;
+	private DatePicker data = null;
+	private TextField ora = null;
+	private TextField litri = null;
+	private TextField km = null;
+	private ListView<Mezzo> mezzi = null;
+	private TextField desc = null;
+	private TextField tipo = null;
 	
 	public InterfacciaReport(ControllerReport controllerReport) {
 		this.controllerReport=controllerReport;
 		salva = new Button("Salva report");
+		mezzi = new ListView<Mezzo>();
+		mezzi.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+		mezzi.setItems(FXCollections.observableArrayList(controllerReport.getMezzi()));
+		salva.setOnAction(this::salva);
 		initGUI();
 	}
 
@@ -65,13 +91,13 @@ public class InterfacciaReport extends VBox {
 		res.setPrefHeight(46);
 		res.setAlignment(Pos.CENTER_LEFT);
 		Label l1 = new Label("Data:  ");
-		DatePicker data = new DatePicker();
+		data = new DatePicker();
 		data.setPrefWidth(120);
 		data.setPrefHeight(25);
 		data.setValue(LocalDate.now());
 		Label l2 = new Label("Ora:  ");
 		l2.setPadding(new Insets(0,0,0,10));
-		TextField ora = new TextField();
+		ora = new TextField();
 		ora.setPrefWidth(50);
 		ora.setPrefHeight(25);
 		ora.setPromptText("12:00");
@@ -86,7 +112,7 @@ public class InterfacciaReport extends VBox {
 		res.setPrefHeight(38);
 		res.setAlignment(Pos.CENTER_LEFT);
 		Label l = new Label("Litri carburante consumati:  ");
-		TextField litri = new TextField();
+		litri = new TextField();
 		litri.setPromptText("Litri");
 		litri.setPrefWidth(50);
 		litri.setPrefHeight(25);
@@ -101,7 +127,7 @@ public class InterfacciaReport extends VBox {
 		res.setPrefHeight(38);
 		res.setAlignment(Pos.CENTER_LEFT);
 		Label l = new Label("Totale km effettuati:  ");
-		TextField km = new TextField();
+		km = new TextField();
 		km.setPromptText("Km");
 		km.setPrefWidth(50);
 		km.setPrefHeight(25);
@@ -116,15 +142,28 @@ public class InterfacciaReport extends VBox {
 		res.setPrefWidth(240);
 		res.setPrefHeight(300);
 		Label l1 = new Label("Mezzi utilizzati  ");
-		ListView mezzi = new ListView();
 		mezzi.setPrefWidth(240);
-		mezzi.setPrefHeight(150);
+		mezzi.setPrefHeight(120);
 		Label l2 = new Label("Descrizione:  ");
-		TextArea desc= new TextArea();
+		desc= new TextField();
+		desc.setAlignment(Pos.TOP_LEFT);
 		desc.setPrefWidth(240);
-		desc.setPrefHeight(150);
+		desc.setPrefHeight(120);
 		desc.setPromptText("Scrivi qua una descrizione...");
-		res.getChildren().addAll(l1,mezzi,l2,desc,setBottom());
+		res.getChildren().addAll(l1,mezzi,setTipo(),l2,desc,setBottom());
+		return res;
+	}
+
+
+	private Node setTipo() {
+		HBox res = new HBox();
+		res.setAlignment(Pos.TOP_LEFT);
+		res.setPrefWidth(240);
+		res.setPrefHeight(60);
+		Label l = new Label("Tipo uscita:  ");
+		tipo = new TextField();
+		tipo.setPromptText("Tipo uscita...");
+		res.getChildren().addAll(l,tipo);
 		return res;
 	}
 
@@ -139,7 +178,79 @@ public class InterfacciaReport extends VBox {
 		return res;
 	}
 
+	public void salva(Event e) {
+		try {
+			if(checkParametri()) {
+				LocalDateTime dataOra = LocalDateTime.of(data.getValue(),LocalTime.parse(ora.getText(),DateTimeFormatter.ISO_LOCAL_TIME));
+				int litri = Integer.parseInt(this.litri.getText());
+				int km = Integer.parseInt(this.km.getText());
+				List<Mezzo> mezzi = this.mezzi.getSelectionModel().getSelectedItems();
+				String desc = this.desc.getText();
+				Tipo tipo = Tipo.valueOf(this.tipo.getText());
+				try {
+					Report r = new Report(km,litri,desc,tipo,dataOra,"",mezzi);
+					System.out.println("Report che mando in creazione al server: " + r);
+					controllerReport.creaReport(r);
+				} catch (ClassNotFoundException | IOException | InterruptedException e1) {
+					e1.printStackTrace();
+					alert("Errore creazione report");
+				}
+			}
+			else {
+				alert("Parametri errati");
+			}
+		}catch (Exception e3) {
+			e3.printStackTrace();
+			alert("Parametri errati");
+		}
+	}
 
+	private void alert(String p) {
+		Alert alert = new Alert(AlertType.ERROR,p);
+		alert.showAndWait();
+	}
+
+	private boolean checkParametri() {
+		LocalDate localDate = null;
+		LocalTime localTime = null;
+		int litri=-1,km=-1;
+		List<Mezzo> mezzi = null;
+		String desc = null;
+		Tipo tipo = null;
+		DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
+		if(data.getValue()!=null && formatter.format(data.getValue())!=null) {
+			localDate = data.getValue();
+		}
+		formatter = DateTimeFormatter.ISO_LOCAL_TIME;
+		if(ora.getText()!=null && formatter.parse(ora.getText())!=null) {
+			localTime = LocalTime.parse(ora.getText(),formatter);
+		}
+		if(this.litri.getText()!=null) {
+			try {
+			litri = Integer.parseInt(this.litri.getText());
+			} catch(NumberFormatException e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+		if(this.km.getText()!=null) {
+			try {
+			km = Integer.parseInt(this.km.getText());
+			} catch(NumberFormatException e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+		if(this.mezzi.getSelectionModel().getSelectedItems()!=null)
+			mezzi = this.mezzi.getSelectionModel().getSelectedItems();
+		if(this.desc.getText()!=null)
+			desc = this.desc.getText();
+		if(this.tipo.getText()!=null)
+			tipo = Tipo.valueOf(this.tipo.getText());
+		if(desc!=null && mezzi!=null && km>0 && litri>0 &&  localDate!=null &&localTime!=null && tipo!=null)
+			return true;
+		return false;
+	}
 	
 	
 }

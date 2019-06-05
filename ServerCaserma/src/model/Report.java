@@ -1,36 +1,38 @@
 package model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
-public class Report {
-	private String id;
+public class Report implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
 	private int kmEffettuati;
 	private int carburanteConsumato;
 	private String descrizione;
 	private Tipo tipo;
 	private LocalDateTime dataOra;
 	private String idCaserma;
-	public Report(String id, int kmEffettuati, int carburanteConsumato, String descrizione, Tipo tipo,
-			LocalDateTime dataOra, String idCaserma) {
-		this.id = id;
+	private List<Mezzo> listaMezzi;
+	public Report(int kmEffettuati, int carburanteConsumato, String descrizione, Tipo tipo,
+			LocalDateTime dataOra, String idCaserma, List<Mezzo> listaMezzi) {
 		this.kmEffettuati = kmEffettuati;
 		this.carburanteConsumato = carburanteConsumato;
 		this.descrizione = descrizione;
 		this.tipo = tipo;
 		this.dataOra = dataOra;
 		this.idCaserma=idCaserma;
+		this.listaMezzi = listaMezzi;
+	}
+	
+	public List<Mezzo> getListaMezzi() {
+		return listaMezzi;
 	}
 	public String getIdCaserma() {
 		return idCaserma;
 	}
 	public void setIdCaserma(String idCaserma) {
 		this.idCaserma = idCaserma;
-	}
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
 	}
 	public int getKmEffettuati() {
 		return kmEffettuati;
@@ -64,9 +66,9 @@ public class Report {
 	}
 	@Override
 	public String toString() {
-		return "Report [id=" + id + ", kmEffettuati=" + kmEffettuati + ", carburanteConsumato=" + carburanteConsumato
+		return "Report [kmEffettuati=" + kmEffettuati + ", carburanteConsumato=" + carburanteConsumato
 				+ ", descrizione=" + descrizione + ", tipo=" + tipo.toString() + ", dataOra=" + dataOra.toString()
-				+ ", idCaserma=" + idCaserma + "]";
+				+ ", idCaserma=" + idCaserma + ", listaMezzi=" + listaMezzi + "]";
 	}
 	
 }

@@ -39,9 +39,5 @@ public class CreazioneReportController extends Controller implements ICreazioneR
 		}
 	} 
 	
-	public static void main(String[] args) {
-		CreazioneReportController report = new CreazioneReportController("", "", "");
-		report.creaReport(new Report("0001", 37,58, "nel mezzo del cammin di nostra vita...", Tipo.AMMINISTRAZIONE, LocalDateTime.now(),"BO002"));
-	}
 
 }

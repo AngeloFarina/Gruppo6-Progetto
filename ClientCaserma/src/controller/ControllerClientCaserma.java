@@ -29,6 +29,8 @@ public class ControllerClientCaserma {
 	private int man=0;
 	private String carburante="0";
 	
+	private List<Mezzo> mezzi = null;
+	
 	public ControllerClientCaserma(String idCaserma,String nome) throws SQLException {
 		this.idCaserma=idCaserma;
 		this.nome=nome;
@@ -65,6 +67,7 @@ public class ControllerClientCaserma {
 		List<Object> dati = new ArrayList<Object>((List<Object>)inObj.readObject());
 		clientSocket.close();
 		List<Mezzo> mezzi = new ArrayList<Mezzo>((List<Mezzo>)dati.get(0));
+		this.mezzi=new ArrayList<Mezzo>(mezzi);
 		List<String> infoCaserma = new ArrayList<String>((List<String>)dati.get(1));
 		System.out.println("Ricevuti i mezzi: " + mezzi);
 		System.out.println("Ricevute info: " + infoCaserma);
@@ -115,6 +118,10 @@ public class ControllerClientCaserma {
 	
 	public String getIdCaserma() {
 		return this.idCaserma;
+	}
+	
+	public List<Mezzo> getMezzi(){
+		return new ArrayList<Mezzo>(mezzi);
 	}
 	
 }

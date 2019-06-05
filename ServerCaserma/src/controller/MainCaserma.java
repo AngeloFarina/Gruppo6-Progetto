@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import model.Mezzo;
+import model.Report;
 
 public class MainCaserma {
 	public static final int PORT = 1053;
@@ -19,6 +20,7 @@ public class MainCaserma {
 	public static void main(String[] args) throws SQLException {
 		GestioneMezziCasermaController gestore = new GestioneMezziCasermaController("bho", "bhobhobhbo", "bhobhobho");
 		VisualizzaMezziCasermaController visualizza = new VisualizzaMezziCasermaController("","","");
+		CreazioneReportController report = new CreazioneReportController("","","");
 		ServerSocket serverSocket = null;
 	    Socket clientSocket = null;
 	    try {
@@ -58,22 +60,23 @@ public class MainCaserma {
 					inSock = new DataInputStream(clientSocket.getInputStream());
 					String servizio = inSock.readUTF();
 					inObj = new ObjectInputStream(clientSocket.getInputStream());
-					List<String> param = (List<String>)inObj.readObject();
-					String idCaserma = param.get(0);
+					List<Object> param = (List<Object>)inObj.readObject();
 					System.out.println("Guardo che richiesta di servizio ho: " + servizio);
-					List<Object> dati = null;
 					if(servizio.equals("mezziCasermaCaserma")) {
 						System.out.println("Eseguo visualizzaMezziCaserma");
-						dati = new ArrayList<Object>();
+						String idCaserma = (String)param.get(0);
+						List<Object> dati = new ArrayList<Object>();
 						dati.add(visualizza.visualizzaMezzi(idCaserma));
 						dati.add(getInformazioniCaserma(idCaserma));
 						outSock.writeObject(dati);
 					}
 					else if(servizio.equals("richiestaSost"))
 						outSock.writeObject(new ArrayList<Object>());
-					else if(servizio.equals("report"))
-						outSock.writeObject("litri cisterna");
-					System.out.println("Mandate le informazioni: " + dati);
+					else if(servizio.equals("report")) {
+						report.creaReport((Report)param.get(0));
+						outSock.writeObject("ok");
+					}
+					System.out.println("Mandate le informazioni");
 		        }
 	    		catch (Exception e) {
 	    			System.err.println("ServerCaserma: problemi nel server thread: "

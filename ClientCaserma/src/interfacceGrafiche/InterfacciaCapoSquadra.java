@@ -495,7 +495,7 @@ public class InterfacciaCapoSquadra extends BorderPane{
 	
 	//Report handler
 	public void reportHandler(Event e) {
-		InterfacciaReport report = new InterfacciaReport(new ControllerReport(controller.getIdCaserma()));
+		InterfacciaReport report = new InterfacciaReport(new ControllerReport(controller.getIdCaserma(),controller.getMezzi()));
 		Scene scene = new Scene(report,400,500);
 		Stage stage = new Stage();
 		stage.setScene(scene);
