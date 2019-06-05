@@ -1,6 +1,6 @@
 package model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Report {
 	private String id;
@@ -8,10 +8,10 @@ public class Report {
 	private int carburanteConsumato;
 	private String descrizione;
 	private Tipo tipo;
-	private LocalDate dataOra;
+	private LocalDateTime dataOra;
 	private String idCaserma;
 	public Report(String id, int kmEffettuati, int carburanteConsumato, String descrizione, Tipo tipo,
-			LocalDate dataOra, String idCaserma) {
+			LocalDateTime dataOra, String idCaserma) {
 		this.id = id;
 		this.kmEffettuati = kmEffettuati;
 		this.carburanteConsumato = carburanteConsumato;
@@ -56,10 +56,10 @@ public class Report {
 	public void setTipo(Tipo tipo) {
 		this.tipo = tipo;
 	}
-	public LocalDate getDataOra() {
+	public LocalDateTime getDataOra() {
 		return dataOra;
 	}
-	public void setDataOra(LocalDate dataOra) {
+	public void setDataOra(LocalDateTime dataOra) {
 		this.dataOra = dataOra;
 	}
 	@Override
@@ -68,6 +68,5 @@ public class Report {
 				+ ", descrizione=" + descrizione + ", tipo=" + tipo.toString() + ", dataOra=" + dataOra.toString()
 				+ ", idCaserma=" + idCaserma + "]";
 	}
-	
 	
 }
