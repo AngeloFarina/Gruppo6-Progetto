@@ -1,6 +1,5 @@
 package model;
 
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -19,6 +18,7 @@ public class FiltroRichieste {
 	public FiltroRichieste() {
 	}
 	
+	@SuppressWarnings("unchecked")
 	public RichiestaServizio gestisci(RichiestaServizio r) {
 		if(r==null)
 			return null;

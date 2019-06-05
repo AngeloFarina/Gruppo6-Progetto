@@ -4,22 +4,16 @@ import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import model.FiltroRichieste;
-import model.GestoreSessione;
 import model.RichiestaServizio;
-import model.Sessione;
 
 //Accetta richieste dai client e le spartisce al server giusto
 //Riceve le risposte dai server e le restituisce al client corrispondente
 
 class Server_Thread extends Thread {
 	private Socket clientSocket = null;
-	private Socket server = null;
-	private String ip = "localhost";
 	private RichiestaServizio richiesta;
-	private Map<String,String> sessioni;
 	private FiltroRichieste filtroRichieste;
 
 	public Server_Thread(Socket clientSocket) {
@@ -27,6 +21,7 @@ class Server_Thread extends Thread {
 		filtroRichieste = new FiltroRichieste();
 	}
 
+	@SuppressWarnings("unchecked")
 	public void run() {
 		System.out.println("Attivazione figlio: " + Thread.currentThread().getName());
 
@@ -108,7 +103,6 @@ class Server_Thread extends Thread {
 
 public class Broker {
 	private static final int PORT = 1051;
-	private RichiestaServizio richiesta;
 
 	public void ack(String a) {
 
