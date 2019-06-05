@@ -25,7 +25,7 @@ public class Controller {
 	
 	private Connection openConnection(String connString) throws PersistenceException {
 		String dbUri;
-		File f = new File("vigilidb");
+		File f = new File("../vigilidb");
 		System.out.println("Absolute path: "+f.getAbsolutePath());
 		dbUri = "jdbc:sqlite:"+f.getAbsolutePath();
 		

@@ -69,6 +69,7 @@ public class ControllerClientCaserma {
 		}
 	}
 	
+	
 	public ObservableList<TabellaCapoSquadra> caricaMezziCapo() {
 		return FXCollections.observableArrayList(mezziCapo);
 	}

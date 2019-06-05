@@ -21,12 +21,12 @@ public class GestioneMezziCasermaController extends Controller implements IGesti
 		switch (tipoRichiesta) {
 		case "richiestaSostituzione":
 			//SERVE LA RICHIESTA DI SOSTITUZIONE
-			RichiestaSostituzione richiesta = new RichiestaSostituzione()
-			sostituzione.effettuaSostituzione(m, richiestaSostituzione);
+			//RichiestaSostituzione richiesta = new RichiestaSostituzione()
+			//sostituzione.effettuaSostituzione(m, richiestaSostituzione);
 			break;
 		case "richiestaManutenzione":
 			//SERVE LA RICHIESTA DI MANUTENZIONE
-			Manutenzione result = manutenzione.concludiManutenzione(r);
+			//Manutenzione result = manutenzione.concludiManutenzione(r);
 			break;
 		}
 	}

@@ -4,10 +4,13 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import interfacce.ICreazioneReport;
 import model.Report;
+import model.Tipo;
 
 public class CreazioneReportController extends Controller implements ICreazioneReport{
 
@@ -21,11 +24,16 @@ public class CreazioneReportController extends Controller implements ICreazioneR
 		try {
 			Connection db = getConnection();
 			stmt = db.createStatement();
-			String sql = "INSERT INTO report (id,kmEffettuati,carburanteConsumato,descrizione,tipologiaUscita,dataOra) "+
-						"VALUES ('"+r.getId()+"',"+"'"+r.getKmEffettuati()+"',"+"'"+r.getCarburanteConsumato()+"',"+"'"+r.getDescrizione()+"','"+ r.getTipologiaUscita()+"',"+
-						"'"+r.getDataOra()+"')";
+			String sql = "INSERT INTO report (kmEffettuati,carburanteConsumato,descrizione,tipologiaUscita,dataOra,idCaserma) "+
+						"VALUES ('"+r.getKmEffettuati()+"',"+"'"+r.getCarburanteConsumato()+"',"+"'"+r.getDescrizione()+"','"+ r.getTipo().toString() + "',"+
+						"'"+r.getDataOra().toString()+ "'," + "'" + r.getIdCaserma() + "')";
 			int result = stmt.executeUpdate(sql);
 			System.out.println("inserimento report...\nResult: "+result);
+			sql = "SELECT cisterna FROM CASERMA WHERE id='" + r.getIdCaserma()+"'";
+			int cisterna = stmt.executeQuery(sql).getInt("cisterna") - r.getCarburanteConsumato();
+			sql = "UPDATE CASERMA SET cisterna='" + cisterna + "' WHERE id='"+r.getIdCaserma()+"'";
+			result = stmt.executeUpdate(sql);
+			System.out.println("Aggiornamento cisterna: " + result);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -33,8 +41,7 @@ public class CreazioneReportController extends Controller implements ICreazioneR
 	
 	public static void main(String[] args) {
 		CreazioneReportController report = new CreazioneReportController("", "", "");
-		report.creaReport(new Report("0001", 37,58, "nel mezzo del cammin di nostra vita...", "caffettino", Date.from(Instant.now())));
-		
+		report.creaReport(new Report("0001", 37,58, "nel mezzo del cammin di nostra vita...", Tipo.AMMINISTRAZIONE, LocalDateTime.now(),"BO002"));
 	}
 
 }

@@ -25,29 +25,29 @@ public class MainProvincia {
 	    try {
 	    	serverSocket = new ServerSocket(PORT);
 	    	serverSocket.setReuseAddress(true);
-	    	System.out.println("PutFileServerCon: avviato ");
-	    	System.out.println("Server: creata la server socket: " + serverSocket);
+	    	System.out.println("ServerProvincia: avviato ");
+	    	System.out.println("ServerProvincia: creata la server socket: " + serverSocket);
 	    }
 	    catch (Exception e) {
-	    	System.err.println("Server: problemi nella creazione della server socket: "+ e.getMessage());
+	    	System.err.println("ServerProvincia: problemi nella creazione della server socket: "+ e.getMessage());
 	    	e.printStackTrace();
 	    	System.exit(1);
 	    }
 	    try {
 
 	    	while (true) {
-	    		System.out.println("Server: in attesa di richieste...\n");
+	    		System.out.println("ServerProvincia: in attesa di richieste...\n");
 	    		DataInputStream inSock = null;
 				ObjectOutputStream outSock = null;
 	    		try {
 	    			// bloccante fino ad una pervenuta connessione
 	    			clientSocket = serverSocket.accept();
 	    			clientSocket.setSoTimeout(30000);
-	    			System.out.println("Server: connessione accettata: " + clientSocket);
+	    			System.out.println("ServerProvincia: connessione accettata: " + clientSocket);
 
 	    		}
 	    		catch (Exception e) {
-	    			System.err.println("Server: problemi nella accettazione della connessione: "+ e.getMessage());
+	    			System.err.println("ServerProvincia: problemi nella accettazione della connessione: "+ e.getMessage());
 	    			e.printStackTrace();
 	    			continue;
 	    		}
@@ -96,7 +96,7 @@ public class MainProvincia {
 	    catch (Exception e) {
 	    	e.printStackTrace();
 	    	// chiusura di stream e socket
-	    	System.out.println("PutFileServerCon: termino...");
+	    	System.out.println("ServerProvincia: termino...");
 	    	System.exit(2);
 	    }
 	}
