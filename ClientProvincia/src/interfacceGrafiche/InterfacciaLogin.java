@@ -1,47 +1,67 @@
-package interfacciaLogin;
+package interfacceGrafiche;
 
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
+import controller.ControllerLoginProvincia;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-public class InterfacciaLogin extends BorderPane{
+public final class InterfacciaLogin extends BorderPane{
 	private TextField username;
 	private PasswordField password;
 	private Button loginButton;
-	private static final Insets PADDING = new Insets(10);
-	
+	private static Insets PADDING = new Insets(10);
+	private ControllerLoginProvincia controllerLoginProvincia;
 	
 	public InterfacciaLogin() {
 		username = new TextField();
 		password = new PasswordField();
-		//username.setOnMousePressed(this::textUsHandler);
-		//password.setOnMousePressed(this::textPwHandler);
-		password.setPromptText("**********");
-		username.setFont(new Font("System Italic",15));
-		username.setPromptText("Inserisci username...");
 		loginButton = new Button("ENTRA");
-		loginButton.setOnAction(this::buttonHandler);
+		controllerLoginProvincia = new ControllerLoginProvincia();
+		initComponenti();
 		initGUI();
 	}
 
+	private void initComponenti() {
+		password.setFont(new Font("System Italic",15));
+		password.setPromptText("**********");
+		username.setFont(new Font("System Italic",15));
+		username.setPromptText("Inserisci username...");
+		//Ascoltatore evento sul bottone
+		loginButton.setOnMousePressed(this::buttonHandler);
+	}
+
 	private void initGUI() {
+		//Dimensioni BorderPane principale
 		setMargin(this,new Insets(0,0,40,0));
 		setPrefWidth(601);
 		setPrefHeight(330);
 		setPadding(PADDING);
+		//Inizializza le 5 parti del BorderPane con i componenti adatti
 		setCenter(setCenter());
 		setBottom(setBottom());
 		setRight(setRight());
@@ -49,6 +69,7 @@ public class InterfacciaLogin extends BorderPane{
 		setLeft(setLeft());
 	}
 
+	//Inizializzo un Vertical Box vuoto nella sezione sinistra del BorderPane, per ottimizzare la visione dei componenti
 	private Node setLeft() {
 		VBox vb = new VBox();
 		vb.setPrefWidth(100);
@@ -56,6 +77,7 @@ public class InterfacciaLogin extends BorderPane{
 		return vb;
 	}
 
+	//Creo un Horizontal Box che conterrà un'etichetta con scritto "LOGIN" e metto il colore di sfondo a grigio chiaro
 	private Node setTop() {
 		HBox hb = new HBox();
 		hb.setPrefWidth(hb.getMaxWidth());
@@ -71,6 +93,8 @@ public class InterfacciaLogin extends BorderPane{
 		return hb;
 	}
 
+	//Inizializzo un Vertical Box vuoto nella sezione destra del BorderPane, per ottimizzare la visione dei componenti
+	//Analogamente a setLeft()
 	private Node setRight() {
 		VBox vb = new VBox();
 		vb.setPrefWidth(100);
@@ -78,6 +102,7 @@ public class InterfacciaLogin extends BorderPane{
 		return vb;
 	}
 
+	//Gestisco il bottone per entrare nell'applicativo e lo posiziono al centro della sezione in basso del BorderPane
 	private Node setBottom() {
 		loginButton.setAlignment(Pos.CENTER);
 		loginButton.setPrefWidth(135);
@@ -87,6 +112,12 @@ public class InterfacciaLogin extends BorderPane{
 		return loginButton;
 	}
 
+	//Gestisco la parte centrale del BorderPane
+	//Il ragionamento è il seguente:
+	//Ho un Vertical Box principale a cui accorpo due Horizontal Box, uno sopra e uno sotto
+	//Ciascuno di questi due HBox contiene, rispettivamente, il campo di immissione dell'username
+	//e quello di immissione della password (Che sarà ovviamente un PasswordField)
+	//Entrambi i campi sono preceduti da un TextField che ne spiega la semantica (Username/Password)
 	private Node setCenter() {
 		VBox v = new VBox();
 		v.setPrefWidth(401);
@@ -120,21 +151,34 @@ public class InterfacciaLogin extends BorderPane{
 		return v;
 	}
 	
-	private EventHandler<Event> textUsHandler(Event e){
-		username.setText("");
-		return null;
-	}
 	
-	private EventHandler<Event> textPwHandler(Event e){
-		password.setText("");
-		return null;
-	}
-	
+	//Handler dell'evento di Click sul bottone
+	//Questo handler deve catturare il testo presente nei due campi Username/Password 
+	//Deve poi generare una richiestadi servizio login, spedendo come parametri Username e Password catturati.
+	//Al momento della ricezione della risposta, dovrà chiudersi se tutto sarà andato a buon fine e lasciare spazio ad un'altra Home
+	//Corrispondente all'utente che si è autenticato
 	private EventHandler<Event> buttonHandler(Event e){
-		Stage s = (Stage)loginButton.getScene().getWindow();
-		s.close();
+		if(username.getText()==null || username.getText().isEmpty()) {
+			Alert a  = new Alert(AlertType.WARNING,"Inserire un username");
+			a.show();
+		}
+		else if(password.getText()==null || password.getText().isEmpty()) {
+			Alert a = new Alert(AlertType.WARNING,"Inserire password");
+			a.show();
+		}
+		else {
+			generaEInviaRichiesta();
+		}
 		return null;
 	}
-	
+
+	private void generaEInviaRichiesta() {
+		try {
+			controllerLoginProvincia.richiestaLogin(username.getText(), password.getText(),this.getScene().getWindow());
+		}  catch (Exception e) {
+			Alert a  = new Alert(AlertType.WARNING,"Errore login");
+		}
+	}
+
 	
 }

@@ -12,9 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
-import interfacceGrafiche.InterfacciaCapoSquadra;
-import interfacceGrafiche.InterfacciaVigile;
+import interfacceGrafiche.InterfacciaAmministratore;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -24,10 +22,10 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-public class ControllerLoginCaserma {
+public class ControllerLoginProvincia {
 	private static final int BROKERPORT = 1051;
 
-	public ControllerLoginCaserma() {
+	public ControllerLoginProvincia() {
 		
 	}
 	
@@ -50,39 +48,21 @@ public class ControllerLoginCaserma {
 		nome = param.get(3);
 		id = param.get(4);
 		System.out.println("Parametri ricevuti " + ruolo + " " + nome + " " + id);
-		if(ruolo.equals("caposquadra"))
-			setNewStageCapoSquadra(window,nome,id);
-		else if(ruolo.equals("vigile"))
-			setNewStageVigile(window,nome,id);
+		if(ruolo.equals("amministratore"))
+			setNewStageAmministratore(window,nome,id);
 		else {
 			Alert alert = new Alert(AlertType.WARNING,"Utente o password errati");
 			alert.showAndWait();
 		}
 	}
 
-	private void setNewStageVigile(Window window,String nome, String id) {
-		Stage s = (Stage) window;
-		s.close();
-		s.setTitle("Gestione Mezzi Vigili del Fuoco");
-		InterfacciaVigile root = null;
-		try {
-			root = new InterfacciaVigile(new ControllerClientCaserma(id,nome));
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		setScene(s,root);
-	}
 
-	private void setNewStageCapoSquadra(Window window, String nome,String id) {
+	private void setNewStageAmministratore(Window window, String nome,String id) {
 		Stage s = (Stage) window;
 		s.close();
 		s.setTitle("Gestione Mezzi Vigili del Fuoco");
-		InterfacciaCapoSquadra root = null;
-		try {
-			root = new InterfacciaCapoSquadra(new ControllerClientCaserma(id,nome));
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		InterfacciaAmministratore root = null;
+		root = new InterfacciaAmministratore(new ControllerClientProvincia(id,nome));
 		setScene(s, root);
 		
 	}

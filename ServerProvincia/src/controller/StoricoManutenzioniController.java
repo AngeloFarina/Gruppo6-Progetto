@@ -30,11 +30,12 @@ public class StoricoManutenzioniController extends Controller implements IStoric
 					"FROM Manutenzione";
 			ResultSet rs = stmt.executeQuery(sql);
 			while (rs.next()) {
-				DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            	result.add(new Manutenzione(rs.getString("id"), 
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            	result.add(new Manutenzione(rs.getString("id"),
+            			rs.getString("descrizione"),
             			df.parse(rs.getString("dataOraInizio")),
             			df.parse(rs.getString("dataOraFine")),
-            			rs.getString("descrizione"))); 
+            			rs.getString("idMezzo")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

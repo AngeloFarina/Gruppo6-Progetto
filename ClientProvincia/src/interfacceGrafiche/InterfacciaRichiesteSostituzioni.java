@@ -10,7 +10,7 @@ import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.List;
 
-import controller.ControllerReport;
+import controller.ControllerRichiesteSostituzioni;
 import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.geometry.Insets;
@@ -33,9 +33,9 @@ import model.Mezzo;
 import model.Report;
 import model.Tipo;
 
-public class InterfacciaReport extends VBox {
+public class InterfacciaRichiesteSostituzioni extends VBox {
 	
-	private ControllerReport controllerReport = null;
+	private ControllerRichiesteSostituzioni controllerReport = null;
 	private Button salva = null;
 	private DatePicker data = null;
 	private TextField ora = null;
@@ -45,7 +45,7 @@ public class InterfacciaReport extends VBox {
 	private TextField desc = null;
 	private ComboBox<Tipo> tipo = null;
 	
-	public InterfacciaReport(ControllerReport controllerReport) {
+	public InterfacciaRichiesteSostituzioni(ControllerRichiesteSostituzioni controllerReport) {
 		this.controllerReport=controllerReport;
 		salva = new Button("Salva report");
 		mezzi = new ListView<Mezzo>();

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DistaccamentoProvinciale extends Caserma{
+	private static final long serialVersionUID = 15L;
+	
 	private List<Caserma> caserme;
 	
 	public DistaccamentoProvinciale(String id, String citta,int cisterna,List<Mezzo> mezzi) {

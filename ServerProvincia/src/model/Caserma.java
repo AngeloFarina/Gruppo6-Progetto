@@ -1,13 +1,16 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Caserma {
+public class Caserma implements Serializable{
+	private static final long serialVersionUID = 14L;
+	
 	private String id;
 	private String citta;
 	private int cisterna;
-	private DistaccamentoProvinciale provincia;
+	private DistaccamentoProvinciale provincia = null;
 	private List<Mezzo> mezzi;
 	
 	public Caserma(String id,String citta, int cisterna, List<Mezzo> mezzi) {

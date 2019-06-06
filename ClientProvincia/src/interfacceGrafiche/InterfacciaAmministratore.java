@@ -4,8 +4,8 @@ package interfacceGrafiche;
 
 import java.sql.SQLException;
 
-import controller.ControllerClientCaserma;
-import controller.ControllerReport;
+import controller.ControllerClientProvincia;
+import controller.ControllerRichiesteSostituzioni;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -29,11 +29,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import model.TabellaCapoSquadra;
+import model.TabellaAmministratore;
 
-public class InterfacciaCapoSquadra extends BorderPane{
+public class InterfacciaAmministratore extends BorderPane{
 	@SuppressWarnings("rawtypes")
-	private TableView table = null;
+	private TableView tableProvincia = null;
+	@SuppressWarnings("rawtypes")
+	private TableView tableCaserme = null;
 	private ImageView auto = null;
 	private ImageView posizione = null;
 	private ImageView account = null;
@@ -43,8 +45,10 @@ public class InterfacciaCapoSquadra extends BorderPane{
 	private ImageView tickBlu = null;
 	//private ImageView tickGrigia = null;
 	private ImageView tickGialla = null;
-	private Button creaReport = null;
-	private ImageView report = null;
+	private Button crearichiesteSostituzioni = null;
+	private Button modificaCaserma = null;
+	private Button modificaProvincia = null;
+	private ImageView richiesteSostituzioni = null;
 	private ImageView impostazioni = null;
 	
 	private VBox v3 = null;
@@ -57,9 +61,9 @@ public class InterfacciaCapoSquadra extends BorderPane{
 	private Label nome = null;
 	private int litri;
 	
-	private ControllerClientCaserma controller = null;
+	private ControllerClientProvincia controller = null;
 	
-	public InterfacciaCapoSquadra(ControllerClientCaserma controller) {
+	public InterfacciaAmministratore(ControllerClientProvincia controller) {
 		this.controller=controller;
 		refresh();
 		initGUI();
@@ -70,17 +74,14 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		  new Thread(() -> {
 		    while(true) {
 		       try {
-		          Thread.sleep(5000); // Wait for 5 secs before updating items
+		          Thread.sleep(20000); // Wait for 5 secs before updating items
 		       } catch (InterruptedException e) {
 		          e.printStackTrace();
 		       }
 		       Platform.runLater(() -> {
-		    	   try {
-				    	controller = new ControllerClientCaserma(controller.getIdCaserma(),controller.getNome());
+		    	   		controller = new ControllerClientProvincia(controller.getIdCaserma(),controller.getNome());
 						initGUI();
-		    	   } catch (SQLException e) {
-		    		   	e.printStackTrace();
-		    	   }});// Update on JavaFX Application Thread
+		    	   });// Update on JavaFX Application Thread
 		    	}
 		  	}).start();
 	}
@@ -110,14 +111,17 @@ public class InterfacciaCapoSquadra extends BorderPane{
 
 	@SuppressWarnings("rawtypes")
 	private void initComponents() {
-		table = new TableView();
+		tableProvincia = new TableView();
+		tableCaserme = new TableView<>();
 		
 		//Inizializzazione di tutte le icone/immagini
 		impostazioni = new ImageView(new Image("./icone/Impostazioni.png"));
-		report = new ImageView(new Image("./icone/Documenti.png"));
-		creaReport = new Button("",report);
-		creaReport.setOnAction(this::reportHandler);
-		report.setPickOnBounds(true);
+		modificaCaserma = new Button("Modifica");
+		modificaProvincia=new Button("Modifica");
+		richiesteSostituzioni = new ImageView(new Image("./icone/ChiaveIngleseOfficina.png"));
+		crearichiesteSostituzioni = new Button("",richiesteSostituzioni);
+		crearichiesteSostituzioni.setOnAction(this::richiesteSostituzioniHandler);
+		richiesteSostituzioni.setPickOnBounds(true);
 		rifornimento = new ImageView(new Image("./icone/Rifornimento.png"));
 		tickVerde = new ImageView(new Image("./icone/TickVerde.png"));
 		//tickGrigia = new ImageView(new Image("./icone/TickGrigia.png"));
@@ -202,24 +206,24 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		root.setPrefHeight(642);
 		root.setPrefWidth(61);
 		
-		//Imposto il margine/spazio per le immagini di auto e report
+		//Imposto il margine/spazio per le immagini di auto e richiesteSostituzioni
 		root.setMargin(auto, new Insets(30,0,0,10));
-		root.setMargin(report, new Insets(30,0,0,10));
+		root.setMargin(richiesteSostituzioni, new Insets(30,0,0,10));
 		root.setSpacing(30);
 		
-		//Dimensiono le icone auto e report
+		//Dimensiono le icone auto e richiesteSostituzioni
 		auto.setSmooth(true);
 		auto.setFitHeight(40);
 		auto.setFitWidth(40);
-		report.setSmooth(true);
-		report.setFitWidth(45);
-		report.setFitHeight(40);
-		creaReport.setPrefWidth(45);
-		creaReport.setPrefHeight(40);
-		creaReport.setTooltip(new Tooltip("Clicca per creare un report"));
+		richiesteSostituzioni.setSmooth(true);
+		richiesteSostituzioni.setFitWidth(45);
+		richiesteSostituzioni.setFitHeight(40);
+		crearichiesteSostituzioni.setPrefWidth(45);
+		crearichiesteSostituzioni.setPrefHeight(40);
+		crearichiesteSostituzioni.setTooltip(new Tooltip("Clicca per visualizzare le richieste di sostituzione"));
 		
 		//Aggiungo al vbox principale le due icone
-		root.getChildren().addAll(auto,creaReport);
+		root.getChildren().addAll(auto,crearichiesteSostituzioni);
 		return root;
 	}
 
@@ -228,37 +232,74 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		//Creo il vbox principale
 		VBox root = new VBox();
 		
-		//Creo il vbox in alto contenente le sezioni dei mezzi totali,
-		//in manutenzione e il livello del carburante e la sezione con il label LISTA MEZZI
-		VBox top = new VBox();
+		//hbox dove sta il label dei mezzi caserma provinciale
+		HBox top = setTopLabel();
 		
-		//Imposto la sezione in alto, contentente le tre sezioni (mezzi tot, man, carburante)
-		HBox topCenter = setTopCenter();
+		HBox center = setCenterLabel();
 		
-		//Imposto la sezione del label lista mezzi
-		HBox bottomCenter = setBottomCenter();
-		
-		//Agigungo al vbox i due hbox appena impostati
-		top.getChildren().addAll(topCenter,bottomCenter);
-		
-		//Imposto il margine per ottimizzare l'impatto visivo
-		top.setMargin(top.getChildren().get(0), new Insets(0,0,0,100));
-		
-		//Imposto tutta la tabella dei mezzi
-		setTableView();
+		//Imposto tutta la tabella dei mezzi della caserma provinciale
+		setTableViewProvincia();
+		//Mezzi tutta la provincia
+		setTableViewCaserme();
 		
 		//Creo l'hbox della legenda di stato/assegnazione
 		HBox bottom = setBottom();
 		
 		//Imposto il margine per la tabella, per ottimizzare l'impatto visivo
-		root.setMargin(table, new Insets(0,65,0,100));
-		
+		root.setMargin(tableProvincia, new Insets(0,65,0,100));
+		root.setMargin(tableCaserme,new Insets(0,65,0,100));
+		root.setMargin(top, new Insets(10,0,10,0));
+		root.setMargin(center, new Insets(10,0,10,0));
 		//Aggiungo la sezione in alto, la tabella e la legenda al vbox principale
-		root.getChildren().addAll(top,table,bottom);
+		root.getChildren().addAll(top,tableProvincia,center,tableCaserme,bottom);
 		
 		//Imposto il margine per la legenda per ottimizzare l'impatto visivo
 		root.setMargin(bottom, new Insets(0,0,0,100));
 		return root;
+	}
+
+	
+
+	private HBox setTopLabel() {
+		HBox res = new HBox();
+		res.setPrefWidth(1219);
+		res.setPrefHeight(44);
+		HBox first = new HBox();
+		Label l1 = new Label("LISTA MEZZI DISTACCAMENTO PROVINCIALE");
+		l1.setPrefWidth(290);
+		l1.setPrefHeight(17);
+		first.setPrefWidth(389);
+		first.setPrefHeight(44);
+		first.getChildren().add(l1);
+		HBox sec = new HBox();
+		sec.setPrefWidth(764);
+		sec.setPrefHeight(44);
+		sec.setAlignment(Pos.CENTER_RIGHT);
+		first.setAlignment(Pos.CENTER_RIGHT);
+		sec.getChildren().add(modificaCaserma);
+		res.getChildren().addAll(first,sec);
+		return res;
+	}
+	
+	private HBox setCenterLabel() {
+		HBox res = new HBox();
+		HBox first = new HBox();
+		res.setPrefWidth(1219);
+		res.setPrefHeight(44);
+		Label l1 = new Label("LISTA MEZZI CASERME IN PROVINCIA");
+		l1.setPrefWidth(290);
+		l1.setPrefHeight(17);
+		first.setPrefWidth(389);
+		first.setPrefHeight(44);
+		first.getChildren().add(l1);
+		HBox sec = new HBox();
+		sec.setPrefWidth(764);
+		sec.setPrefHeight(44);
+		sec.setAlignment(Pos.CENTER_RIGHT);
+		first.setAlignment(Pos.CENTER_RIGHT);
+		sec.getChildren().add(modificaProvincia);
+		res.getChildren().addAll(first,sec);
+		return res;
 	}
 
 	@SuppressWarnings("static-access")
@@ -304,134 +345,14 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		return res;
 	}
 
-	private HBox setBottomCenter() {
-		//HBox principale per il label lista mezzi
-		HBox res = new HBox();
-		
-		//Dimensiono l'hbox e lo allineo al centro
-		res.setPrefWidth(1019);
-		res.setPrefHeight(65);
-		res.setAlignment(Pos.CENTER);
-		
-		//Creo il label lista mezzi
-		Label l = new Label("LISTA MEZZI");
-		
-		//Imposto il font size a 20
-		l.setFont(Font.font(20));
-		
-		//Aggiungo il label all'hbox principale
-		res.getChildren().add(l);
-		return res;
-	}
-
-	@SuppressWarnings("static-access")
-	private HBox setTopCenter() {
-		//HBox principale
-		HBox res = new HBox();
-		//Creo le tre vbox principali dentro all'hbox principale
-		VBox v1 = new VBox();
-		VBox v2 = new VBox();
-		v3 = new VBox();
-		//Creo un padding equivalente a paddingTop=10, paddingLeft=10
-		v1.setPadding(new Insets(10,0,0,10));
-		v2.setPadding(new Insets(10,0,0,10));
-		v3.setPadding(new Insets(10,0,0,10));
-		
-		//Creo le icone da mettere nelle sezioni principali
-		ImageView autoTot = new ImageView(new Image("./icone/Auto.png"));
-		ImageView autoMan = new ImageView(new Image("./icone/Auto.png"));
-		
-		//Dimensiono le immagini
-		autoTot.setSmooth(true);
-		autoTot.setFitWidth(35);
-		autoTot.setFitHeight(35);
-		autoMan.setSmooth(true);
-		autoMan.setFitWidth(35);
-		autoMan.setFitHeight(35);
-		
-		//Dimensiono le sezioni dei mezzi tot, in man e carburante
-		v1.setPrefWidth(156);
-		v1.setPrefHeight(76);
-		v1.setStyle("-fx-border-color: lightgrey");
-		v2.setPrefWidth(170);
-		v2.setPrefHeight(92);
-		v2.setStyle("-fx-border-color: lightgrey");
-		v3.setPrefWidth(170);
-		v3.setPrefHeight(92);
-		v3.setStyle("-fx-border-color: lightgrey");
-		
-		//Spazio tra i tre principali vbox
-		res.setSpacing(280);
-		
-		//Creo i label
-		Label l1 = new Label("TOTALE MEZZI");
-		Label l2 = new Label("IN MANUTENZIONE");
-		Label l3 = new Label("LIVELLO CARBURANTE");
-		
-		//Creazione e dimensionamento Hbox in cui mettere il tot mezzi
-		HBox h1 = new HBox();
-		h1.getChildren().addAll(autoTot,totMezzi);
-		h1.setMargin(totMezzi,new Insets(10,0,0,10));
-		
-		//Creazione e dimensionamento hbox in cui mettere i mezzi in manutenzione
-		HBox h2 = new HBox();
-		h2.getChildren().addAll(autoMan,inManutenzione);
-		
-		//Creo l'hbox della sezione livello di carburante
-		h3 = new HBox();
-		
-		//Imposto le dimensioni dell'immagine della pompa del carburante
-		rifornimento.setSmooth(true);
-		rifornimento.setFitWidth(35);
-		rifornimento.setFitHeight(31);
-		if(this.litri<=300) {
-			livelloCarb.setTextFill(Color.DARKRED);
-			ImageView attenzione = new ImageView(new Image("./icone/RifornimentoScarso.png"));
-			attenzione.setSmooth(true);
-			attenzione.setFitWidth(35);
-			attenzione.setFitHeight(31);
-			h3.getChildren().add(attenzione);
-		}
-
-		//Aggiungo all'hbox della sezione del rifornimento l'immagine
-		//della pompa del carburante e il livello attuale
-		h3.getChildren().addAll(rifornimento,livelloCarb);
-		
-		//Aggiungo ai tre vbox principali le rispettive sezioni dei mezzi totali
-		//, in manutenzione e livello carburante
-		v1.getChildren().addAll(l1,h1);
-		v2.getChildren().addAll(l2,h2);
-		v3.getChildren().addAll(l3,h3);
-		if(this.litri<=300) {
-			Label alert = new Label("RICHIESTA RIFORNIMENTO\nAUTOMATICA EFFETTUATA");
-			alert.setTextFill(Color.DARKRED);
-			v3.getChildren().add(alert);
-			v3.setStyle("-fx-border-color: red");
-		}
-		
-		//Imposto i margini dei label come marginTop=10 e marginLeft=10
-		h2.setMargin(inManutenzione, new Insets(10,0,0,10));
-		h3.setMargin(livelloCarb, new Insets(10,0,0,10));
-		
-		//Inserisco i tre vbox principali all'hbox padre
-		res.getChildren().addAll(v1,v2,v3);
-		
-		//Imposto i margini dei tre vbox principali come 
-		// marginTop=10
-		res.setMargin(v1, new Insets(10,0,0,0));
-		res.setMargin(v2, new Insets(10,0,0,0));
-		res.setMargin(v3, new Insets(10,0,0,0));
-		return res;
-	}
-
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private void setTableView() {
+	
+	private void setTableViewCaserme() {
 		//Dimensioni tabella
-		table.setPrefWidth(915);
-		table.setPrefHeight(368);
+		tableCaserme.setPrefWidth(1054);
+		tableCaserme.setPrefHeight(300);
 		
 		//Creazione lista osservabile associata ai mezzi della caserma in cui mi sono autenticato
-		ObservableList<TabellaCapoSquadra> data = controller.caricaMezziCapo();
+		ObservableList<TabellaAmministratore> data = controller.caricaMezziCaserme();
 		
 		//Metto il nome giusto nel Label della caserma
 		caserma.setText(controller.getCaserma());
@@ -441,41 +362,36 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		icona.setMinWidth(10);
 		icona.setPrefWidth(39);
 		TableColumn tipologia = new TableColumn<>("TIPOLOGIA");
-		tipologia.setMinWidth(100);
-		tipologia.setPrefWidth(148);
-		tipologia.setMaxWidth(200);
+		tipologia.setMinWidth(130);
+		tipologia.setPrefWidth(230);
+		tipologia.setMaxWidth(400);
 		TableColumn targa = new TableColumn<>("TARGA");
-		targa.setMinWidth(70);
-		targa.setPrefWidth(115);
+		targa.setMinWidth(100);
+		targa.setPrefWidth(150);
 		targa.setMaxWidth(150);
 		TableColumn stato = new TableColumn<>("STATO");
-		stato.setPrefWidth(60);
-		stato.setMinWidth(10);
+		stato.setPrefWidth(100);
+		stato.setMinWidth(40);
 		TableColumn assegnazione = new TableColumn<>("ASSEGNAZIONE");
 		assegnazione.setPrefWidth(100);
-		assegnazione.setMinWidth(10);
-		TableColumn azioni = new TableColumn<>("AZIONI");
-		azioni.setPrefWidth(200);
+		assegnazione.setMinWidth(40);
 		TableColumn anno = new TableColumn<>("ANNO");
-		anno.setPrefWidth(60);
-		TableColumn man = new TableColumn<>();
-		man.setPrefWidth(150);
-		TableColumn rest = new TableColumn<>();
-		rest.setPrefWidth(150);
+		anno.setPrefWidth(100);
+		TableColumn caserma = new TableColumn<>("CASERMA");
+		caserma.setPrefWidth(330);
+		caserma.setMinWidth(10);
 		
 		//Assegnazione del factory per il valore delle celle di ogni riga
-		targa.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,String>("targa"));
-		tipologia.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,String>("tipo"));
-		stato.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,String>("stato"));
-		assegnazione.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,String>("assegnazione"));
-		anno.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,String>("anno"));
-		azioni.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,Button>("sost"));
-		man.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,Button>("man"));
-		icona.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,ImageView>("image"));
-		rest.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,Button>("rest"));
+		targa.setCellValueFactory(new PropertyValueFactory<TabellaAmministratore,String>("targa"));
+		tipologia.setCellValueFactory(new PropertyValueFactory<TabellaAmministratore,String>("tipo"));
+		stato.setCellValueFactory(new PropertyValueFactory<TabellaAmministratore,String>("stato"));
+		assegnazione.setCellValueFactory(new PropertyValueFactory<TabellaAmministratore,String>("assegnazione"));
+		icona.setCellValueFactory(new PropertyValueFactory<TabellaAmministratore,ImageView>("image"));
+		anno.setCellValueFactory(new PropertyValueFactory<TabellaAmministratore,String>("anno"));
+		caserma.setCellValueFactory(new PropertyValueFactory<TabellaAmministratore,String>("idCaserma"));
 		
 		//Aggiunta colonne alla tabella
-		table.getColumns().addAll(icona,tipologia,targa,stato,assegnazione,anno,azioni,man,rest);
+		tableCaserme.getColumns().addAll(icona,tipologia,targa,stato,assegnazione,anno,caserma);
 		
 		//Sortable e resizable delle colonne
 		icona.setResizable(false);
@@ -486,23 +402,88 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		stato.setSortable(false);
 		assegnazione.setResizable(false);
 		assegnazione.setSortable(false);
-		azioni.setResizable(false);
-		azioni.setSortable(false);
-		man.setSortable(false);
-		man.setResizable(false);
 		anno.setResizable(false);
 		anno.setSortable(false);
+		caserma.setSortable(false);
+		caserma.setResizable(false);
 		
 		//Inserisco i dati alla tabella (riempie tutte le celle automaticamente
 		//grazie al factory precedentemente associato
-		table.setItems(data);
+		tableCaserme.setItems(data);
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private void setTableViewProvincia() {
+		//Dimensioni tabella
+		tableProvincia.setPrefWidth(1054);
+		tableProvincia.setPrefHeight(250);
+		
+		//Creazione lista osservabile associata ai mezzi della caserma in cui mi sono autenticato
+		ObservableList<TabellaAmministratore> data = controller.caricaMezziProvincia();
+		
+		//Metto il nome giusto nel Label della caserma
+		caserma.setText(controller.getCaserma());
+		
+		//Creazione e dimensionamento colonne
+		TableColumn icona = new TableColumn<>();
+		icona.setMinWidth(10);
+		icona.setPrefWidth(39);
+		TableColumn tipologia = new TableColumn<>("TIPOLOGIA");
+		tipologia.setMinWidth(130);
+		tipologia.setPrefWidth(230);
+		tipologia.setMaxWidth(400);
+		TableColumn targa = new TableColumn<>("TARGA");
+		targa.setMinWidth(100);
+		targa.setPrefWidth(150);
+		targa.setMaxWidth(150);
+		TableColumn stato = new TableColumn<>("STATO");
+		stato.setPrefWidth(100);
+		stato.setMinWidth(40);
+		TableColumn assegnazione = new TableColumn<>("ASSEGNAZIONE");
+		assegnazione.setPrefWidth(100);
+		assegnazione.setMinWidth(40);
+		TableColumn anno = new TableColumn<>("ANNO");
+		anno.setPrefWidth(100);
+		TableColumn caserma = new TableColumn<>("CASERMA");
+		caserma.setPrefWidth(330);
+		caserma.setMinWidth(10);
+		
+		//Assegnazione del factory per il valore delle celle di ogni riga
+		targa.setCellValueFactory(new PropertyValueFactory<TabellaAmministratore,String>("targa"));
+		tipologia.setCellValueFactory(new PropertyValueFactory<TabellaAmministratore,String>("tipo"));
+		stato.setCellValueFactory(new PropertyValueFactory<TabellaAmministratore,String>("stato"));
+		assegnazione.setCellValueFactory(new PropertyValueFactory<TabellaAmministratore,String>("assegnazione"));
+		icona.setCellValueFactory(new PropertyValueFactory<TabellaAmministratore,ImageView>("image"));
+		anno.setCellValueFactory(new PropertyValueFactory<TabellaAmministratore,String>("anno"));
+		caserma.setCellValueFactory(new PropertyValueFactory<TabellaAmministratore,String>("idCaserma"));
+		
+		//Aggiunta colonne alla tabella
+		tableProvincia.getColumns().addAll(icona,tipologia,targa,stato,assegnazione,anno,caserma);
+		
+		//Sortable e resizable delle colonne
+		icona.setResizable(false);
+		icona.setSortable(false);
+		tipologia.setSortable(false);
+		targa.setSortable(false);
+		stato.setResizable(false);
+		stato.setSortable(false);
+		assegnazione.setResizable(false);
+		assegnazione.setSortable(false);
+		anno.setResizable(false);
+		anno.setSortable(false);
+		caserma.setSortable(false);
+		caserma.setResizable(false);
+		
+		//Inserisco i dati alla tabella (riempie tutte le celle automaticamente
+		//grazie al factory precedentemente associato
+		tableProvincia.setItems(data);
 	}
 	
 	
-	//Report handler
-	public void reportHandler(Event e) {
-		InterfacciaReport report = new InterfacciaReport(new ControllerReport(controller.getIdCaserma(),controller.getMezzi()));
-		Scene scene = new Scene(report,400,500);
+	//richiesteSostituzioni handler
+	public void richiesteSostituzioniHandler(Event e) {
+		InterfacciaRichiesteSostituzioni richiesteSostituzioni = new InterfacciaRichiesteSostituzioni(new ControllerRichiesteSostituzioni(controller.getIdCaserma(),null));
+		Scene scene = new Scene(richiesteSostituzioni,400,500);
 		Stage stage = new Stage();
 		stage.setScene(scene);
 		stage.setResizable(false);

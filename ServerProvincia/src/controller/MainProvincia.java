@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.DataInputStream;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -20,8 +21,6 @@ public class MainProvincia {
 		StoricoManutenzioniController storico = new StoricoManutenzioniController("", "", "");
 		ServerSocket serverSocket = null;
 	    Socket clientSocket = null;
-	    String nomeServzio="";
-		String idProvincia="";
 	    try {
 	    	serverSocket = new ServerSocket(PORT);
 	    	serverSocket.setReuseAddress(true);
@@ -38,11 +37,12 @@ public class MainProvincia {
 	    	while (true) {
 	    		System.out.println("ServerProvincia: in attesa di richieste...\n");
 	    		DataInputStream inSock = null;
+	    		ObjectInputStream inObj = null;
 				ObjectOutputStream outSock = null;
 	    		try {
 	    			// bloccante fino ad una pervenuta connessione
 	    			clientSocket = serverSocket.accept();
-	    			clientSocket.setSoTimeout(30000);
+	    			//clientSocket.setSoTimeout(30000);
 	    			System.out.println("ServerProvincia: connessione accettata: " + clientSocket);
 
 	    		}
@@ -53,27 +53,31 @@ public class MainProvincia {
 	    		}
 	    		//FUNZIONAMENTO DEL PROGRAMMA
 				try {
-					inSock = new DataInputStream(clientSocket.getInputStream());
 					outSock = new ObjectOutputStream(clientSocket.getOutputStream());
-					nomeServzio = inSock.readUTF();
-					idProvincia = inSock.readUTF();
+					inSock = new DataInputStream(clientSocket.getInputStream());
+					String servizio = inSock.readUTF();
+					inObj = new ObjectInputStream(clientSocket.getInputStream());
+					List<Object> param = (List<Object>)inObj.readObject();
+					System.out.println("Guardo che richiesta di servizio ho: " + servizio);
 					
-					if(nomeServzio == null || idProvincia == null)
+					if(servizio == null)
 						outSock.writeObject(null);
 					
-					if(nomeServzio.equals("visualizzaMezziCaserma")){
-						List<Mezzo> result = visualizza.visualizzaMezzi(idProvincia);
+					if(servizio.equals("mezziCasermaProvincia")){
+						String idCaserma = (String)param.get(0);
+						List<Mezzo> result = visualizza.visualizzaMezzi(idCaserma);
 						outSock.writeObject(result);
 					}
-					else if (nomeServzio.equals("visualizzaMezziProvincia")) {
-						List<Caserma> result = visualizza.visualizzaMezziProvincia(idProvincia);
+					else if (servizio.equals("mezziProvincia")) {
+						String idCaserma = (String)param.get(0);
+						List<Caserma> result = visualizza.visualizzaMezziProvincia(idCaserma);
 						outSock.writeObject(result);
 					}
-					else if(nomeServzio.equals("listaManutezioni")) {
+					else if(servizio.equals("listaManutezioni")) {
 						List<Manutenzione> result = storico.listaManutenzioni();
 						outSock.writeObject(result);
 					}
-					else if(nomeServzio.equals("modificaMezzi")) {
+					else if(servizio.equals("modificaMezzi")) {
 						// LEGGERE TIPO RICHIESTA UN MEZZO E UNA CASERMA (SERVE SOLO ID)
 						//gestore.modificaMezzo("tipoRichiesta", "m", "c");
 						//outSock.writeObject(result);
@@ -83,7 +87,7 @@ public class MainProvincia {
 		        }
 	    		
 	    		catch (Exception e) {
-	    			System.err.println("Server: problemi nel server thread: "
+	    			System.err.println("ServerProvincia: problemi nel server thread: "
 	    					+ e.getMessage());
 	    			e.printStackTrace();
 	    			continue;
