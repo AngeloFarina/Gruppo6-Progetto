@@ -68,7 +68,7 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		  new Thread(() -> {
 		    while(true) {
 		       try {
-		          Thread.sleep(5000); // Wait for 10 secs before updating items
+		          Thread.sleep(5000); // Wait for 5 secs before updating items
 		       } catch (InterruptedException e) {
 		          e.printStackTrace();
 		       }

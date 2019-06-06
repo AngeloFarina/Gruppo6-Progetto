@@ -29,11 +29,6 @@ public class CreazioneReportController extends Controller implements ICreazioneR
 						"'"+r.getDataOra().toString()+ "'," + "'" + r.getIdCaserma() + "')";
 			int result = stmt.executeUpdate(sql);
 			System.out.println("inserimento report...\nResult: "+result);
-			sql = "SELECT cisterna FROM CASERMA WHERE id='" + r.getIdCaserma()+"'";
-			int cisterna = stmt.executeQuery(sql).getInt("cisterna") - r.getCarburanteConsumato();
-			sql = "UPDATE CASERMA SET cisterna='" + cisterna + "' WHERE id='"+r.getIdCaserma()+"'";
-			result = stmt.executeUpdate(sql);
-			System.out.println("Aggiornamento cisterna: " + result);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

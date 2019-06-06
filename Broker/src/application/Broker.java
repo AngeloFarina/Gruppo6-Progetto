@@ -93,7 +93,7 @@ class Server_Thread extends Thread {
 			System.out.println("Chiudo ed esco...");
 			System.exit(3);
 		}
-		System.out.println("Thread: chiudo...");
+		System.out.println("Thread: Ho finito, chiudo...");
 	}
 
 }// thread
