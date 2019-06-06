@@ -177,6 +177,7 @@ public final class InterfacciaLogin extends BorderPane{
 			controllerLoginProvincia.richiestaLogin(username.getText(), password.getText(),this.getScene().getWindow());
 		}  catch (Exception e) {
 			Alert a  = new Alert(AlertType.WARNING,"Errore login");
+			a.showAndWait();
 		}
 	}
 

@@ -492,8 +492,8 @@ public class InterfacciaAmministratore extends BorderPane{
 	
 	//richiesteSostituzioni handler
 	public void richiesteSostituzioniHandler(Event e) {
-		InterfacciaRichiesteSostituzioni richiesteSostituzioni = new InterfacciaRichiesteSostituzioni(new ControllerRichiesteSostituzioni(controller.getIdCaserma(),null));
-		Scene scene = new Scene(richiesteSostituzioni,400,500);
+		InterfacciaRichiesteSostituzioni richiesteSostituzioni = new InterfacciaRichiesteSostituzioni(new ControllerRichiesteSostituzioni(controller.getIdCaserma()));
+		Scene scene = new Scene(richiesteSostituzioni,900,600);
 		Stage stage = new Stage();
 		stage.setScene(scene);
 		stage.setResizable(false);

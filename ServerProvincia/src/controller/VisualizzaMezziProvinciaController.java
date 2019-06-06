@@ -19,7 +19,7 @@ public class VisualizzaMezziProvinciaController extends Controller implements IV
 	
 	public VisualizzaMezziProvinciaController(String connString, String pathFileOp, String pathFileMsg) throws SQLException {
 		super(connString, pathFileOp, pathFileMsg);
-		this.visualizzaMezziCaserma = new VisualizzaMezziCasermaController("", "", "");
+		this.visualizzaMezziCaserma = new VisualizzaMezziCasermaController(connString,pathFileOp,pathFileMsg);
 	}
 	
 	public List<Caserma> visualizzaMezziProvincia(String idProvincia) throws SQLException{

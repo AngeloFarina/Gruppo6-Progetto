@@ -16,7 +16,6 @@ import model.Caserma;
 import model.Mezzo;
 import model.Stato;
 import model.TabellaAmministratore;
-import model.TabellaVigile;
 
 public class ControllerClientProvincia {
 	private static final int BROKERPORT = 1051;

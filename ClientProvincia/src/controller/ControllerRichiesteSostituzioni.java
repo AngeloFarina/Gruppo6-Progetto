@@ -9,21 +9,32 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import model.Mezzo;
 import model.Report;
+import model.RichiestaSostituzione;
+import model.TabellaSostituzioni;
 
 public class ControllerRichiesteSostituzioni {
-	private String idCaserma;
+	private String idProvincia;
 	private static final int BROKERPORT = 1051;
-	private List<Mezzo> mezzi = null;
-	
-	public ControllerRichiesteSostituzioni(String idCaserma,List<Mezzo> mezzi) {
-		this.idCaserma=idCaserma;
-		this.mezzi = new ArrayList<Mezzo>(mezzi);
+	private ObservableList<TabellaSostituzioni> richieste = null;
+	public ControllerRichiesteSostituzioni(String idProvincia) {
+		this.idProvincia = idProvincia;
+		richieste = FXCollections.observableArrayList();
+		try {
+			init();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Alert a = new Alert(AlertType.ERROR,"Errore controllo richieste di sostituzione");
+			a.showAndWait();
+		}
 	}
 	
-	public String creaReport(Report r) throws UnknownHostException, IOException, ClassNotFoundException, InterruptedException {
-		r.setIdCaserma(idCaserma);
+	public void init() throws UnknownHostException, IOException, ClassNotFoundException, InterruptedException {
 		Socket clientSocket = new Socket("localhost",BROKERPORT);
 		System.out.println("ClientReport: creata Socket: " +clientSocket.getLocalSocketAddress());
 		DataOutputStream outSock = new DataOutputStream(clientSocket.getOutputStream());
@@ -31,18 +42,19 @@ public class ControllerRichiesteSostituzioni {
 		ObjectInputStream inObj = new ObjectInputStream(clientSocket.getInputStream());
 		outSock.writeUTF("localhost");
 		outSock.writeUTF("localhost");
-		outSock.writeUTF("report");
+		outSock.writeUTF("caricaSost");
 		List<Object> param = new ArrayList<Object>();
-		param.add(r);
-		System.out.println("Report: " + r + "\nParam: " + param);
+		param.add(idProvincia);
 		outObj.writeObject(param);
 		String ruolo,nome,id;
-		param = new ArrayList<Object>((List<Object>)inObj.readObject());
-		System.out.println("Ritorno: " + param.get(0));
-		return (String)param.get(0);
+		List<RichiestaSostituzione> richieste = new ArrayList<RichiestaSostituzione>((List<RichiestaSostituzione>)inObj.readObject());
+		for(RichiestaSostituzione r : richieste) {
+			this.richieste.add(new TabellaSostituzioni(r.getTipo(),r.getIdMezzo(),r.getIdCaserma(),r.getDataOra(),r.getDescrizione()));
+		}
+	}
+	
+	public ObservableList<TabellaSostituzioni> caricaRichieste(){
+		return FXCollections.observableArrayList();
 	}
 
-	public List<Mezzo> getMezzi(){
-		return this.mezzi;
-	}
 }

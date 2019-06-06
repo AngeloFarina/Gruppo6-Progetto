@@ -11,6 +11,7 @@ import java.util.List;
 import model.Caserma;
 import model.Manutenzione;
 import model.Mezzo;
+import model.RichiestaSostituzione;
 
 public class MainProvincia {
 	public static final int PORT = 1050;
@@ -19,6 +20,7 @@ public class MainProvincia {
 		GestioneMezziProvinciaController gestore = new GestioneMezziProvinciaController("bho", "bhobhobhbo", "bhobhobho");
 		VisualizzaMezziProvinciaController visualizza = new VisualizzaMezziProvinciaController("","","");
 		StoricoManutenzioniController storico = new StoricoManutenzioniController("", "", "");
+		ControllerCaricamentoRichiesteSostituzione caricaSostituzioni = new ControllerCaricamentoRichiesteSostituzione("","","");
 		ServerSocket serverSocket = null;
 	    Socket clientSocket = null;
 	    try {
@@ -81,6 +83,11 @@ public class MainProvincia {
 						// LEGGERE TIPO RICHIESTA UN MEZZO E UNA CASERMA (SERVE SOLO ID)
 						//gestore.modificaMezzo("tipoRichiesta", "m", "c");
 						//outSock.writeObject(result);
+					}
+					else if(servizio.equals("caricaSost")) {
+						String idProvincia = (String)param.get(0);
+						List<RichiestaSostituzione> richieste = caricaSostituzioni.caricaRichieste(idProvincia);
+						outSock.writeObject(richieste);
 					}
 					else
 						outSock.writeObject(null);
