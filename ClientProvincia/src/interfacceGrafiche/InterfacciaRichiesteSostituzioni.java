@@ -33,7 +33,7 @@ import model.Mezzo;
 import model.Report;
 import model.Tipo;
 
-public class InterfacciaRichiesteSostituzioni extends VBox {
+public class InterfacciaRichiesteSostituzioni extends HBox {
 	
 	private ControllerRichiesteSostituzioni controllerReport = null;
 	private Button salva = null;
