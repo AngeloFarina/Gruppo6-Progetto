@@ -46,9 +46,11 @@ public class InterfacciaAmministratore extends BorderPane{
 	//private ImageView tickGrigia = null;
 	private ImageView tickGialla = null;
 	private Button crearichiesteSostituzioni = null;
+	private Button storicoManutenzioni = null;
 	private Button modificaCaserma = null;
 	private Button modificaProvincia = null;
 	private ImageView richiesteSostituzioni = null;
+	private ImageView manutenzioni= null;
 	private ImageView impostazioni = null;
 	
 	private VBox v3 = null;
@@ -74,7 +76,7 @@ public class InterfacciaAmministratore extends BorderPane{
 		  new Thread(() -> {
 		    while(true) {
 		       try {
-		          Thread.sleep(20000); // Wait for 5 secs before updating items
+		          Thread.sleep(20000); // Wait for 20 secs before updating items
 		       } catch (InterruptedException e) {
 		          e.printStackTrace();
 		       }
@@ -111,14 +113,16 @@ public class InterfacciaAmministratore extends BorderPane{
 
 	@SuppressWarnings("rawtypes")
 	private void initComponents() {
-		tableProvincia = new TableView();
+		tableProvincia = new TableView<>();
 		tableCaserme = new TableView<>();
 		
 		//Inizializzazione di tutte le icone/immagini
 		impostazioni = new ImageView(new Image("./icone/Impostazioni.png"));
 		modificaCaserma = new Button("Modifica");
 		modificaProvincia=new Button("Modifica");
-		richiesteSostituzioni = new ImageView(new Image("./icone/ChiaveIngleseOfficina.png"));
+		richiesteSostituzioni = new ImageView(new Image("./icone/DoppieFrecce.png"));
+		manutenzioni = new ImageView(new Image("./icone/ChiaveIngleseOfficina.png"));
+		storicoManutenzioni = new Button("",manutenzioni);
 		crearichiesteSostituzioni = new Button("",richiesteSostituzioni);
 		crearichiesteSostituzioni.setOnAction(this::richiesteSostituzioniHandler);
 		richiesteSostituzioni.setPickOnBounds(true);
@@ -215,15 +219,21 @@ public class InterfacciaAmministratore extends BorderPane{
 		auto.setSmooth(true);
 		auto.setFitHeight(40);
 		auto.setFitWidth(40);
+		manutenzioni.setSmooth(true);
+		manutenzioni.setFitWidth(45);
+		manutenzioni.setFitHeight(40);
 		richiesteSostituzioni.setSmooth(true);
 		richiesteSostituzioni.setFitWidth(45);
 		richiesteSostituzioni.setFitHeight(40);
 		crearichiesteSostituzioni.setPrefWidth(45);
 		crearichiesteSostituzioni.setPrefHeight(40);
 		crearichiesteSostituzioni.setTooltip(new Tooltip("Clicca per visualizzare le richieste di sostituzione"));
+		storicoManutenzioni.setPrefWidth(45);
+		storicoManutenzioni.setPrefHeight(40);
+		storicoManutenzioni.setTooltip(new Tooltip("Clicca per visualizzare lo storico delle manutenzioni"));
 		
 		//Aggiungo al vbox principale le due icone
-		root.getChildren().addAll(auto,crearichiesteSostituzioni);
+		root.getChildren().addAll(auto,crearichiesteSostituzioni,storicoManutenzioni);
 		return root;
 	}
 
