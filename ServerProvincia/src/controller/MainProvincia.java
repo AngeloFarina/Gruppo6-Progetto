@@ -75,7 +75,7 @@ public class MainProvincia {
 						List<Caserma> result = visualizza.visualizzaMezziProvincia(idCaserma);
 						outSock.writeObject(result);
 					}
-					else if(servizio.equals("listaManutezioni")) {
+					else if(servizio.equals("storicoManutenzioni")) {
 						List<Manutenzione> result = storico.listaManutenzioni();
 						outSock.writeObject(result);
 					}

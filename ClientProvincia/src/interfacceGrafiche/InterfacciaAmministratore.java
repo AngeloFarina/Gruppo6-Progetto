@@ -2,10 +2,10 @@ package interfacceGrafiche;
 
 
 
-import java.sql.SQLException;
 
 import controller.ControllerClientProvincia;
 import controller.ControllerRichiesteSostituzioni;
+import controller.ControllerStoricoManutenzioni;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -25,7 +25,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
@@ -39,7 +38,6 @@ public class InterfacciaAmministratore extends BorderPane{
 	private ImageView auto = null;
 	private ImageView posizione = null;
 	private ImageView account = null;
-	private ImageView rifornimento = null;
 	private ImageView tickVerde = null;
 	private ImageView tickRossa = null;
 	private ImageView tickBlu = null;
@@ -53,15 +51,8 @@ public class InterfacciaAmministratore extends BorderPane{
 	private ImageView manutenzioni= null;
 	private ImageView impostazioni = null;
 	
-	private VBox v3 = null;
-	private HBox h3 = null;
-	
-	private Label totMezzi = null;
-	private Label inManutenzione = null;
-	private Label livelloCarb = null;
 	private Label caserma = null;
 	private Label nome = null;
-	private int litri;
 	
 	private ControllerClientProvincia controller = null;
 	
@@ -93,10 +84,6 @@ public class InterfacciaAmministratore extends BorderPane{
 	private void initGUI() {
 		nome = new Label(controller.getNome());
 		caserma = new Label(controller.getCaserma());
-		totMezzi = new Label("" + controller.getTotMezzi());
-		litri = Integer.parseInt(controller.getLitri());
-		livelloCarb = new Label("" + litri);
-		inManutenzione = new Label("" + controller.getMan());
 		
 		//Imposto le dimensioni del pane
 		this.setWidth(1280);
@@ -123,10 +110,10 @@ public class InterfacciaAmministratore extends BorderPane{
 		richiesteSostituzioni = new ImageView(new Image("./icone/DoppieFrecce.png"));
 		manutenzioni = new ImageView(new Image("./icone/ChiaveIngleseOfficina.png"));
 		storicoManutenzioni = new Button("",manutenzioni);
+		storicoManutenzioni.setOnAction(this::storicoManutenzioniHandler);
 		crearichiesteSostituzioni = new Button("",richiesteSostituzioni);
 		crearichiesteSostituzioni.setOnAction(this::richiesteSostituzioniHandler);
 		richiesteSostituzioni.setPickOnBounds(true);
-		rifornimento = new ImageView(new Image("./icone/Rifornimento.png"));
 		tickVerde = new ImageView(new Image("./icone/TickVerde.png"));
 		//tickGrigia = new ImageView(new Image("./icone/TickGrigia.png"));
 		tickRossa = new ImageView(new Image("./icone/TickRossa.png"));
@@ -179,7 +166,7 @@ public class InterfacciaAmministratore extends BorderPane{
 		nome.setTextAlignment(TextAlignment.RIGHT);
 		
 		//Creo e imposto il label del ruolo
-		Label ruolo = new Label("Capo Squadra");
+		Label ruolo = new Label("Amministratore");
 		ruolo.setAlignment(Pos.CENTER_RIGHT);
 		
 		//Aggiungo nome e ruolo al vbox
@@ -500,4 +487,15 @@ public class InterfacciaAmministratore extends BorderPane{
 		stage.showAndWait();
 	}
 
+	//storicoManutenzioni handler
+	public void storicoManutenzioniHandler(Event e) {
+		InterfacciaStoricoManutenzioni storicoManutenzioni = new InterfacciaStoricoManutenzioni(new ControllerStoricoManutenzioni(controller.getIdCaserma()));
+		Scene scene = new Scene(storicoManutenzioni,900,600);
+		Stage stage = new Stage();
+		stage.setScene(scene);
+		stage.setResizable(false);
+		stage.showAndWait();
+	}
+	
+	
 }

@@ -23,7 +23,6 @@ public class ControllerClientProvincia {
 	private ObservableList<TabellaAmministratore> mezziProvincia = null;
 	private ObservableList<TabellaAmministratore> mezziCaserme = null;
 	private String idCaserma = null;
-	private String nomeCaserma = null;
 	private String luogoCaserma = null;
 	private String nome = null;
 	private int totMezzi=0;
@@ -79,10 +78,16 @@ public class ControllerClientProvincia {
 		}
 		System.out.println("Ricevute le caserme: " + caserme);
 		for(Caserma c : caserme) {
-			for(Mezzo m : c.getMezzi()){
-				mezziCaserme.add(new TabellaAmministratore(m.getTipo(), m.getId(), m.getStato(), m.getAssegnazione(), m.getAnno() +"",c.getId() + " " + c.getCitta()));
+			if(c.getId().equals(this.idCaserma)) {
+				this.luogoCaserma = c.getCitta();
+			}
+			else {
+				for(Mezzo m : c.getMezzi()){
+					mezziCaserme.add(new TabellaAmministratore(m.getTipo(), m.getId(), m.getStato(), m.getAssegnazione(), m.getAnno() +"",c.getId() + " " + c.getCitta()));
+				}
 			}
 		}
+		
 	}
 	
 	
@@ -101,9 +106,9 @@ public class ControllerClientProvincia {
 	}
 	
 	public String getCaserma() {
-		if(nomeCaserma==null)
+		if(luogoCaserma == null)
 			return "CASERMA";
-		return luogoCaserma + " " + nomeCaserma;
+		return "Distaccamento Provinciale "  + luogoCaserma;
 	}
 	
 	public int getTotMezzi() {

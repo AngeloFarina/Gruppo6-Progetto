@@ -13,24 +13,24 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import model.Mezzo;
-import model.Report;
+import model.Manutenzione;
 import model.RichiestaSostituzione;
 import model.TabellaSostituzioni;
+import model.TabellaStoricoManutenzioni;
 
-public class ControllerRichiesteSostituzioni {
+public class ControllerStoricoManutenzioni {
 	private String idProvincia;
 	private static final int BROKERPORT = 1051;
-	private ObservableList<TabellaSostituzioni> richieste = null;
+	private ObservableList<TabellaStoricoManutenzioni> storico = null;
 	
-	public ControllerRichiesteSostituzioni(String idProvincia) {
+	public ControllerStoricoManutenzioni(String idProvincia) {
 		this.idProvincia = idProvincia;
-		richieste = FXCollections.observableArrayList();
+		storico = FXCollections.observableArrayList();
 		try {
 			init();
 		} catch (Exception e) {
 			e.printStackTrace();
-			Alert a = new Alert(AlertType.ERROR,"Errore controllo richieste di sostituzione");
+			Alert a = new Alert(AlertType.ERROR,"Errore caricamento storico manutenzioni");
 			a.showAndWait();
 		}
 	}
@@ -43,19 +43,20 @@ public class ControllerRichiesteSostituzioni {
 		ObjectInputStream inObj = new ObjectInputStream(clientSocket.getInputStream());
 		outSock.writeUTF("localhost");
 		outSock.writeUTF("localhost");
-		outSock.writeUTF("caricaSost");
+		outSock.writeUTF("storicoManutenzioni");
 		List<Object> param = new ArrayList<Object>();
 		param.add(idProvincia);
 		outObj.writeObject(param);
 		String ruolo,nome,id;
-		List<RichiestaSostituzione> richieste = new ArrayList<RichiestaSostituzione>((List<RichiestaSostituzione>)inObj.readObject());
-		for(RichiestaSostituzione r : richieste) {
-			this.richieste.add(new TabellaSostituzioni(r.getTipo(),r.getIdMezzo(),r.getIdCaserma(),r.getDataOra(),r.getDescrizione()));
+		List<Manutenzione> manutenzioni= new ArrayList<Manutenzione>((List<Manutenzione>)inObj.readObject());
+		for(Manutenzione m : manutenzioni) {
+			this.storico.add(new TabellaStoricoManutenzioni(m.getMezzo().getTipo(),m.getMezzo().getId(),m.getId(),m.getDataOraInizio(),m.getDataOraFine(),m.getDescrizione()));
 		}
+		
 	}
 	
-	public ObservableList<TabellaSostituzioni> caricaRichieste(){
-		return FXCollections.observableArrayList(this.richieste);
+	public ObservableList<TabellaStoricoManutenzioni> caricaStorico(){
+		return FXCollections.observableArrayList(this.storico);
 	}
 
 }
