@@ -16,10 +16,10 @@ import model.Tipo;
 public class ControllerRichiestaSostituzione {
 	private String idCaserma;
 	private String idMezzo;
-	private Tipo tipo;
+	private String tipo;
 	private static final int BROKERPORT = 1051;
 	
-	public ControllerRichiestaSostituzione(String idCaserma,String idMezzo, Tipo tipo) {
+	public ControllerRichiestaSostituzione(String idCaserma,String idMezzo, String tipo) {
 		this.idCaserma=idCaserma;
 		this.idMezzo=idMezzo;
 		this.tipo=tipo;
@@ -28,7 +28,7 @@ public class ControllerRichiestaSostituzione {
 	
 	
 	public String richiedi(String dataOra,String desc) throws UnknownHostException, IOException, ClassNotFoundException, InterruptedException {
-		RichiestaSostituzione r = new RichiestaSostituzione(this.idCaserma,this.idMezzo,this.tipo.name(),dataOra,desc);
+		RichiestaSostituzione r = new RichiestaSostituzione(this.idCaserma,this.idMezzo,this.tipo,dataOra,desc);
 		Socket clientSocket = new Socket("localhost",BROKERPORT);
 		System.out.println("ClientReport: creata Socket: " +clientSocket.getLocalSocketAddress());
 		DataOutputStream outSock = new DataOutputStream(clientSocket.getOutputStream());
@@ -55,7 +55,7 @@ public class ControllerRichiestaSostituzione {
 		return this.idMezzo;
 	}
 	
-	public Tipo getTipo() {
+	public String getTipo() {
 		return this.tipo;
 	}
 }

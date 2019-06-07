@@ -172,7 +172,7 @@ public class TabellaCapoSquadra {
 	}
 	
 	private void handle(Event e) {
-		InterfacciaRichiestaSostituzione richiesta = new InterfacciaRichiestaSostituzione(new ControllerRichiestaSostituzione(idCaserma,getTarga()));
+		InterfacciaRichiestaSostituzione richiesta = new InterfacciaRichiestaSostituzione(new ControllerRichiestaSostituzione(idCaserma,getTarga(),tipo.get()));
 		Scene scene = new Scene(richiesta,400,400);
 		Stage stage = new Stage();
 		stage.setScene(scene);

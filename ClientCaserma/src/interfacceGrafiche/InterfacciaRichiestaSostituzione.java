@@ -18,6 +18,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 public class InterfacciaRichiestaSostituzione extends VBox {
 	
@@ -28,7 +29,6 @@ public class InterfacciaRichiestaSostituzione extends VBox {
 	
 	public InterfacciaRichiestaSostituzione(ControllerRichiestaSostituzione controllerSostituzione) {
 		this.controllerSostituzione=controllerSostituzione;
-		invia.setOnAction(this::handle);
 		initGUI();
 	}
 
@@ -67,6 +67,7 @@ public class InterfacciaRichiestaSostituzione extends VBox {
 		this.desc.setPromptText("Scrivi qui un'eventuale descrizione...");
 		HBox invia = new HBox();
 		this.invia = new Button("  Invia richiesta  ");
+		this.invia.setOnAction(this::handle);
 		invia.setAlignment(Pos.CENTER);
 		invia.getChildren().add(this.invia);
 		dataOra.setPrefHeight(40);
@@ -89,7 +90,13 @@ public class InterfacciaRichiestaSostituzione extends VBox {
 	//String idCaserma, String idMezzo,String tipo, String dataOra, String descrizione
 	private void handle(Event e) {
 		try {
-			if(!controllerSostituzione.richiedi(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")),desc.getText()).equals("ok"))
+			if(controllerSostituzione.richiedi(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")),desc.getText()).equals("ok")) {
+				Alert a = new Alert(AlertType.INFORMATION,"Richiesta effettuata con successo");
+				a.showAndWait();
+				Stage s = (Stage)this.getScene().getWindow();
+				s.close();
+			}
+			else
 				alert("Errore richiesta sostituzione");
 		} catch (Exception e1) {
 			e1.printStackTrace();

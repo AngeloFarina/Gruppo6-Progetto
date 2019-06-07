@@ -1,7 +1,11 @@
 package model;
 
-public class Richiesta {
+import java.io.Serializable;
 
+public class Richiesta implements Serializable{
+
+	private static final long serialVersionUID = 18L;
+	
 	private String idCaserma;
 	private String idMezzo;
 	private String dataOra;

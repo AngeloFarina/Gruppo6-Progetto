@@ -1,9 +1,9 @@
 package model;
 
-import java.io.Serializable;
 
-public class RichiestaSostituzione extends Richiesta implements Serializable{
-	private static final long serialVersionUID = 16L;
+
+public class RichiestaSostituzione extends Richiesta{
+	private static final long serialVersionUID = 17L;
 	
 	private String tipo;
 	

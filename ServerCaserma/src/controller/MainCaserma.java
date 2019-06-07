@@ -74,9 +74,10 @@ public class MainCaserma {
 						outSock.writeObject(dati);
 					}
 					else if(servizio.equals("richiestaSost")) {
-						gestore.richiesta(servizio, (RichiestaSostituzione)param.get(0));
+						RichiestaSostituzione r = (RichiestaSostituzione)param.get(0);
+						gestore.richiesta(servizio, r);
 						param = new ArrayList<Object>();
-						param.add(new String("ok"));
+						param.add("ok");
 						outSock.writeObject(param);
 					}
 					else if(servizio.equals("richiestaMan")) {
