@@ -41,6 +41,7 @@ public class VisualizzaMezziCasermaController extends Controller implements IVis
             			Stato.valueOf(rs.getString("stato")),
             			Assegnazione.valueOf(rs.getString("assegnazione")))); 
         }
+		db.close();
 		return result;
 	}
 	

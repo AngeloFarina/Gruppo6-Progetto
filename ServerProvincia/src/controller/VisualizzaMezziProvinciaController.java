@@ -37,6 +37,7 @@ public class VisualizzaMezziProvinciaController extends Controller implements IV
             			rs.getInt("cisterna"),
             			visualizzaMezziCaserma.visualizzaMezzi(rs.getString("id"))));
         }
+		db.close();
 		return result;
 	}
 	

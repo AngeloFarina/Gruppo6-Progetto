@@ -25,6 +25,7 @@ public class RichiestaSostituzioneController implements IRichiestaSostituzione{
 						"VALUES ('"+r.getIdCaserma()+"',"+"'"+r.getIdMezzo()+"',"+"'"+r.getDataOra()+"',"+"'"+r.getDescrizione()+"')";
 			int result = stmt.executeUpdate(sql);
 			System.out.println("inserimento richiesta sostituzione...\nResult: "+result);
+			db.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

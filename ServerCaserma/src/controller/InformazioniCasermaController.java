@@ -29,6 +29,7 @@ public class InformazioniCasermaController extends Controller {
 				res.add(rs.getInt("cisterna")+"");
 			}
 			System.out.println("Query eseguita: " + res);
+			db.close();
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}

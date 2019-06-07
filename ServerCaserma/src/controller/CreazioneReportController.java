@@ -29,6 +29,7 @@ public class CreazioneReportController extends Controller implements ICreazioneR
 						"'"+r.getDataOra().toString()+ "'," + "'" + r.getIdCaserma() + "')";
 			int result = stmt.executeUpdate(sql);
 			System.out.println("inserimento report...\nResult: "+result);
+			db.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

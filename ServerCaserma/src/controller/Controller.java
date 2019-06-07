@@ -15,7 +15,6 @@ public class Controller {
 	
 	public Controller(String connString, String pathFileOp, String pathFileMsg) {
 		try {
-			dbConnection = openConnection(connString);
 			printerOperazioni = openLogOperation(pathFileOp);
 			printerMessaggi = openLogMessaggi(pathFileMsg);
 		} catch (Exception e) {
@@ -57,6 +56,11 @@ public class Controller {
 	}
 	
 	protected Connection getConnection() {
+		try {
+			dbConnection =  openConnection("");
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+		}
 		return dbConnection;
 	}
 	

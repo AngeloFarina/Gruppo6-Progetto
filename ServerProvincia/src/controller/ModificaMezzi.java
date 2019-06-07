@@ -27,6 +27,7 @@ public class ModificaMezzi implements IModificaMezzi {
 			String sql = "DELETE FROM Mezzo WHERE id='"+m.getId()+"'";
 			int result = stmt.executeUpdate(sql);
 			System.out.println("deleting mezzo...\nResult: "+result);
+			db.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

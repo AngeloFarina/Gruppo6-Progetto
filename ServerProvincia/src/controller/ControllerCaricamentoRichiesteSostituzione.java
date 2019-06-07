@@ -32,6 +32,7 @@ public class ControllerCaricamentoRichiesteSostituzione extends Controller {
 					rs.getString("descrizione")));
 		}
 		System.out.println("Richieste: "+ richieste);
+		db.close();
 		return richieste;
 	}
 

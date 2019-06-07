@@ -33,6 +33,7 @@ public class RichiestaManutenzioneController implements IRichiestaManutenzione{
 						"VALUES ('"+r.getIdCaserma()+"',"+"'"+r.getIdMezzo()+"',"+"'"+r.getDataOra()+"',"+"'"+r.getDescrizione()+"')";
 			int result = stmt.executeUpdate(sql);
 			System.out.println("inserimento richiesta manutenzione...\nResult: "+result);
+			db.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

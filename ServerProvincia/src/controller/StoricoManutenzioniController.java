@@ -37,11 +37,13 @@ public class StoricoManutenzioniController extends Controller implements IStoric
             			df.parse(rs.getString("dataOraFine")),
             			rs.getString("idMezzo")));
 			}
+			db.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		
 		return result;
 	}
 	
