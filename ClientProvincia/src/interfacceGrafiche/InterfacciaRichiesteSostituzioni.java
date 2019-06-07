@@ -43,7 +43,7 @@ public class InterfacciaRichiesteSostituzioni extends VBox {
 		table.setPrefHeight(400);
 		TableColumn dataOra = new TableColumn<>("DATA E ORA");
 		dataOra.setMinWidth(50);
-		dataOra.setPrefWidth(174);
+		dataOra.setPrefWidth(150);
 		dataOra.setMaxWidth(220);
 		TableColumn caserma = new TableColumn<>("CASERMA");
 		caserma.setMinWidth(50);
@@ -51,10 +51,10 @@ public class InterfacciaRichiesteSostituzioni extends VBox {
 		caserma.setMaxWidth(150);
 		TableColumn targa = new TableColumn<>("TARGA");
 		targa.setMinWidth(100);
-		targa.setPrefWidth(157);
+		targa.setPrefWidth(140);
 		targa.setMaxWidth(200);
 		TableColumn tipologia = new TableColumn<>("TIPOLOGIA");
-		tipologia.setPrefWidth(177);
+		tipologia.setPrefWidth(140);
 		tipologia.setMinWidth(100);
 		tipologia.setMaxWidth(250);
 		TableColumn descrizione = new TableColumn<>("DESCRIZIONE");
@@ -62,10 +62,10 @@ public class InterfacciaRichiesteSostituzioni extends VBox {
 		descrizione.setMinWidth(200);
 		descrizione.setMaxWidth(500);
 		TableColumn azioni = new TableColumn<>("AZIONI");
-		azioni.setPrefWidth(152);
+		azioni.setPrefWidth(110);
 		
 		
-		dataOra.setCellValueFactory(new PropertyValueFactory<TabellaSostituzioni,String>("dataora"));
+		dataOra.setCellValueFactory(new PropertyValueFactory<TabellaSostituzioni,String>("dataOra"));
 		caserma.setCellValueFactory(new PropertyValueFactory<TabellaSostituzioni,String>("idCaserma"));
 		targa.setCellValueFactory(new PropertyValueFactory<TabellaSostituzioni,String>("targa"));
 		descrizione.setCellValueFactory(new PropertyValueFactory<TabellaSostituzioni,String>("descrizione"));
@@ -95,6 +95,7 @@ public class InterfacciaRichiesteSostituzioni extends VBox {
 	private Node setHbox() {
 		HBox res = new HBox();
 		res.setAlignment(Pos.CENTER);
+		res.setPrefHeight(60);
 		res.getChildren().add(new Label("LISTA RICHIESTE DI SOSTITUZIONE"));
 		return res;
 	}

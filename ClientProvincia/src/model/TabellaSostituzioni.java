@@ -17,8 +17,8 @@ public class TabellaSostituzioni {
 		this.idCaserma= new SimpleStringProperty(idCaserma);
 		this.tipo = new SimpleStringProperty(tipo);
 		this.targa =  new SimpleStringProperty(targa);
-		this.setDataOra(new SimpleStringProperty(dataOra));
-		this.setDescrizione(new SimpleStringProperty(dataOra));
+		this.dataOra = new SimpleStringProperty(dataOra);
+		this.descrizione = new SimpleStringProperty(descrizione);
 		this.setConcludi(new Button("Concludi"));
 	}
 
@@ -47,20 +47,20 @@ public class TabellaSostituzioni {
 		this.idCaserma = new SimpleStringProperty(idCaserma);
 	}
 
-	public SimpleStringProperty getDataOra() {
-		return dataOra;
+	public String getDataOra() {
+		return dataOra.get();
 	}
 
-	public void setDataOra(SimpleStringProperty dataOra) {
-		this.dataOra = dataOra;
+	public void setDataOra(String dataOra) {
+		this.dataOra = new SimpleStringProperty(dataOra);
 	}
 
-	public SimpleStringProperty getDescrizione() {
-		return descrizione;
+	public String getDescrizione() {
+		return descrizione.get();
 	}
 
-	public void setDescrizione(SimpleStringProperty descrizione) {
-		this.descrizione = descrizione;
+	public void setDescrizione(String  descrizione) {
+		this.descrizione = new SimpleStringProperty(descrizione);
 	}
 
 

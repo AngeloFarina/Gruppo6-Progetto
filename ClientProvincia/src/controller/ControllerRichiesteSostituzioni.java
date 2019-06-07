@@ -54,7 +54,7 @@ public class ControllerRichiesteSostituzioni {
 	}
 	
 	public ObservableList<TabellaSostituzioni> caricaRichieste(){
-		return FXCollections.observableArrayList();
+		return FXCollections.observableArrayList(this.richieste);
 	}
 
 }
