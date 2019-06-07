@@ -27,11 +27,10 @@ public class TabellaCapoSquadra {
 	
 	private String idCaserma;
 	
-	
 	//Sviluppo futuro -- bottone per restituire un mezzo in sostituzione
 	//private Button rest;  
 	
-	public TabellaCapoSquadra( String tipo, String targa, Stato stato, Assegnazione assegnazione, String anno, String idCaserma) {
+	public TabellaCapoSquadra( String tipo, String targa, Stato stato, Assegnazione assegnazione, String anno,String idCaserma) {
 		this.idCaserma = idCaserma;
 		this.image = setImage(tipo);
 		this.tipo = new SimpleStringProperty(tipo);
@@ -56,7 +55,8 @@ public class TabellaCapoSquadra {
 		else
 			sost = null;
 		man = new Button("Richiedi Manutenzione");
-		this.sost.setOnAction(this::handle);
+		if(sost!=null)
+			this.sost.setOnAction(this::handle);
 		
 		/* Sviluppo futuro -- bottone per restituire un mezzo in sostituzione
 		if(assegnazione.equals(Assegnazione.SOSTITUTIVO))
@@ -172,7 +172,7 @@ public class TabellaCapoSquadra {
 	}
 	
 	private void handle(Event e) {
-		InterfacciaRichiestaSostituzione richiesta = new InterfacciaRichiestaSostituzione(new ControllerRichiestaSostituzione(this.idCaserma,getTarga()));
+		InterfacciaRichiestaSostituzione richiesta = new InterfacciaRichiestaSostituzione(new ControllerRichiestaSostituzione(idCaserma,getTarga()));
 		Scene scene = new Scene(richiesta,400,400);
 		Stage stage = new Stage();
 		stage.setScene(scene);

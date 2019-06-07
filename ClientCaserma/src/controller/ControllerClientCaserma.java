@@ -70,14 +70,16 @@ public class ControllerClientCaserma {
 		this.mezzi=new ArrayList<Mezzo>(mezzi);
 		List<String> infoCaserma = new ArrayList<String>((List<String>)dati.get(1));
 		System.out.println("Ricevuti i mezzi: " + mezzi);
-		System.out.println("Ricevute info: " + infoCaserma + " id: " + idCaserma);
+		System.out.println("Ricevute info: " + infoCaserma);
 		for(Mezzo m : mezzi) {
 			totMezzi++;
 			if(m.getStato().equals(Stato.NONDISPONIBILE))
 				man++;
-			mezziCapo.add(new TabellaCapoSquadra(m.getTipo(), m.getId(), m.getStato(), m.getAssegnazione(), m.getAnno() +"",idCaserma));
+			System.out.println("Aggiungo mezzo...");
+			mezziCapo.add(new TabellaCapoSquadra(m.getTipo(), m.getId(), m.getStato(), m.getAssegnazione(), m.getAnno() +"",this.idCaserma));
 			mezziVigile.add(new TabellaVigile(m.getTipo(),m.getId(),m.getStato(),m.getAssegnazione(),m.getAnno()+""));
 		}
+		System.out.println("Schianto..");
 		this.mezziCapo.addAll(mezziCapo);
 		this.mezziVigile.addAll(mezziVigile);
 		nomeCaserma = infoCaserma.get(0);
@@ -123,4 +125,5 @@ public class ControllerClientCaserma {
 	public List<Mezzo> getMezzi(){
 		return new ArrayList<Mezzo>(mezzi);
 	}
+	
 }

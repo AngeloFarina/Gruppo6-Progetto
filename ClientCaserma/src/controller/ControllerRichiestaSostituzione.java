@@ -10,19 +10,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Report;
+import model.RichiestaSostituzione;
+import model.Tipo;
 
 public class ControllerRichiestaSostituzione {
 	private String idCaserma;
 	private String idMezzo;
+	private Tipo tipo;
 	private static final int BROKERPORT = 1051;
 	
-	public ControllerRichiestaSostituzione(String idCaserma,String idMezzo) {
+	public ControllerRichiestaSostituzione(String idCaserma,String idMezzo, Tipo tipo) {
 		this.idCaserma=idCaserma;
 		this.idMezzo=idMezzo;
+		this.tipo=tipo;
 	}
 	
-	public String creaReport(Report r) throws UnknownHostException, IOException, ClassNotFoundException, InterruptedException {
-		r.setIdCaserma(idCaserma);
+	
+	
+	public String richiedi(String dataOra,String desc) throws UnknownHostException, IOException, ClassNotFoundException, InterruptedException {
+		RichiestaSostituzione r = new RichiestaSostituzione(this.idCaserma,this.idMezzo,this.tipo.name(),dataOra,desc);
 		Socket clientSocket = new Socket("localhost",BROKERPORT);
 		System.out.println("ClientReport: creata Socket: " +clientSocket.getLocalSocketAddress());
 		DataOutputStream outSock = new DataOutputStream(clientSocket.getOutputStream());
@@ -30,10 +36,10 @@ public class ControllerRichiestaSostituzione {
 		ObjectInputStream inObj = new ObjectInputStream(clientSocket.getInputStream());
 		outSock.writeUTF("localhost");
 		outSock.writeUTF("localhost");
-		outSock.writeUTF("report");
+		outSock.writeUTF("richiestaSost");
 		List<Object> param = new ArrayList<Object>();
 		param.add(r);
-		System.out.println("Report: " + r + "\nParam: " + param);
+		System.out.println("Richiesta: " + r + "\nParam: " + param);
 		outObj.writeObject(param);
 		String ruolo,nome,id;
 		param = new ArrayList<Object>((List<Object>)inObj.readObject());
@@ -47,5 +53,9 @@ public class ControllerRichiestaSostituzione {
 	
 	public String getMezzo(){
 		return this.idMezzo;
+	}
+	
+	public Tipo getTipo() {
+		return this.tipo;
 	}
 }
