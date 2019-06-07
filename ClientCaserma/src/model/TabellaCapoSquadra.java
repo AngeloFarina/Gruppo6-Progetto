@@ -16,7 +16,8 @@ public class TabellaCapoSquadra {
 	private SimpleStringProperty anno;
 	private Button sost;
 	private Button man;
-	private Button rest;
+	//Sviluppo futuro -- bottone per restituire un mezzo in sostituzione
+	//private Button rest;  
 	
 	public TabellaCapoSquadra( String tipo, String targa, Stato stato, Assegnazione assegnazione, String anno) {
 		this.image = setImage(tipo);
@@ -37,16 +38,21 @@ public class TabellaCapoSquadra {
 		this.assegnazione.setSmooth(true);
 		this.assegnazione.setFitWidth(25);
 		this.assegnazione.setFitHeight(25);
-		sost = new Button("Richiedi Sostituzione");
+		if(stato.equals(Stato.NONDISPONIBILE))
+			sost = new Button("Richiedi Sostituzione");
+		else
+			sost = null;
 		man = new Button("Richiedi Manutenzione");
+		
+		/* Sviluppo futuro -- bottone per restituire un mezzo in sostituzione
 		if(assegnazione.equals(Assegnazione.SOSTITUTIVO))
 			rest = new Button("Restituisci");
 		else
-			rest = null;
+			rest = null;*/
 		man.setStyle("-fx-background-color: darkgrey; -fx-text-fill: white;");
 	}
 
-
+/* Sviluppo futuro -- bottone per restituire un mezzo in sostituzione
 	public void setRest(Button rest) {
 		this.rest = rest;
 	}
@@ -54,7 +60,7 @@ public class TabellaCapoSquadra {
 	public Button getRest() {
 		return rest;
 	}
-
+*/
 
 	private ImageView setImage(String tipo) {
 		ImageView res = null;

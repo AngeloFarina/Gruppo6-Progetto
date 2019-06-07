@@ -461,7 +461,7 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		TableColumn man = new TableColumn<>();
 		man.setPrefWidth(150);
 		TableColumn rest = new TableColumn<>();
-		rest.setPrefWidth(150);
+		rest.setPrefWidth(180);
 		
 		//Assegnazione del factory per il valore delle celle di ogni riga
 		targa.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,String>("targa"));
@@ -472,7 +472,8 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		azioni.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,Button>("sost"));
 		man.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,Button>("man"));
 		icona.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,ImageView>("image"));
-		rest.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,Button>("rest"));
+		//Sviluppo futuro -- bottone per restituire un mezzo in sostituzione
+		//rest.setCellValueFactory(new PropertyValueFactory<TabellaCapoSquadra,Button>("rest"));
 		
 		//Aggiunta colonne alla tabella
 		table.getColumns().addAll(icona,tipologia,targa,stato,assegnazione,anno,azioni,man,rest);
