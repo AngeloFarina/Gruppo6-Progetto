@@ -11,10 +11,11 @@ import java.time.Instant;
 import java.util.Date;
 
 import interfacce.IGestioneManutenzione;
+import interfacce.IRichiestaManutenzione;
 import model.Manutenzione;
 import model.RichiestaManutenzione;
 
-public class RichiestaManutenzioneController implements IGestioneManutenzione{
+public class RichiestaManutenzioneController implements IRichiestaManutenzione{
 
 	private Connection db;
 	
@@ -23,35 +24,17 @@ public class RichiestaManutenzioneController implements IGestioneManutenzione{
 	}
 	
 	@Override
-	public Manutenzione concludiManutenzione(RichiestaManutenzione r) {
+	public void richiesta(RichiestaManutenzione r) {
 		Statement stmt;
 		//INSERIMENTO MANUTZIONE
 		try {
 			stmt = db.createStatement();
-			String sql = "INSERT INTO manutenzione (dataOraInizio,dataOraFine,descrizione,idMezzo) "+
-						"VALUES ('"+r.getDataOra()+"',"+"'"+Date.from(Instant.now())+"',"+"'"+r.getDescrizione()+"',"+"'"+r.getIdMezzo()+"')";
+			String sql = "INSERT INTO richiestaManutenzione (idCaserma,idMezzo,dataOra,descrizione) "+
+						"VALUES ('"+r.getIdCaserma()+"',"+"'"+r.getIdMezzo()+"',"+"'"+r.getDataOra()+"',"+"'"+r.getDescrizione()+"')";
 			int result = stmt.executeUpdate(sql);
-			System.out.println("inserimento manutenzione completata...\nResult: "+result);
+			System.out.println("inserimento richiesta manutenzione...\nResult: "+result);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		String sql = "SELECT * FROM manutenzione WHERE dataOraInizio='"+r.getDataOra()+"'";
-		ResultSet rs;
-		Manutenzione result = null;
-		//LETTURA MANUTENZIONE PER ID E RESTITUZIONE OGGETTO MANUTENZIONE
-		try {
-			stmt = db.createStatement();
-			rs = stmt.executeQuery(sql);
-			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			result = new Manutenzione(rs.getString("id"), rs.getString("descrizione"), df.parse(rs.getString("dataOraInizio")), df.parse(rs.getString("dataOraFine")), rs.getString("idMezzo"));
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return result;
 	}
-
 }

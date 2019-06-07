@@ -11,8 +11,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import model.Caserma;
 import model.Mezzo;
 import model.Report;
+import model.RichiestaManutenzione;
+import model.RichiestaSostituzione;
 
 public class MainCaserma {
 	public static final int PORT = 1053;
@@ -70,8 +73,18 @@ public class MainCaserma {
 						dati.add(getInformazioniCaserma(idCaserma));
 						outSock.writeObject(dati);
 					}
-					else if(servizio.equals("richiestaSost"))
-						outSock.writeObject(new ArrayList<Object>());
+					else if(servizio.equals("richiestaSost")) {
+						gestore.richiesta(servizio, (RichiestaSostituzione)param.get(0));
+						param = new ArrayList<Object>();
+						param.add(new String("ok"));
+						outSock.writeObject(param);
+					}
+					else if(servizio.equals("richiestaMan")) {
+						gestore.richiesta(servizio, (RichiestaManutenzione)param.get(0));
+						param = new ArrayList<Object>();
+						param.add(new String("ok"));
+						outSock.writeObject(param);
+					}
 					else if(servizio.equals("report")) {
 						report.creaReport((Report)param.get(0));
 						param = new ArrayList<Object>();

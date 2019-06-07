@@ -4,11 +4,10 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import interfacce.IGestioneSostituzione;
-import model.Mezzo;
+import interfacce.IRichiestaSostituzione;
 import model.RichiestaSostituzione;
 
-public class RichiestaSostituzioneController implements IGestioneSostituzione{
+public class RichiestaSostituzioneController implements IRichiestaSostituzione{
 
 	private Connection db;
 	
@@ -17,13 +16,13 @@ public class RichiestaSostituzioneController implements IGestioneSostituzione{
 	}
 
 	@Override
-	public void effettuaSostituzione(Mezzo m, RichiestaSostituzione r) {
+	public void richiesta(RichiestaSostituzione r) {
 		Statement stmt;
-		//INSERIMENTO MANUTZIONE
+		//INSERIMENTO RICHIESTA SOSTITUZIONE
 		try {
 			stmt = db.createStatement();
-			String sql = "INSERT INTO richiestaSostituzione (dataOraInizio,dataOraFine,descrizione,idMezzo) "+
-						"VALUES ('"+r.getIdCaserma()+"',"+"'"+r.getIdMezzo()+"',"+"'"+r.getDescrizione()+"',"+"'"+r.getDataOra()+"')";
+			String sql = "INSERT INTO richiestaSostituzione (idCaserma,idMezzo,dataOra,descrizione) "+
+						"VALUES ('"+r.getIdCaserma()+"',"+"'"+r.getIdMezzo()+"',"+"'"+r.getDataOra()+"',"+"'"+r.getDescrizione()+"')";
 			int result = stmt.executeUpdate(sql);
 			System.out.println("inserimento richiesta sostituzione...\nResult: "+result);
 		} catch (SQLException e) {

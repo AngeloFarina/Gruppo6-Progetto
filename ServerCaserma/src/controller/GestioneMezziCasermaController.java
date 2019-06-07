@@ -1,9 +1,8 @@
 package controller;
 
 import interfacce.IGestioneMezzi;
-import model.Caserma;
-import model.Manutenzione;
-import model.Mezzo;
+import model.Richiesta;
+import model.RichiestaManutenzione;
 import model.RichiestaSostituzione;
 
 public class GestioneMezziCasermaController extends Controller implements IGestioneMezzi{
@@ -17,16 +16,15 @@ public class GestioneMezziCasermaController extends Controller implements IGesti
 		sostituzione = new RichiestaSostituzioneController(getConnection());
 	}
 	
-	public void richiesta(String tipoRichiesta, Mezzo m, Caserma c,String descrizione){
+	public void richiesta(String tipoRichiesta, Richiesta r){
 		switch (tipoRichiesta) {
-		case "richiestaSostituzione":
+		case "richiestaSost":
 			//SERVE LA RICHIESTA DI SOSTITUZIONE
-			//RichiestaSostituzione richiesta = new RichiestaSostituzione()
-			//sostituzione.effettuaSostituzione(m, richiestaSostituzione);
+			sostituzione.richiesta((RichiestaSostituzione)r);
 			break;
-		case "richiestaManutenzione":
+		case "richiestaMan":
 			//SERVE LA RICHIESTA DI MANUTENZIONE
-			//Manutenzione result = manutenzione.concludiManutenzione(r);
+			manutenzione.richiesta((RichiestaManutenzione)r);
 			break;
 		}
 	}
