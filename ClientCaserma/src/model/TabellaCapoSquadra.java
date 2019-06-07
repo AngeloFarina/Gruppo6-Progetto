@@ -1,10 +1,17 @@
 package model;
 
 
+import controller.ControllerReport;
+import controller.ControllerRichiestaSostituzione;
+import interfacceGrafiche.InterfacciaReport;
+import interfacceGrafiche.InterfacciaRichiestaSostituzione;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.event.Event;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 public class TabellaCapoSquadra {
 
@@ -16,9 +23,16 @@ public class TabellaCapoSquadra {
 	private SimpleStringProperty anno;
 	private Button sost;
 	private Button man;
-	private Button rest;
 	
-	public TabellaCapoSquadra( String tipo, String targa, Stato stato, Assegnazione assegnazione, String anno) {
+	
+	private String idCaserma;
+	
+	
+	//Sviluppo futuro -- bottone per restituire un mezzo in sostituzione
+	//private Button rest;  
+	
+	public TabellaCapoSquadra( String tipo, String targa, Stato stato, Assegnazione assegnazione, String anno, String idCaserma) {
+		this.idCaserma = idCaserma;
 		this.image = setImage(tipo);
 		this.tipo = new SimpleStringProperty(tipo);
 		this.targa =  new SimpleStringProperty(targa);
@@ -37,16 +51,22 @@ public class TabellaCapoSquadra {
 		this.assegnazione.setSmooth(true);
 		this.assegnazione.setFitWidth(25);
 		this.assegnazione.setFitHeight(25);
-		sost = new Button("Richiedi Sostituzione");
+		if(stato.equals(Stato.NONDISPONIBILE))
+			sost = new Button("Richiedi Sostituzione");
+		else
+			sost = null;
 		man = new Button("Richiedi Manutenzione");
+		this.sost.setOnAction(this::handle);
+		
+		/* Sviluppo futuro -- bottone per restituire un mezzo in sostituzione
 		if(assegnazione.equals(Assegnazione.SOSTITUTIVO))
 			rest = new Button("Restituisci");
 		else
-			rest = null;
+			rest = null;*/
 		man.setStyle("-fx-background-color: darkgrey; -fx-text-fill: white;");
 	}
 
-
+/* Sviluppo futuro -- bottone per restituire un mezzo in sostituzione
 	public void setRest(Button rest) {
 		this.rest = rest;
 	}
@@ -54,7 +74,7 @@ public class TabellaCapoSquadra {
 	public Button getRest() {
 		return rest;
 	}
-
+*/
 
 	private ImageView setImage(String tipo) {
 		ImageView res = null;
@@ -149,6 +169,15 @@ public class TabellaCapoSquadra {
 			this.assegnazione = new ImageView(new Image("icone/TickBlu.png"));
 		else
 			this.assegnazione=  new ImageView(new Image("icone/TickGialla.png"));
+	}
+	
+	private void handle(Event e) {
+		InterfacciaRichiestaSostituzione richiesta = new InterfacciaRichiestaSostituzione(new ControllerRichiestaSostituzione(this.idCaserma,getTarga()));
+		Scene scene = new Scene(richiesta,400,400);
+		Stage stage = new Stage();
+		stage.setScene(scene);
+		stage.setResizable(false);
+		stage.showAndWait();
 	}
 	
 	
