@@ -3,6 +3,8 @@ package interfacceGrafiche;
 
 
 
+import java.util.ArrayList;
+
 import controller.ControllerClientProvincia;
 import controller.ControllerRichiesteSostituzioni;
 import controller.ControllerStoricoManutenzioni;
@@ -45,8 +47,8 @@ public class InterfacciaAmministratore extends BorderPane{
 	private ImageView tickGialla = null;
 	private Button crearichiesteSostituzioni = null;
 	private Button storicoManutenzioni = null;
-	private Button modificaCaserma = null;
-	private Button modificaProvincia = null;
+	private Button modifica = null;
+	private Button aggiungi = null;
 	private ImageView richiesteSostituzioni = null;
 	private ImageView manutenzioni= null;
 	private ImageView impostazioni = null;
@@ -105,8 +107,10 @@ public class InterfacciaAmministratore extends BorderPane{
 		
 		//Inizializzazione di tutte le icone/immagini
 		impostazioni = new ImageView(new Image("./icone/Impostazioni.png"));
-		modificaCaserma = new Button("Modifica");
-		modificaProvincia=new Button("Modifica");
+		modifica = new Button("  Modifica  ");
+		modifica.setOnAction(this::modificaHandler);
+		aggiungi = new Button("  Aggiungi  ");
+		aggiungi.setOnAction(this::aggiungiHandler);
 		richiesteSostituzioni = new ImageView(new Image("./icone/DoppieFrecce.png"));
 		manutenzioni = new ImageView(new Image("./icone/ChiaveIngleseOfficina.png"));
 		storicoManutenzioni = new Button("",manutenzioni);
@@ -273,7 +277,7 @@ public class InterfacciaAmministratore extends BorderPane{
 		sec.setPrefHeight(44);
 		sec.setAlignment(Pos.CENTER_RIGHT);
 		first.setAlignment(Pos.CENTER_RIGHT);
-		sec.getChildren().add(modificaCaserma);
+		sec.getChildren().addAll(modifica,new Label("  "),aggiungi);
 		res.getChildren().addAll(first,sec);
 		return res;
 	}
@@ -294,7 +298,6 @@ public class InterfacciaAmministratore extends BorderPane{
 		sec.setPrefHeight(44);
 		sec.setAlignment(Pos.CENTER_RIGHT);
 		first.setAlignment(Pos.CENTER_RIGHT);
-		sec.getChildren().add(modificaProvincia);
 		res.getChildren().addAll(first,sec);
 		return res;
 	}
@@ -407,6 +410,12 @@ public class InterfacciaAmministratore extends BorderPane{
 		//Inserisco i dati alla tabella (riempie tutte le celle automaticamente
 		//grazie al factory precedentemente associato
 		tableCaserme.setItems(data);
+		int i=0;
+		for(TabellaAmministratore t : new ArrayList<TabellaAmministratore>(tableProvincia.getItems())) {
+			if(tableProvincia.getSelectionModel().isSelected(i))
+				tableCaserme.getSelectionModel().clearSelection();
+			i++;
+		}
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -474,6 +483,13 @@ public class InterfacciaAmministratore extends BorderPane{
 		//Inserisco i dati alla tabella (riempie tutte le celle automaticamente
 		//grazie al factory precedentemente associato
 		tableProvincia.setItems(data);
+		tableProvincia.getSelectionModel().select(0);
+		int i=0;
+		for(TabellaAmministratore t : new ArrayList<TabellaAmministratore>(tableCaserme.getItems())) {
+			if(tableCaserme.getSelectionModel().isSelected(i))
+				tableProvincia.getSelectionModel().clearSelection();
+			i++;
+		}
 	}
 	
 	
@@ -495,6 +511,15 @@ public class InterfacciaAmministratore extends BorderPane{
 		stage.setScene(scene);
 		stage.setResizable(false);
 		stage.showAndWait();
+	}
+	
+	//Handler di modifica mezzi
+	public void modificaHandler(Event e) {
+	}
+	
+	//Handler di aggiungi mezzo
+	public void aggiungiHandler(Event e) {
+		
 	}
 	
 	

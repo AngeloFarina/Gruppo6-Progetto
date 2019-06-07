@@ -43,6 +43,7 @@ public class ModificaMezzi implements IModificaMezzi {
 						"'"+c.getId()+"','"+m.getStato()+"','"+m.getAssegnazione()+"')";
 			int result = stmt.executeUpdate(sql);
 			System.out.println("updating mezzo...\nResult: "+result);
+			db.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -53,11 +54,12 @@ public class ModificaMezzi implements IModificaMezzi {
 		Statement stmt;
 		try {
 			stmt = db.createStatement();
-			String sql = "UPDATE MEZZO SET id='"+m.getId()+"',tipo='"+m.getTipo()+"',anno="+m.getAnno()+",marca='"+m.getMarca()+
-					"',modello='"+m.getModello()+"',stato='"+m.getStato()+"',assegnazione='"+m.getAssegnazione()+"' "+
+			String sql = "UPDATE MEZZO SET id='"+m.getId()+"',tipo='"+m.getTipo()+"',anno='"+m.getAnno()+
+					"',stato='"+m.getStato()+"',assegnazione='"+m.getAssegnazione()+"' "+
 					"WHERE id='"+m.getId()+"'";
 			int result = stmt.executeUpdate(sql);
 			System.out.println("updating mezzo...\nResult: "+result);
+			db.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
