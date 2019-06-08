@@ -4,8 +4,10 @@ package interfacceGrafiche;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import controller.ControllerClientProvincia;
+import controller.ControllerModificaMezzi;
 import controller.ControllerRichiesteSostituzioni;
 import controller.ControllerStoricoManutenzioni;
 import javafx.application.Platform;
@@ -30,6 +32,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import model.Caserma;
+import model.Mezzo;
+import model.Modifica;
 import model.TabellaAmministratore;
 
 public class InterfacciaAmministratore extends BorderPane{
@@ -53,6 +58,7 @@ public class InterfacciaAmministratore extends BorderPane{
 	private ImageView richiesteSostituzioni = null;
 	private ImageView manutenzioni= null;
 	private ImageView impostazioni = null;
+	
 	
 	private Label caserma = null;
 	private Label nome = null;
@@ -87,7 +93,6 @@ public class InterfacciaAmministratore extends BorderPane{
 	private void initGUI() {
 		nome = new Label(controller.getNome());
 		caserma = new Label(controller.getCaserma());
-		
 		//Imposto le dimensioni del pane
 		this.setWidth(1280);
 		this.setHeight(720);
@@ -280,7 +285,7 @@ public class InterfacciaAmministratore extends BorderPane{
 		sec.setPrefHeight(44);
 		sec.setAlignment(Pos.CENTER_RIGHT);
 		first.setAlignment(Pos.CENTER_RIGHT);
-		sec.getChildren().addAll(modifica,new Label("  "),aggiungi);
+		sec.getChildren().addAll(modifica,new Label("  "),aggiungi, new Label("  "),elimina);
 		res.getChildren().addAll(first,sec);
 		return res;
 	}
@@ -532,12 +537,28 @@ public class InterfacciaAmministratore extends BorderPane{
 	
 	//Handler di aggiungi mezzo
 	public void aggiungiHandler(Event e) {
-		
+		TabellaAmministratore tabella;
+		if(tableCaserme.getSelectionModel().getSelectedItem()!=null)
+			tabella = (TabellaAmministratore) tableCaserme.getSelectionModel().getSelectedItem();
+		else
+			tabella = (TabellaAmministratore) tableProvincia.getSelectionModel().getSelectedItem();
+		InterfacciaAggiungiMezzo mod = new InterfacciaAggiungiMezzo(new Modifica(tabella.getTipo(),tabella.getTarga(),tabella.getStatoMezzo()
+				,tabella.getAssegnazioneMezzo(),tabella.getAnno(),tabella.getIdCaserma(),tabella.getCaserme()));
+		Stage s = new Stage();
+		s.setScene(new Scene(mod));
+		s.setResizable(false);
+		s.showAndWait();
 	}
 	
 	//Handler di elimina mezzo
 	public void eliminaHandler(Event e) {
-		
+		TabellaAmministratore tabella;
+		if(tableCaserme.getSelectionModel().getSelectedItem()!=null)
+			tabella = (TabellaAmministratore) tableCaserme.getSelectionModel().getSelectedItem();
+		else
+			tabella = (TabellaAmministratore) tableProvincia.getSelectionModel().getSelectedItem();
+		Modifica mod = new Modifica(null,null,null,null,null,null,null);
+		ControllerModificaMezzi elimina = new ControllerModificaMezzi(mod,new Mezzo(tabella.getTarga(),null,0,null,null,null,null));
 	}
 	
 	

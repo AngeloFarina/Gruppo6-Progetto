@@ -29,6 +29,8 @@ public class ControllerClientProvincia {
 	private int man=0;
 	private String carburante="0";
 	
+	private List<Caserma> caserme = null;
+	
 	
 	public ControllerClientProvincia(String idCaserma,String nome) {
 		this.idCaserma=idCaserma;
@@ -54,6 +56,7 @@ public class ControllerClientProvincia {
 		param.add(idCaserma);
 		outObj.writeObject(param);
 		caserme = new ArrayList<Caserma>((List<Caserma>)inObj.readObject());
+		this.caserme=new ArrayList<Caserma>(caserme);
 		System.out.println("Ricevute le caserme: " + caserme);
 		for(Caserma c : caserme) {
 			if(c.getId().equals(this.idCaserma)) {
@@ -127,5 +130,9 @@ public class ControllerClientProvincia {
 		return this.idCaserma;
 	}
 
+	
+	public List<Caserma> getCaserme(){
+		return new ArrayList<Caserma>(caserme);
+	}
 	
 }

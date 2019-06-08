@@ -2,7 +2,6 @@ package interfacceGrafiche;
 
 
 
-import java.util.List;
 
 import controller.ControllerModificaMezzi;
 import javafx.collections.FXCollections;
@@ -46,7 +45,7 @@ public class InterfacciaModificaMezzo extends VBox {
 		this.stato = new ComboBox<Stato>();
 		this.assegnazione = new ComboBox<Assegnazione>();
 		caserme = new ComboBox<String>();
-		salva = new Button("Salva report");
+		salva = new Button("Modifica veicolo");
 		salva.setOnAction(this::salva);
 		initGUI();
 	}
@@ -121,6 +120,9 @@ public class InterfacciaModificaMezzo extends VBox {
 			if( (c.getId() + " " + c.getCitta()).equals(tabella.getIdCaserma()))
 				caserme.getSelectionModel().select(c.getId() + " " + c.getCitta());
 		}
+		if(caserme.getSelectionModel().getSelectedItem()==null || caserme.getSelectionModel().getSelectedItem().isEmpty())
+			caserme.getSelectionModel().selectLast();
+			
 	}
 
 

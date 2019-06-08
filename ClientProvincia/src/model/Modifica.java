@@ -27,7 +27,8 @@ public class Modifica implements Serializable{
 		this.idCaserma = idCaserma;
 		this.tipo = tipo;
 		this.targa =  targa;
-		this.caserme = new ArrayList<Caserma>(caserme);
+		if(caserme!=null)
+			this.caserme = new ArrayList<Caserma>(caserme);
 	}
 
 
