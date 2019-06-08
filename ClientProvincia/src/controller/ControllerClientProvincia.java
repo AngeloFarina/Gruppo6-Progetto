@@ -49,33 +49,11 @@ public class ControllerClientProvincia {
 		ObjectInputStream inObj = new ObjectInputStream(clientSocket.getInputStream());
 		outSock.writeUTF("localhost");
 		outSock.writeUTF("localhost");
-		outSock.writeUTF("mezziCasermaProvincia");
+		outSock.writeUTF("mezziProvincia");
 		List<String> param = new ArrayList<String>();
 		param.add(idCaserma);
 		outObj.writeObject(param);
-		mezzi = new ArrayList<Mezzo>((List<Mezzo>)inObj.readObject());
-		clientSocket.close();
-		System.out.println("Ricevuti i mezzi: " + mezzi);
-		for(Mezzo m : mezzi) {
-			mezziProvincia.add(new TabellaAmministratore(m.getTipo(), m.getId(), m.getStato(), m.getAssegnazione(), m.getAnno() +"",this.idCaserma));
-		}
-		clientSocket = new Socket("localhost",BROKERPORT);
-		System.out.println("ClientProvincia: creata Socket: " +clientSocket.getLocalSocketAddress());
-		outSock = new DataOutputStream(clientSocket.getOutputStream());
-		outObj = new ObjectOutputStream(clientSocket.getOutputStream());
-		inObj = new ObjectInputStream(clientSocket.getInputStream());
-		outSock.writeUTF("localhost");
-		outSock.writeUTF("localhost");
-		outSock.writeUTF("mezziProvincia");
-		param = new ArrayList<String>();
-		param.add(idCaserma);
-		outObj.writeObject(param);
 		caserme = new ArrayList<Caserma>((List<Caserma>)inObj.readObject());
-		clientSocket.close();
-		}catch (Exception e) {
-			e.printStackTrace();
-			return;
-		}
 		System.out.println("Ricevute le caserme: " + caserme);
 		for(Caserma c : caserme) {
 			if(c.getId().equals(this.idCaserma)) {
@@ -83,9 +61,31 @@ public class ControllerClientProvincia {
 			}
 			else {
 				for(Mezzo m : c.getMezzi()){
-					mezziCaserme.add(new TabellaAmministratore(m.getTipo(), m.getId(), m.getStato(), m.getAssegnazione(), m.getAnno() +"",c.getId() + " " + c.getCitta()));
+					mezziCaserme.add(new TabellaAmministratore(m.getTipo(), m.getId(), m.getStato(), m.getAssegnazione(), m.getAnno() +"",c.getId() + " " + c.getCitta(),caserme));
 				}
 			}
+		}
+		clientSocket.close();
+		clientSocket = new Socket("localhost",BROKERPORT);
+		System.out.println("ClientProvincia: creata Socket: " +clientSocket.getLocalSocketAddress());
+		outSock = new DataOutputStream(clientSocket.getOutputStream());
+		outObj = new ObjectOutputStream(clientSocket.getOutputStream());
+		inObj = new ObjectInputStream(clientSocket.getInputStream());
+		outSock.writeUTF("localhost");
+		outSock.writeUTF("localhost");
+		outSock.writeUTF("mezziCasermaProvincia");
+		param = new ArrayList<String>();
+		param.add(idCaserma);
+		outObj.writeObject(param);
+		mezzi = new ArrayList<Mezzo>((List<Mezzo>)inObj.readObject());
+		clientSocket.close();
+		System.out.println("Ricevuti i mezzi: " + mezzi);
+		for(Mezzo m : mezzi) {
+			mezziProvincia.add(new TabellaAmministratore(m.getTipo(), m.getId(), m.getStato(), m.getAssegnazione(), m.getAnno() +"",this.idCaserma,caserme));
+		}
+		}catch (Exception e) {
+			e.printStackTrace();
+			return;
 		}
 		
 	}

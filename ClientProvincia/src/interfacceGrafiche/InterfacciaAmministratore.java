@@ -49,6 +49,7 @@ public class InterfacciaAmministratore extends BorderPane{
 	private Button storicoManutenzioni = null;
 	private Button modifica = null;
 	private Button aggiungi = null;
+	private Button elimina = null;
 	private ImageView richiesteSostituzioni = null;
 	private ImageView manutenzioni= null;
 	private ImageView impostazioni = null;
@@ -107,6 +108,8 @@ public class InterfacciaAmministratore extends BorderPane{
 		
 		//Inizializzazione di tutte le icone/immagini
 		impostazioni = new ImageView(new Image("./icone/Impostazioni.png"));
+		elimina = new Button("  Elimina  ");
+		elimina.setOnAction(this::eliminaHandler);
 		modifica = new Button("  Modifica  ");
 		modifica.setOnAction(this::modificaHandler);
 		aggiungi = new Button("  Aggiungi  ");
@@ -515,10 +518,25 @@ public class InterfacciaAmministratore extends BorderPane{
 	
 	//Handler di modifica mezzi
 	public void modificaHandler(Event e) {
+		TabellaAmministratore tabella;
+		if(tableCaserme.getSelectionModel().getSelectedItem()!=null)
+			tabella = (TabellaAmministratore) tableCaserme.getSelectionModel().getSelectedItem();
+		else
+			tabella = (TabellaAmministratore) tableProvincia.getSelectionModel().getSelectedItem();
+		InterfacciaModificaMezzo mod = new InterfacciaModificaMezzo(tabella);
+		Stage s = new Stage();
+		s.setScene(new Scene(mod));
+		s.setResizable(false);
+		s.showAndWait();
 	}
 	
 	//Handler di aggiungi mezzo
 	public void aggiungiHandler(Event e) {
+		
+	}
+	
+	//Handler di elimina mezzo
+	public void eliminaHandler(Event e) {
 		
 	}
 	

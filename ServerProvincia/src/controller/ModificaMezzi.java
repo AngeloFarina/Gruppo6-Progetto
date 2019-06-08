@@ -34,13 +34,13 @@ public class ModificaMezzi implements IModificaMezzi {
 	}
 
 	@Override
-	public void aggiungiMezzo(Mezzo m, Caserma c) {
+	public void aggiungiMezzo(Mezzo m, String c) {
 		Statement stmt;
 		try {
 			stmt = db.createStatement();
 			String sql = "INSERT INTO Mezzo (id,tipo,anno,marca,modello,idCaserma,stato,assegnazione) "+
 						"VALUES ('"+m.getId()+"',"+"'"+m.getTipo()+"',"+"'"+m.getAnno()+"',"+"'"+m.getMarca()+"','"+ m.getModello()+"',"+
-						"'"+c.getId()+"','"+m.getStato()+"','"+m.getAssegnazione()+"')";
+						"'"+c+"','"+m.getStato()+"','"+m.getAssegnazione()+"')";
 			int result = stmt.executeUpdate(sql);
 			System.out.println("updating mezzo...\nResult: "+result);
 			db.close();
@@ -50,13 +50,13 @@ public class ModificaMezzi implements IModificaMezzi {
 	}
 
 	@Override
-	public void modificaMezzo(Mezzo m) {
+	public void modificaMezzo(Mezzo m,String id) {
 		Statement stmt;
 		try {
 			stmt = db.createStatement();
 			String sql = "UPDATE MEZZO SET id='"+m.getId()+"',tipo='"+m.getTipo()+"',anno='"+m.getAnno()+
 					"',stato='"+m.getStato()+"',assegnazione='"+m.getAssegnazione()+"' "+
-					"WHERE id='"+m.getId()+"'";
+					"WHERE id='"+id+"'";
 			int result = stmt.executeUpdate(sql);
 			System.out.println("updating mezzo...\nResult: "+result);
 			db.close();

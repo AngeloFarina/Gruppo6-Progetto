@@ -22,7 +22,7 @@ public class GestioneMezziProvinciaController extends Controller implements IGes
 		gestSost = new GestioneSostituzione(getConnection());
 	}
 	
-	public boolean modificaMezzo(String tipoRichiesta, Mezzo m, Caserma c) {
+	public boolean modificaMezzo(String tipoRichiesta, Mezzo m, String c) {
 		switch (tipoRichiesta) {
 		case "elimina":
 			modMezzi.eliminaMezzo(m);
@@ -31,7 +31,7 @@ public class GestioneMezziProvinciaController extends Controller implements IGes
 			modMezzi.aggiungiMezzo(m, c);
 			break;
 		case "modifica":
-			modMezzi.modificaMezzo(m);
+			modMezzi.modificaMezzo(m,c);
 			break;
 		default:
 			return false;
@@ -47,7 +47,7 @@ public class GestioneMezziProvinciaController extends Controller implements IGes
 	public static void main(String[] args) throws SQLException {
 		GestioneMezziProvinciaController controller = new GestioneMezziProvinciaController("", "", "");
 		//controller.modificaMezzo("aggiungi", new Mezzo("PROVAPO", "PROVA", 2090, "GUCCI", "GANG", Stato.DISPONIBILE, Assegnazione.PROPRIO), new Caserma("BO001", "Bologna", 4500, new ArrayList<Mezzo>()));
-		controller.modificaMezzo("modifica", new Mezzo("BG799EI", "MODIFICA", 2090, "MODIFICA", "MODIFICA", Stato.DISPONIBILE, Assegnazione.PROPRIO), new Caserma("BO001", "Bologna", 4500, new ArrayList<Mezzo>()));
+		//controller.modificaMezzo("modifica", new Mezzo("BG799EI", "MODIFICA", 2090, "MODIFICA", "MODIFICA", Stato.DISPONIBILE, Assegnazione.PROPRIO), new Caserma("BO001", "Bologna", 4500, new ArrayList<Mezzo>()));
 		VisualizzaMezziProvinciaController c = new VisualizzaMezziProvinciaController("", "", "");
 		List<Mezzo> l =c.visualizzaMezzi("BO001");
 		for (Mezzo mezzo : l) {

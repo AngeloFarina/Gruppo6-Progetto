@@ -6,12 +6,14 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import model.Caserma;
 import model.Manutenzione;
 import model.Mezzo;
 import model.RichiestaSostituzione;
+import model.TabellaAmministratore;
 
 public class MainProvincia {
 	public static final int PORT = 1050;
@@ -80,9 +82,19 @@ public class MainProvincia {
 						outSock.writeObject(result);
 					}
 					else if(servizio.equals("modificaMezzi")) {
-						// LEGGERE TIPO RICHIESTA UN MEZZO E UNA CASERMA (SERVE SOLO ID)
-						//gestore.modificaMezzo("tipoRichiesta", "m", "c");
-						//outSock.writeObject(result);
+						List<Object> result = new ArrayList<Object>();
+						TabellaAmministratore tab = (TabellaAmministratore)param.get(0);
+						Mezzo m = (Mezzo)param.get(1);
+						if(tab.getTarga()==null && m.getMarca()!=null)
+							if(!gestore.modificaMezzo("aggiungi", m, tab.getIdCaserma().split(" ")[0]))
+								result.add("warning");
+						if(tab.getTarga()!=null && m.getMarca()==null)
+							if(!gestore.modificaMezzo("modifica", m,tab.getIdCaserma().split(" ")[0]))
+								result.add("warning");
+						if(tab.getTarga()==null && m.getMarca()==null)
+							if(!gestore.modificaMezzo("elimina", m, ""))
+								result.add("warning");
+						result.add("ok");
 					}
 					else if(servizio.equals("caricaSost")) {
 						String idProvincia = (String)param.get(0);
