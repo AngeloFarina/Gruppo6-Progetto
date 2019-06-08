@@ -1,8 +1,15 @@
 package model;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
+import interfacceGrafiche.InterfacciaConcludiSostituzione;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.event.Event;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.stage.Stage;
 
 public class TabellaSostituzioni {
 
@@ -12,14 +19,17 @@ public class TabellaSostituzioni {
 	private SimpleStringProperty descrizione;
 	private SimpleStringProperty tipo;
 	private Button concludi;
+	private List<String> idMezzi;
 	
-	public TabellaSostituzioni( String tipo, String targa, String idCaserma,String dataOra,String descrizione) {
+	public TabellaSostituzioni( String tipo, String targa, String idCaserma,String dataOra,String descrizione, List<String> idMezzi) {
 		this.idCaserma= new SimpleStringProperty(idCaserma);
+		this.idMezzi = new ArrayList<String>(idMezzi);
 		this.tipo = new SimpleStringProperty(tipo);
 		this.targa =  new SimpleStringProperty(targa);
 		this.dataOra = new SimpleStringProperty(dataOra);
 		this.descrizione = new SimpleStringProperty(descrizione);
 		this.setConcludi(new Button("Concludi"));
+		concludi.setOnAction(this::concludi);
 	}
 
 
@@ -63,15 +73,24 @@ public class TabellaSostituzioni {
 		this.descrizione = new SimpleStringProperty(descrizione);
 	}
 
-
 	public Button getConcludi() {
 		return concludi;
 	}
 
-
 	public void setConcludi(Button concludi) {
 		this.concludi = concludi;
 	}
-	
-	
+
+	private void concludi(Event e) {
+		RichiestaSostituzione r = new RichiestaSostituzione(getIdCaserma(),getTarga(),getTipo(),getDataOra(),getDescrizione());
+		InterfacciaConcludiSostituzione cs = new InterfacciaConcludiSostituzione(r,this.idMezzi);
+		Stage s = new Stage();
+		s.setScene(new Scene(cs));
+		s.setResizable(false);
+		s.show();
+	}
+	public List<String> getMezzi() {
+		return new ArrayList<String>(idMezzi);
+	}
+
 }

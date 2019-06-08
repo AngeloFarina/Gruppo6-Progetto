@@ -22,8 +22,10 @@ public class ControllerRichiesteSostituzioni {
 	private String idProvincia;
 	private static final int BROKERPORT = 1051;
 	private ObservableList<TabellaSostituzioni> richieste = null;
+	private List<String> mezzi = null;
 	
-	public ControllerRichiesteSostituzioni(String idProvincia) {
+	public ControllerRichiesteSostituzioni(String idProvincia,List<String> idMezzi) {
+		this.mezzi=new ArrayList<String>(idMezzi);
 		this.idProvincia = idProvincia;
 		richieste = FXCollections.observableArrayList();
 		try {
@@ -50,7 +52,7 @@ public class ControllerRichiesteSostituzioni {
 		String ruolo,nome,id;
 		List<RichiestaSostituzione> richieste = new ArrayList<RichiestaSostituzione>((List<RichiestaSostituzione>)inObj.readObject());
 		for(RichiestaSostituzione r : richieste) {
-			this.richieste.add(new TabellaSostituzioni(r.getTipo(),r.getIdMezzo(),r.getIdCaserma(),r.getDataOra(),r.getDescrizione()));
+			this.richieste.add(new TabellaSostituzioni(r.getTipo(),r.getIdMezzo(),r.getIdCaserma(),r.getDataOra(),r.getDescrizione(),mezzi));
 		}
 	}
 	
@@ -58,4 +60,8 @@ public class ControllerRichiesteSostituzioni {
 		return FXCollections.observableArrayList(this.richieste);
 	}
 
+	public List<String> getMezzi(){
+		return new ArrayList<String>(mezzi);
+	}
+	
 }

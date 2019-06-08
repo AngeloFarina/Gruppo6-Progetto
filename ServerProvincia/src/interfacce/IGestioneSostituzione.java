@@ -1,9 +1,8 @@
 package interfacce;
 
-import model.Mezzo;
 import model.RichiestaSostituzione;
 
 public interface IGestioneSostituzione {
 
-	public void effettuaSostituzione(Mezzo m, RichiestaSostituzione s);
+	public void effettuaSostituzione(String idMezzo, RichiestaSostituzione s) throws Exception;
 }

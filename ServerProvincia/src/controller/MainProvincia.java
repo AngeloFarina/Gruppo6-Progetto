@@ -18,6 +18,7 @@ import model.RichiestaSostituzione;
 public class MainProvincia {
 	public static final int PORT = 1050;
 
+	@SuppressWarnings("unchecked")
 	public static void main(String[] args) throws SQLException {
 		GestioneMezziProvinciaController gestore = new GestioneMezziProvinciaController("bho", "bhobhobhbo", "bhobhobho");
 		VisualizzaMezziProvinciaController visualizza = new VisualizzaMezziProvinciaController("","","");
@@ -101,6 +102,15 @@ public class MainProvincia {
 						String idProvincia = (String)param.get(0);
 						List<RichiestaSostituzione> richieste = caricaSostituzioni.caricaRichieste(idProvincia);
 						outSock.writeObject(richieste);
+					}
+					else if(servizio.equals("gestioneSost")) {
+						RichiestaSostituzione r = (RichiestaSostituzione)param.get(0);
+						String idMezzo = (String)param.get(1);
+						List<Object> result = new ArrayList<Object>();
+						if(!gestore.effettuaSostituzione(idMezzo, r))
+							result.add("warning");
+						result.add("ok");
+						outSock.writeObject(result);
 					}
 					else
 						outSock.writeObject(null);

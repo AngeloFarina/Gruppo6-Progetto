@@ -503,7 +503,11 @@ public class InterfacciaAmministratore extends BorderPane{
 	
 	//richiesteSostituzioni handler
 	public void richiesteSostituzioniHandler(Event e) {
-		InterfacciaRichiesteSostituzioni richiesteSostituzioni = new InterfacciaRichiesteSostituzioni(new ControllerRichiesteSostituzioni(controller.getIdCaserma()));
+		List<String> idMezzi = new ArrayList<String>();
+		for(TabellaAmministratore t : controller.caricaMezziProvincia()) {
+			idMezzi.add(t.getTarga());
+		}
+		InterfacciaRichiesteSostituzioni richiesteSostituzioni = new InterfacciaRichiesteSostituzioni(new ControllerRichiesteSostituzioni(controller.getIdCaserma(),idMezzi));
 		Scene scene = new Scene(richiesteSostituzioni,900,600);
 		Stage stage = new Stage();
 		stage.setScene(scene);

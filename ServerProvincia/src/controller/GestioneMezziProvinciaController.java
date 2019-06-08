@@ -39,8 +39,13 @@ public class GestioneMezziProvinciaController extends Controller implements IGes
 		return true;
 	}
 	
-	public boolean effettuaSostituzione(Mezzo m, RichiestaSostituzione r) {
-		gestSost.effettuaSostituzione(m, r);
+	public boolean effettuaSostituzione(String idMezzo, RichiestaSostituzione r) {
+		try{
+			gestSost.effettuaSostituzione(idMezzo, r);
+		}catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 		return true;
 	}
 	
