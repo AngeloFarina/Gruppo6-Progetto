@@ -15,15 +15,16 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import model.Manutenzione;
 import model.Mezzo;
+import model.Modifica;
 import model.TabellaAmministratore;
 import model.TabellaStoricoManutenzioni;
 
 public class ControllerModificaMezzi {
 	private Mezzo m;
-	private TabellaAmministratore tabella;
+	private Modifica tabella;
 	private static final int BROKERPORT = 1051;
 	
-	public ControllerModificaMezzi(TabellaAmministratore tabella,Mezzo m) {
+	public ControllerModificaMezzi(Modifica tabella,Mezzo m) {
 		this.tabella = tabella;
 		this.m=m;
 		try {
@@ -62,5 +63,6 @@ public class ControllerModificaMezzi {
 		else
 			a = new Alert(AlertType.INFORMATION,stringa);
 		a.showAndWait();
+		
 	}
 }

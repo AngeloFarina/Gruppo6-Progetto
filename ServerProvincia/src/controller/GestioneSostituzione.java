@@ -6,14 +6,15 @@ import interfacce.IGestioneSostituzione;
 import model.Mezzo;
 import model.RichiestaSostituzione;
 
-public class GestioneSostituzione implements IGestioneSostituzione {
+public class GestioneSostituzione extends Controller implements IGestioneSostituzione {
 
-	private Connection db;
 	
-	public GestioneSostituzione(Connection db) {
-		this.db = db;
+	
+	
+	public GestioneSostituzione(String connString, String pathFileOp, String pathFileMsg) {
+		super(connString, pathFileOp, pathFileMsg);
 	}
-	
+
 	@Override
 	public void effettuaSostituzione(Mezzo m, RichiestaSostituzione s) {
 		

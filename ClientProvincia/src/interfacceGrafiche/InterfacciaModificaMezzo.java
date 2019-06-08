@@ -2,6 +2,8 @@ package interfacceGrafiche;
 
 
 
+import java.util.List;
+
 import controller.ControllerModificaMezzi;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,9 +18,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import model.Assegnazione;
 import model.Caserma;
 import model.Mezzo;
+import model.Modifica;
 import model.Stato;
 import model.TabellaAmministratore;
 
@@ -124,7 +128,11 @@ public class InterfacciaModificaMezzo extends VBox {
 		if(checkParametri()) {
 			this.m = new Mezzo(targa.getText(), tipo.getText(), Integer.parseInt(anno.getText()), null, null, stato.getValue(),assegnazione.getValue());
 			tabella.setIdCaserma(caserme.getValue().split(" ")[0]);
-			ControllerModificaMezzi mod = new ControllerModificaMezzi(tabella,m);
+			ControllerModificaMezzi mod = new ControllerModificaMezzi(new Modifica(
+					tabella.getTipo(),tabella.getTarga(),tabella.getStatoMezzo(),tabella.getAssegnazioneMezzo(),
+					tabella.getAnno(),tabella.getIdCaserma(),tabella.getCaserme()),m);
+			Stage s = (Stage)this.getScene().getWindow();
+			s.close();
 		}
 	}
 	

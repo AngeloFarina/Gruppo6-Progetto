@@ -18,8 +18,8 @@ public class GestioneMezziProvinciaController extends Controller implements IGes
 	
 	public GestioneMezziProvinciaController(String connString, String pathFileOp, String pathFileMsg) {
 		super(connString, pathFileOp, pathFileMsg);
-		modMezzi = new ModificaMezzi(getConnection());
-		gestSost = new GestioneSostituzione(getConnection());
+		modMezzi = new ModificaMezzi(pathFileMsg, pathFileMsg, pathFileMsg);
+		gestSost = new GestioneSostituzione(pathFileMsg, pathFileMsg, pathFileMsg);
 	}
 	
 	public boolean modificaMezzo(String tipoRichiesta, Mezzo m, String c) {

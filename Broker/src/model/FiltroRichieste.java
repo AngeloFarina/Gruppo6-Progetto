@@ -68,7 +68,7 @@ public class FiltroRichieste {
 			return LOGINPORT;
 		else if(servizio.equals("report") || servizio.equals("mezziCasermaCaserma") || servizio.equals("richiestaSost"))
 			return SERVERCASERMAPORT;
-		else if(servizio.equals("mezziCasermaProvincia") || servizio.equals("caricaSost") || servizio.equals("mezziProvincia") || servizio.equals("storicoManutenzioni") || servizio.equals("gestioneSost"))
+		else if(servizio.equals("mezziCasermaProvincia") || servizio.equals("modificaMezzo") ||  servizio.equals("caricaSost") || servizio.equals("mezziProvincia") || servizio.equals("storicoManutenzioni") || servizio.equals("gestioneSost"))
 			return SERVERPROVINCIAPORT;
 		else
 			return -1;

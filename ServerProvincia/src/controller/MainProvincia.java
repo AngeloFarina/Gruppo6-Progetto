@@ -12,8 +12,8 @@ import java.util.List;
 import model.Caserma;
 import model.Manutenzione;
 import model.Mezzo;
+import model.Modifica;
 import model.RichiestaSostituzione;
-import model.TabellaAmministratore;
 
 public class MainProvincia {
 	public static final int PORT = 1050;
@@ -81,20 +81,21 @@ public class MainProvincia {
 						List<Manutenzione> result = storico.listaManutenzioni();
 						outSock.writeObject(result);
 					}
-					else if(servizio.equals("modificaMezzi")) {
+					else if(servizio.equals("modificaMezzo")) {
 						List<Object> result = new ArrayList<Object>();
-						TabellaAmministratore tab = (TabellaAmministratore)param.get(0);
+						Modifica tab = (Modifica)param.get(0);
 						Mezzo m = (Mezzo)param.get(1);
 						if(tab.getTarga()==null && m.getMarca()!=null)
 							if(!gestore.modificaMezzo("aggiungi", m, tab.getIdCaserma().split(" ")[0]))
 								result.add("warning");
 						if(tab.getTarga()!=null && m.getMarca()==null)
-							if(!gestore.modificaMezzo("modifica", m,tab.getIdCaserma().split(" ")[0]))
+							if(!gestore.modificaMezzo("modifica", m,tab.getIdCaserma().split(" ")[0] + " " +tab.getTarga()))
 								result.add("warning");
 						if(tab.getTarga()==null && m.getMarca()==null)
 							if(!gestore.modificaMezzo("elimina", m, ""))
 								result.add("warning");
 						result.add("ok");
+						outSock.writeObject(result);
 					}
 					else if(servizio.equals("caricaSost")) {
 						String idProvincia = (String)param.get(0);

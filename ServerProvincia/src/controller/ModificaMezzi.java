@@ -11,16 +11,18 @@ import model.Caserma;
 import model.Mezzo;
 import model.Stato;
 
-public class ModificaMezzi implements IModificaMezzi {
+public class ModificaMezzi  extends Controller implements IModificaMezzi {
 
-	private Connection db;
 	
-	public ModificaMezzi(Connection db) {
-		this.db = db;
+	
+	
+	public ModificaMezzi(String connString, String pathFileOp, String pathFileMsg) {
+		super(connString, pathFileOp, pathFileMsg);
 	}
-	
+
 	@Override
 	public void eliminaMezzo(Mezzo m) {
+		Connection db = getConnection();
 		Statement stmt;
 		try {
 			stmt = db.createStatement();
@@ -35,6 +37,7 @@ public class ModificaMezzi implements IModificaMezzi {
 
 	@Override
 	public void aggiungiMezzo(Mezzo m, String c) {
+		Connection db = getConnection();
 		Statement stmt;
 		try {
 			stmt = db.createStatement();
@@ -51,12 +54,15 @@ public class ModificaMezzi implements IModificaMezzi {
 
 	@Override
 	public void modificaMezzo(Mezzo m,String id) {
+		Connection db = getConnection();
 		Statement stmt;
+		System.out.println("Mezzo da aggiornare: " + id + " Nuovo mezzo " + m.getId());
 		try {
 			stmt = db.createStatement();
 			String sql = "UPDATE MEZZO SET id='"+m.getId()+"',tipo='"+m.getTipo()+"',anno='"+m.getAnno()+
-					"',stato='"+m.getStato()+"',assegnazione='"+m.getAssegnazione()+"' "+
-					"WHERE id='"+id+"'";
+					"',stato='"+m.getStato()+"',assegnazione='"+m.getAssegnazione()+"', idCaserma='"+id.split(" ")[0] +
+					"'WHERE id='"+id.split(" ")[1]+"'";
+			System.out.println(sql);
 			int result = stmt.executeUpdate(sql);
 			System.out.println("updating mezzo...\nResult: "+result);
 			db.close();
