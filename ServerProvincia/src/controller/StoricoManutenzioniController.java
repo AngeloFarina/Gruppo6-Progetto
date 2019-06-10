@@ -23,42 +23,54 @@ public class StoricoManutenzioniController extends Controller implements IStoric
 	}
 
 	@Override
-	public List<Manutenzione> listaManutenzioni() {
+	public List<Manutenzione> listaManutenzioni() throws SQLException {
 		List<Manutenzione> result = new ArrayList<Manutenzione>();
 		Connection db = getConnection();
-		Statement stmt;
+		Statement stmt = null;
+		ResultSet rs = null;
+		//Statement temp=null;
+		ResultSet mezzo = null;
 		System.out.println("Eseguo caricamento storico");
 		try {
 			stmt = db.createStatement();
 			String sql = "SELECT * " + 
 					"FROM Manutenzione";
-			ResultSet rs = stmt.executeQuery(sql);
+			rs = stmt.executeQuery(sql);
+			//temp=db.createStatement();
 			while (rs.next()) {
-				Statement temp=db.createStatement();
-				ResultSet mezzo = temp.executeQuery("SELECT * FROM MEZZO WHERE ID='" + rs.getString("idMezzo") + "'");
-				System.out.println("Mezzo trovato in db: " + mezzo);
+				mezzo = db.createStatement().executeQuery("SELECT * FROM MEZZO WHERE ID='" + rs.getString("idMezzo") + "'");
+				System.out.println("Mezzo trovato in db: " + mezzo.getString(1));
 				Mezzo m = new Mezzo(mezzo.getString("id"),
 						mezzo.getString("tipo"),
 						mezzo.getInt("anno"),
 						mezzo.getString("marca"),
 						mezzo.getString("modello"),
 						Stato.valueOf(mezzo.getString("stato")),
-						Assegnazione.valueOf(mezzo.getString("assegnazione"))
-						);
+						Assegnazione.valueOf(mezzo.getString("assegnazione")));
 				result.add(new Manutenzione(rs.getString("id"),
             			rs.getString("dataOraInizio"),
             			rs.getString("dataOraFine"),
             			rs.getString("descrizione"),
             			m));
 			}
-			db.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			System.out.println("Errore generico lettura db...");
+		}finally {
+			try {
+				mezzo.close();
+				rs.close();
+				stmt.close();
+				//temp.close();
+				db.close();
+			}catch (SQLException e) {
+				throw new SQLException("chiusura db fallita...");
+			}
 		}
 		return result;
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SQLException {
 		StoricoManutenzioniController manutenzioni = new StoricoManutenzioniController("", "", "");
 		List<Manutenzione> l = manutenzioni.listaManutenzioni();
 		for (Manutenzione manutenzione : l) {

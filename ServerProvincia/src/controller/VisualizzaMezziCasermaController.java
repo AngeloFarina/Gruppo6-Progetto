@@ -20,28 +20,37 @@ public class VisualizzaMezziCasermaController extends Controller implements IVis
 	
 	public List<Mezzo> visualizzaMezzi(String idCaserma) throws SQLException{
 		List<Mezzo> result = new ArrayList<Mezzo>();
-		
-		Connection db = getConnection();
-		Statement stmt  = db.createStatement();
+		Connection db = null;
+		Statement stmt = null;
+		ResultSet rs = null;
 		String sql = "SELECT M.* " + 
 				"FROM Caserma C, Mezzo M " + 
 				"WHERE M.idCaserma=C.id and C.id='"+idCaserma+ 
 				"' group by M.id " + 
 				"order by C.luogo";
-		ResultSet rs = stmt.executeQuery(sql);
-		/*
-		 * creazione della lista dei mezzi
-		 */
-		while (rs.next()) {
-            	result.add(new Mezzo(rs.getString("id"), 
-            			rs.getString("tipo"),
-            			rs.getInt("anno"),
-            			rs.getString("marca"),
-            			rs.getString("modello"),
-            			Stato.valueOf(rs.getString("stato")),
-            			Assegnazione.valueOf(rs.getString("assegnazione")))); 
-        }
-		db.close();
+		try {
+			db = getConnection();
+			stmt  = db.createStatement();
+			rs = stmt.executeQuery(sql);
+			/*
+			 * creazione della lista dei mezzi
+			 */
+			while (rs.next()) {
+				result.add(new Mezzo(rs.getString("id"), rs.getString("tipo"), rs.getInt("anno"), rs.getString("marca"),
+						rs.getString("modello"), Stato.valueOf(rs.getString("stato")),
+						Assegnazione.valueOf(rs.getString("assegnazione"))));
+			} 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				stmt.close();
+				db.close();
+			}catch (SQLException e) {
+				throw new SQLException("Chiusura db fallita");
+			}
+		}
 		return result;
 	}
 	

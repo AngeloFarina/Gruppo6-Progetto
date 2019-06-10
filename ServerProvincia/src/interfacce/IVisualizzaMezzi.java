@@ -6,5 +6,5 @@ import java.util.List;
 import model.Mezzo;
 
 public interface IVisualizzaMezzi {
-	public List<Mezzo> visualizzaMezzi(String c) throws SQLException;
+	public List<Mezzo> visualizzaMezzi(String c) throws Exception;
 }

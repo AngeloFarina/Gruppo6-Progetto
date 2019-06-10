@@ -23,22 +23,28 @@ public class ModificaMezzi  extends Controller implements IModificaMezzi {
 	@Override
 	public void eliminaMezzo(Mezzo m) {
 		Connection db = getConnection();
-		Statement stmt;
+		Statement stmt = null;
 		try {
 			stmt = db.createStatement();
 			String sql = "DELETE FROM Mezzo WHERE id='"+m.getId()+"'";
 			int result = stmt.executeUpdate(sql);
 			System.out.println("deleting mezzo...\nResult: "+result);
-			db.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			try {
+				stmt.close();
+				db.close();
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
 	@Override
 	public void aggiungiMezzo(Mezzo m, String c) {
 		Connection db = getConnection();
-		Statement stmt;
+		Statement stmt = null;
 		try {
 			stmt = db.createStatement();
 			String sql = "INSERT INTO Mezzo (id,tipo,anno,marca,modello,idCaserma,stato,assegnazione) "+
@@ -46,16 +52,22 @@ public class ModificaMezzi  extends Controller implements IModificaMezzi {
 						"'"+c+"','"+m.getStato()+"','"+m.getAssegnazione()+"')";
 			int result = stmt.executeUpdate(sql);
 			System.out.println("updating mezzo...\nResult: "+result);
-			db.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			try {
+				stmt.close();
+				db.close();
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
 	@Override
 	public void modificaMezzo(Mezzo m,String id) {
 		Connection db = getConnection();
-		Statement stmt;
+		Statement stmt = null;
 		System.out.println("Mezzo da aggiornare: " + id + " Nuovo mezzo " + m.getId());
 		try {
 			stmt = db.createStatement();
@@ -65,9 +77,15 @@ public class ModificaMezzi  extends Controller implements IModificaMezzi {
 			System.out.println(sql);
 			int result = stmt.executeUpdate(sql);
 			System.out.println("updating mezzo...\nResult: "+result);
-			db.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+				db.close();
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }

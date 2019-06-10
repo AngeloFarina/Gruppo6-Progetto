@@ -20,7 +20,7 @@ public class GestioneSostituzione extends Controller implements IGestioneSostitu
 	@Override
 	public void effettuaSostituzione(String idMezzo, RichiestaSostituzione r) throws Exception{
 		Connection db = getConnection();
-		Statement stmt;
+		Statement stmt = null;
 		try {
 			stmt = db.createStatement();
 			String sql = "DELETE FROM RICHIESTASOSTITUZIONE WHERE idMezzo='" + r.getIdMezzo() +"' AND idCaserma='" + r.getIdCaserma()+"'";
@@ -29,9 +29,15 @@ public class GestioneSostituzione extends Controller implements IGestioneSostitu
 			sql = "UPDATE MEZZO SET idCaserma='" + r.getIdCaserma() + "',assegnazione='SOSTITUTIVO' WHERE id='" + idMezzo + "'";
 			result = stmt.executeUpdate(sql);
 			System.out.println("Aggiornamento posizione mezzo...\nResult: "+result);
-			db.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			try {
+				stmt.close();
+				db.close();
+			}catch (Exception e) {
+				throw new Exception("Errore chiusura db...");
+			}
 		}
 	}
 

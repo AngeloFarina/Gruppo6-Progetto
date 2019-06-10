@@ -25,46 +25,68 @@ public class VisualizzaMezziProvinciaController extends Controller implements IV
 	public List<Caserma> visualizzaMezziProvincia(String idProvincia) throws SQLException{
 		List<Caserma> result = new ArrayList<Caserma>();
 		
-		Connection db = getConnection();
-		Statement stmt  = db.createStatement();
+		ResultSet rs = null;
+		Connection db = null;
+		Statement stmt = null;
 		String sql = "SELECT * " + 
 				"FROM Caserma C " + 
 				"WHERE C.idProvincia='"+idProvincia+"'";
-		ResultSet rs = stmt.executeQuery(sql);
-		while (rs.next()) {
-            	result.add(new Caserma(rs.getString("id"), 
-            			rs.getString("luogo"),
-            			rs.getInt("cisterna"),
-            			visualizzaMezziCaserma.visualizzaMezzi(rs.getString("id"))));
-        }
-		db.close();
+		try {
+			db = getConnection();
+			stmt  = db.createStatement();
+			rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				result.add(new Caserma(rs.getString("id"), rs.getString("luogo"), rs.getInt("cisterna"),
+						visualizzaMezziCaserma.visualizzaMezzi(rs.getString("id"))));
+			} 
+		} catch (SQLException e) {
+			throw new SQLException();
+		} finally {
+			try {
+				rs.close();
+				stmt.close();
+				db.close();
+			}catch (Exception e) {
+				throw new SQLException("chiusura db fallita...");
+			}
+		}
 		return result;
 	}
 	
 	@Override
 	public List<Mezzo> visualizzaMezzi(String idProvincia) throws SQLException{
 		List<Mezzo> result = new ArrayList<Mezzo>();
-		
-		Connection db = getConnection();
-		Statement stmt  = db.createStatement();
+		Connection db = null;
+		Statement stmt  = null;
+		ResultSet rs = null;
 		String sql = "SELECT M.* " + 
 				"FROM Caserma C, Mezzo M " + 
 				"WHERE M.idCaserma=C.id and C.id='"+idProvincia+ 
 				"' group by M.id " + 
 				"order by C.luogo";
-		ResultSet rs = stmt.executeQuery(sql);
-		/*
-		 * creazione della lista dei mezzi
-		 */
-		while (rs.next()) {
-            	result.add(new Mezzo(rs.getString("id"), 
-            			rs.getString("tipo"),
-            			rs.getInt("anno"),
-            			rs.getString("marca"),
-            			rs.getString("modello"),
-            			Stato.valueOf(rs.getString("stato")),
-            			Assegnazione.valueOf(rs.getString("assegnazione")))); 
-        }
+		try {
+			db = getConnection();
+			stmt  = db.createStatement();
+			rs = stmt.executeQuery(sql);
+			/*
+			 * creazione della lista dei mezzi
+			 */
+			while (rs.next()) {
+				result.add(new Mezzo(rs.getString("id"), rs.getString("tipo"), rs.getInt("anno"), rs.getString("marca"),
+						rs.getString("modello"), Stato.valueOf(rs.getString("stato")),
+						Assegnazione.valueOf(rs.getString("assegnazione"))));
+			} 
+		} catch (SQLException e) {
+			throw new SQLException();
+		} finally {
+			try {
+				rs.close();
+				stmt.close();
+				db.close();
+			}catch (Exception e) {
+				throw new SQLException("chiusura db fallita...");
+			}
+		}
 		return result;
 	}
 	
