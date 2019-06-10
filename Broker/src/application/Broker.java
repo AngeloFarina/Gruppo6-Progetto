@@ -5,18 +5,19 @@ import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import model.FiltroRichieste;
 import model.RichiestaServizio;
 
 //Accetta richieste dai client e le spartisce al server giusto
 //Riceve le risposte dai server e le restituisce al client corrispondente
 
-class Server_Thread extends Thread {
+class Broker_Thread extends Thread {
 	private Socket clientSocket = null;
 	private RichiestaServizio richiesta;
 	private FiltroRichieste filtroRichieste;
 
-	public Server_Thread(Socket clientSocket) {
+	public Broker_Thread(Socket clientSocket) {
 		this.clientSocket = clientSocket;
 		filtroRichieste = new FiltroRichieste();
 	}
@@ -44,20 +45,6 @@ class Server_Thread extends Thread {
 				List<Object> params = null;
 				System.out.println("Inizio a processare la richiesta");
 				ipSorg = inSock.readUTF();
-					/*if (stringa.equals("login")) {
-						String credenziali = inSock.readUTF();
-						System.out.println("Ho letto credenziali " + credenziali);
-						server = new Socket(ip, 1052);
-						server.setSoTimeout(30000);
-						DataInputStream inServer;
-						DataOutputStream outServer;
-						inServer = new DataInputStream(server.getInputStream());
-						outServer = new DataOutputStream(server.getOutputStream());
-						outServer.writeUTF(credenziali);
-						String utente = inServer.readUTF();
-						outSock.writeUTF(utente);
-						System.out.println("FINITO " + utente);
-					}*/
 				ipDest = inSock.readUTF();
 				servizio = inSock.readUTF();
 				params = new ArrayList<Object>((List<Object>)inObj.readObject());
@@ -132,20 +119,20 @@ public class Broker {
 
 		try {
 			while (true) {
-				System.out.println("Server: in attesa di richieste...\n");
+				System.out.println("Broker: in attesa di richieste...\n");
 
 				try {
-					clientSocket = serverSocket.accept(); // bloccante!!!
+					clientSocket = serverSocket.accept();
 					System.out.println("Broker: connessione accettata: " + clientSocket);
 					System.out.println("Broker: Verifico la sessione...");
 				} catch (Exception e) {
-					System.err.println("Broker: problemi nella accettazione della connessione: " + e.getMessage());
+					System.err.println("Broker: problemi nell'accettazione della connessione: " + e.getMessage());
 					e.printStackTrace();
 					continue;
 				}
 
 				try {
-					new Server_Thread(clientSocket).start();
+					new Broker_Thread(clientSocket).start();
 				} catch (Exception e) {
 					System.err.println("Broker: problemi nel server thread: " + e.getMessage());
 					e.printStackTrace();

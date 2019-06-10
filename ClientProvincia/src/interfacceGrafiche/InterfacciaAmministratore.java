@@ -48,7 +48,6 @@ public class InterfacciaAmministratore extends BorderPane{
 	private ImageView tickVerde = null;
 	private ImageView tickRossa = null;
 	private ImageView tickBlu = null;
-	//private ImageView tickGrigia = null;
 	private ImageView tickGialla = null;
 	private Button crearichiesteSostituzioni = null;
 	private Button storicoManutenzioni = null;
@@ -76,14 +75,14 @@ public class InterfacciaAmministratore extends BorderPane{
 		  new Thread(() -> {
 		    while(true) {
 		       try {
-		          Thread.sleep(20000); // Wait for 20 secs before updating items
+		          Thread.sleep(10000); // Aspetta 20 secondi poi aggiorna i dati
 		       } catch (InterruptedException e) {
 		          e.printStackTrace();
 		       }
 		       Platform.runLater(() -> {
 		    	   		controller = new ControllerClientProvincia(controller.getIdCaserma(),controller.getNome());
 						initGUI();
-		    	   });// Update on JavaFX Application Thread
+		    	   });// Esegue il vero e proprio aggiornamento dei dati
 		    	}
 		  	}).start();
 	}
@@ -354,6 +353,7 @@ public class InterfacciaAmministratore extends BorderPane{
 	}
 
 	
+	@SuppressWarnings("unchecked")
 	private void setTableViewCaserme() {
 		//Dimensioni tabella
 		tableCaserme.setPrefWidth(1054);
