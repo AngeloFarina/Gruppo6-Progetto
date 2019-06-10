@@ -36,6 +36,7 @@ public class ControllerModificaMezzi {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void init() throws UnknownHostException, IOException, ClassNotFoundException, InterruptedException {
 		Socket clientSocket = new Socket("localhost",BROKERPORT);
 		System.out.println("ClientReport: creata Socket: " +clientSocket.getLocalSocketAddress());
@@ -50,6 +51,7 @@ public class ControllerModificaMezzi {
 		param.add(m);
 		outObj.writeObject(param);
 		param = new ArrayList<Object>((List<Object>)inObj.readObject());
+		clientSocket.close();
 		String res = (String)param.get(0);
 		String stringa = ( res.equals("ok") ? "Modifica effettuata" : "Errore effettuazione modifica");
 		alert(res,stringa);

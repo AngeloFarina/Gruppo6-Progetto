@@ -65,9 +65,9 @@ public class InterfacciaCapoSquadra extends BorderPane{
 		initGUI();
 	}
 
-	@SuppressWarnings("unchecked")
 	private void refresh() {
 		  new Thread(() -> {
+			  System.out.println("Creato thread di aggiornamento grafica");
 		    while(true) {
 		       try {
 		          Thread.sleep(10000); // Wait for 10 secs before updating items
@@ -88,6 +88,7 @@ public class InterfacciaCapoSquadra extends BorderPane{
 	
 
 	private void initGUI() {
+		System.out.println("Inizializzo l'interfaccia grafica");
 		nome = new Label(controller.getNome());
 		caserma = new Label(controller.getCaserma());
 		totMezzi = new Label("" + controller.getTotMezzi());

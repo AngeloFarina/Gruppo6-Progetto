@@ -1,12 +1,9 @@
 package controller;
 
 import java.io.DataOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +11,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Caserma;
 import model.Mezzo;
-import model.Stato;
 import model.TabellaAmministratore;
 
 public class ControllerClientProvincia {
@@ -40,6 +36,7 @@ public class ControllerClientProvincia {
 		init();
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void init() {
 		List<Mezzo> mezzi = null;
 		List<Caserma> caserme = null;
@@ -57,7 +54,6 @@ public class ControllerClientProvincia {
 		outObj.writeObject(param);
 		caserme = new ArrayList<Caserma>((List<Caserma>)inObj.readObject());
 		this.caserme=new ArrayList<Caserma>(caserme);
-		System.out.println("Ricevute le caserme: " + caserme);
 		for(Caserma c : caserme) {
 			if(c.getId().equals(this.idCaserma)) {
 				this.luogoCaserma = c.getCitta();
@@ -82,7 +78,6 @@ public class ControllerClientProvincia {
 		outObj.writeObject(param);
 		mezzi = new ArrayList<Mezzo>((List<Mezzo>)inObj.readObject());
 		clientSocket.close();
-		System.out.println("Ricevuti i mezzi: " + mezzi);
 		for(Mezzo m : mezzi) {
 			mezziProvincia.add(new TabellaAmministratore(m.getTipo(), m.getId(), m.getStato(), m.getAssegnazione(), m.getAnno() +"",this.idCaserma,caserme));
 		}

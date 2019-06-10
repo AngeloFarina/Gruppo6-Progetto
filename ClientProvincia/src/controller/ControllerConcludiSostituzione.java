@@ -9,14 +9,9 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import model.Mezzo;
-import model.Report;
 import model.RichiestaSostituzione;
-import model.TabellaSostituzioni;
 
 public class ControllerConcludiSostituzione {
 	
@@ -31,6 +26,7 @@ public class ControllerConcludiSostituzione {
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void init() throws UnknownHostException, IOException, ClassNotFoundException, InterruptedException {
 		Socket clientSocket = new Socket("localhost",BROKERPORT);
 		System.out.println("ClientProvincia: creata Socket: " +clientSocket.getLocalSocketAddress());
@@ -45,12 +41,14 @@ public class ControllerConcludiSostituzione {
 		param.add(idMezzo);
 		outObj.writeObject(param);
 		param = new ArrayList<Object>((List<Object>)inObj.readObject());
+		clientSocket.close();
 		if( ((String)param.get(0)).equals("ok")) {
 			Alert a = new Alert(AlertType.INFORMATION,"Sostituzione effettuata con successo");
 			a.showAndWait();
 		}
 		else {
 			Alert a = new Alert(AlertType.WARNING,"Errore nella sostituzione");
+			a.showAndWait();
 		}
 	}
 

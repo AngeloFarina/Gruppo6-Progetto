@@ -1,14 +1,11 @@
 package controller;
 
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +26,7 @@ public class ControllerLoginProvincia {
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void richiestaLogin(String username,String password, Window window) throws UnknownHostException, IOException, ClassNotFoundException, InterruptedException {
 		Socket clientSocket = new Socket("localhost",BROKERPORT);
 		System.out.println("ClientLogin: creata Socket: " +clientSocket.getLocalSocketAddress());
@@ -44,15 +42,22 @@ public class ControllerLoginProvincia {
 		outObj.writeObject(param);
 		String ruolo,nome,id;
 		param = new ArrayList<String>((List<String>)inObj.readObject());
-		ruolo = param.get(2);
-		nome = param.get(3);
-		id = param.get(4);
-		System.out.println("Parametri ricevuti " + ruolo + " " + nome + " " + id);
-		if(ruolo.equals("amministratore"))
-			setNewStageAmministratore(window,nome,id);
+		clientSocket.close();
+		if(param==null || param.isEmpty()) {
+			Alert a  = new Alert(AlertType.WARNING,"Utente o password errati");
+			a.showAndWait();
+		}
 		else {
-			Alert alert = new Alert(AlertType.WARNING,"Utente o password errati");
-			alert.showAndWait();
+			ruolo = param.get(2);
+			nome = param.get(3);
+			id = param.get(4);
+			System.out.println("Parametri ricevuti " + ruolo + " " + nome + " " + id);
+			if(ruolo.equals("amministratore"))
+				setNewStageAmministratore(window,nome,id);
+			else {
+				Alert alert = new Alert(AlertType.WARNING,"Utente o password errati");
+				alert.showAndWait();
+			}
 		}
 	}
 

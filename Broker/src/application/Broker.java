@@ -53,7 +53,6 @@ class Broker_Thread extends Thread {
 				if(richiesta==null) {
 					System.out.println("Errore gestione richiesta");
 					clientSocket.close();
-					System.exit(1);
 				}
 				outObject.writeObject(richiesta.getParametri());
 				outObject.flush();
@@ -61,18 +60,15 @@ class Broker_Thread extends Thread {
 				System.out.println("Raggiunta la fine delle ricezioni, chiudo...");
 				clientSocket.close();
 				System.out.println("Server_Thread: termino...");
-				System.exit(0);
 			} catch (SocketTimeoutException ste) {
 				System.out.println("Timeout scattato: ");
 				ste.printStackTrace();
 				clientSocket.close();
-				System.exit(1);
 			} catch (Exception e) {
 				System.out.println("Problemi, i seguenti : ");
 				e.printStackTrace();
 				System.out.println("Chiudo ed esco...");
 				clientSocket.close();
-				System.exit(2);
 			}
 		} catch (IOException ioe) {
 			System.out.println("Problemi nella chiusura della socket: ");
@@ -88,17 +84,6 @@ class Broker_Thread extends Thread {
 public class Broker {
 	private static final int PORT = 1051;
 
-	public void ack(String a) {
-
-	}
-
-	public void inviaRichiesta() {
-
-	}
-
-	public void inviaRisposta() {
-
-	}
 
 	public static void main(String[] args) throws IOException {
 

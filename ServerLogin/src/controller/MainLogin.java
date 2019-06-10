@@ -6,6 +6,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainLogin {
@@ -61,9 +62,13 @@ public class MainLogin {
 	    			//outSock.writeUTF("localhost");
 	    			//outSock.writeUTF("clientLogin");
 	    			//outSock.flush();
-	    			param.add(gestore.verificaCredenziali(param.get(0),param.get(1)).split(";")[0]);
-	    			param.add(gestore.verificaCredenziali(param.get(0),param.get(1)).split(";")[1]);
-	    			param.add(gestore.verificaCredenziali(param.get(0),param.get(1)).split(";")[2]);
+	    			if(gestore.verificaCredenziali(param.get(0),param.get(1))!=null) {
+		    			param.add(gestore.verificaCredenziali(param.get(0),param.get(1)).split(";")[0]);
+		    			param.add(gestore.verificaCredenziali(param.get(0),param.get(1)).split(";")[1]);
+		    			param.add(gestore.verificaCredenziali(param.get(0),param.get(1)).split(";")[2]);
+	    			}
+	    			else
+	    				param = new ArrayList<String>();
 	    			outObj.writeObject(param);
 	    			outObj.flush();
 	    			System.out.println("Fatto, serverLogin");

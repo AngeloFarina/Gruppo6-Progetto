@@ -14,8 +14,6 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import model.Manutenzione;
-import model.RichiestaSostituzione;
-import model.TabellaSostituzioni;
 import model.TabellaStoricoManutenzioni;
 
 public class ControllerStoricoManutenzioni {
@@ -35,6 +33,7 @@ public class ControllerStoricoManutenzioni {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void init() throws UnknownHostException, IOException, ClassNotFoundException, InterruptedException {
 		Socket clientSocket = new Socket("localhost",BROKERPORT);
 		System.out.println("ClientReport: creata Socket: " +clientSocket.getLocalSocketAddress());
@@ -47,8 +46,8 @@ public class ControllerStoricoManutenzioni {
 		List<Object> param = new ArrayList<Object>();
 		param.add(idProvincia);
 		outObj.writeObject(param);
-		String ruolo,nome,id;
 		List<Manutenzione> manutenzioni= new ArrayList<Manutenzione>((List<Manutenzione>)inObj.readObject());
+		clientSocket.close();
 		for(Manutenzione m : manutenzioni) {
 			this.storico.add(new TabellaStoricoManutenzioni(m.getMezzo().getTipo(),m.getMezzo().getId(),m.getId(),m.getDataOraInizio(),m.getDataOraFine(),m.getDescrizione()));
 		}

@@ -50,6 +50,7 @@ public class ControllerClientCaserma {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void init() throws UnknownHostException, IOException, ClassNotFoundException {
 		ObservableList<TabellaCapoSquadra> mezziCapo = FXCollections.observableArrayList();
 		ObservableList<TabellaVigile> mezziVigile = FXCollections.observableArrayList();
@@ -69,17 +70,13 @@ public class ControllerClientCaserma {
 		List<Mezzo> mezzi = new ArrayList<Mezzo>((List<Mezzo>)dati.get(0));
 		this.mezzi=new ArrayList<Mezzo>(mezzi);
 		List<String> infoCaserma = new ArrayList<String>((List<String>)dati.get(1));
-		System.out.println("Ricevuti i mezzi: " + mezzi);
-		System.out.println("Ricevute info: " + infoCaserma);
 		for(Mezzo m : mezzi) {
 			totMezzi++;
 			if(m.getStato().equals(Stato.NONDISPONIBILE))
 				man++;
-			System.out.println("Aggiungo mezzo...");
 			mezziCapo.add(new TabellaCapoSquadra(m.getTipo(), m.getId(), m.getStato(), m.getAssegnazione(), m.getAnno() +"",this.idCaserma));
 			mezziVigile.add(new TabellaVigile(m.getTipo(),m.getId(),m.getStato(),m.getAssegnazione(),m.getAnno()+""));
 		}
-		System.out.println("Schianto..");
 		this.mezziCapo.addAll(mezziCapo);
 		this.mezziVigile.addAll(mezziVigile);
 		nomeCaserma = infoCaserma.get(0);

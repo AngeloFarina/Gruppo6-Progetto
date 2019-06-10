@@ -29,6 +29,7 @@ public class ControllerLoginCaserma {
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void richiestaLogin(String username,String password, Window window) throws UnknownHostException, IOException, ClassNotFoundException, InterruptedException {
 		Socket clientSocket = new Socket("localhost",BROKERPORT);
 		System.out.println("ClientLogin: creata Socket: " +clientSocket.getLocalSocketAddress());
@@ -44,17 +45,24 @@ public class ControllerLoginCaserma {
 		outObj.writeObject(param);
 		String ruolo,nome,id;
 		param = new ArrayList<String>((List<String>)inObj.readObject());
-		ruolo = param.get(2);
-		nome = param.get(3);
-		id = param.get(4);
-		System.out.println("Parametri ricevuti " + ruolo + " " + nome + " " + id);
-		if(ruolo.equals("caposquadra"))
-			setNewStageCapoSquadra(window,nome,id);
-		else if(ruolo.equals("vigile"))
-			setNewStageVigile(window,nome,id);
-		else {
+		clientSocket.close();
+		if(param==null || param.isEmpty()) {
 			Alert alert = new Alert(AlertType.WARNING,"Utente o password errati");
 			alert.showAndWait();
+		}
+		else {
+			ruolo = param.get(2);
+			nome = param.get(3);
+			id = param.get(4);
+			System.out.println("Parametri ricevuti " + ruolo + " " + nome + " " + id);
+			if(ruolo.equals("caposquadra"))
+				setNewStageCapoSquadra(window,nome,id);
+			else if(ruolo.equals("vigile"))
+				setNewStageVigile(window,nome,id);
+			else {
+				Alert alert = new Alert(AlertType.WARNING,"Utente o password errati");
+				alert.showAndWait();
+			}
 		}
 	}
 

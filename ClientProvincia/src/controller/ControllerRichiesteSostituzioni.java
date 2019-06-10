@@ -13,8 +13,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import model.Mezzo;
-import model.Report;
 import model.RichiestaSostituzione;
 import model.TabellaSostituzioni;
 
@@ -37,6 +35,7 @@ public class ControllerRichiesteSostituzioni {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void init() throws UnknownHostException, IOException, ClassNotFoundException, InterruptedException {
 		Socket clientSocket = new Socket("localhost",BROKERPORT);
 		System.out.println("ClientReport: creata Socket: " +clientSocket.getLocalSocketAddress());
@@ -49,8 +48,8 @@ public class ControllerRichiesteSostituzioni {
 		List<Object> param = new ArrayList<Object>();
 		param.add(idProvincia);
 		outObj.writeObject(param);
-		String ruolo,nome,id;
 		List<RichiestaSostituzione> richieste = new ArrayList<RichiestaSostituzione>((List<RichiestaSostituzione>)inObj.readObject());
+		clientSocket.close();
 		for(RichiestaSostituzione r : richieste) {
 			this.richieste.add(new TabellaSostituzioni(r.getTipo(),r.getIdMezzo(),r.getIdCaserma(),r.getDataOra(),r.getDescrizione(),mezzi));
 		}
